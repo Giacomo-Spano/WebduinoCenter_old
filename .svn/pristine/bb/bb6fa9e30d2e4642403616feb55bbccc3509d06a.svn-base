@@ -1,0 +1,357 @@
+var actuatorServletPath = "../actuator";
+var sensorServletPath = "../sensor";
+
+//var modal;
+var modalKeyboard;
+
+var manualDuration = 30;
+var targetTemperature = 22.0;
+var activeSensorId = 0;
+var activeSensorName = "";
+var localSensor = true;
+
+var $activeProgram;
+
+
+function onTargetButtonClicked(event) {
+    targetTemperature = targetTemperature + event.data.param1;
+    targetTemperature = +targetTemperature.toFixed(1);
+
+    updateManualProgram();
+}
+function onDurationButtonClicked(event) {
+    manualDuration = manualDuration + event.data.param1 * 60;
+    //manualDuration = +targetTemperature.toFixed(1);
+
+    updateManualProgram();
+}
+
+function pad(str, max, padder) {
+    padder = typeof padder === "undefined" ? "0" : padder;
+    return str.toString().length < max ? pad(padder.toString() + str, max, padder) : str;
+}
+
+function updateManualProgram() {
+
+    $('t[name="targettemperature"]').text(targetTemperature);
+
+    hour = manualDuration / 3600;
+    hour = (hour - 0.5).toFixed(0);
+    minute = manualDuration / 60 % 60;
+
+    $('t[name="duration"]').text(pad(hour, 2) + ":" + pad(minute, 2));
+
+    $('label[id="activesensor"]').text(activeSensorName + "(id: " + activeSensorId + ")");
+
+
+}
+
+function loadSensors() {
+
+    dropbownmenu = $('div[id="selectSensorModal"]');
+    dropdownitem = dropbownmenu.find('a[name="sensorbutton"]');
+    $.getJSON(sensorServletPath, function (sensors) {
+
+            var sensorList = [];
+            $.each(sensors, function (id, sensor) {
+
+                if (id > 0) {
+                    lastitem = newitem;
+                    newitem = dropdownitem.clone();
+                    lastitem.last().after(newitem);
+                } else {
+                    newitem = dropdownitem;
+                }
+                newitem.text("item: " + sensor.name + id);
+                newitem.click({index: id, id: sensor.id, name: sensor.name}, onSelectSensorClicked);
+            });
+        })
+        .done(function () {
+            console.log("sensors loaded");
+        })
+        .fail(function () {
+            console.log("error1");
+        });
+}
+
+function loadActuator(id) {
+
+    $.getJSON(actuatorServletPath + '?id=1', function (actuator) {
+            console.log("success");
+
+            targetTemperature = actuator.target;
+            targetTemperature = +targetTemperature.toFixed(1);
+            manualDuration = actuator.duration;
+            localSensor = actuator.localsensor;
+
+
+            temp = actuator.temperature;
+            localtemperature = +temp.toFixed(1);
+            temp = actuator.remotetemperature;
+            remotetemperature = +temp.toFixed(1);
+
+            if (actuator.localsensor) {
+                $('t[name="sensor"]').text("locale");
+                $('label[name="currenttemperature"]').text(localtemperature + "°");
+            } else {
+                $('t[name="sensor"]').text("remoto");
+                $('t[name="currenttemperature"]').text(remotetemperature + "°");
+            }
+            $('t[name="localtemperature"]').text(localtemperature + "°");
+            $('t[name="remotetemperature"]').text(remotetemperature + "°");
+
+            $('i[name="relestatusimage"]').removeClass("icon-rele-on icon-rele-off");
+            if (actuator.relestatus) {
+                $('i[name="relestatusimage"]').addClass("icon-rele-on");
+                $('t[name="relestatus"]').text("Acceso");
+            } else {
+                $('i[name="relestatusimage"]').addClass("icon-rele-off");
+                $('t[name="relestatus"]').text("Spento");
+            }
+
+            $('i[name="statusimage"]').removeClass("icon-hand-hold icon-magic icon-idle");
+            if (actuator.status = "program") {
+                $('i[name="statusimage"]').addClass("icon-magic");
+                $('t[name="status"]').text("Programma");
+            } else if (actuator.status = "manual") {
+                $('i[name="statusimage"]').addClass("icon-hand-hold");
+                $('t[name="status"]').text("Manuale");
+            } else if (actuator.status = "idle") {
+                $('i[name="statusimage"]').addClass("icon-idle");
+                $('t[name="status"]').text("Idle");
+            }
+
+
+        })
+        .done(function () {
+            console.log("succes");
+        })
+        .fail(function () {
+            console.log("error1");
+            alert("error1");
+        })
+        .always(function () {
+            console.log("error2");
+        });
+    return res;
+}
+function loadActiveProgramList() {
+
+    loadActiveProgram();
+
+
+    var res;
+
+    $.getJSON(programServletPath + '?next=true', function (data) {
+            console.log("success");
+
+            tr = $activeProgram.find('tr[name="activeprogram"]');
+            res = data;
+
+        })
+        .done(function () {
+            console.log("succes");
+        })
+        .fail(function () {
+            console.log("error1");
+            alert("error1");
+        })
+        .always(function () {
+            console.log("error2");
+        });
+
+    return res;
+}
+function loadActiveProgram() {
+    $.getJSON(programServletPath + '?active=true', function (data) {
+            console.log("success");
+
+            tr = $("#lastprogramupdate");
+            tr.text(data.lastupdate);
+
+        })
+        .done(function () {
+            console.log("succes");
+        })
+        .fail(function () {
+            //console.log("error1");
+        })
+        .always(function () {
+            console.log("error2");
+        });
+}
+
+function loadSelectSensorModal() {
+    // Get the button that opens the modal
+
+
+    btn.onclick = function () {
+
+
+        $.get("numericKeypad.html", function (data) {
+
+            //$("#selectSensorModal").html(data);
+            //var modal = document.getElementById('selectSensorModal').html(data);
+            // Get the modal
+            //var modal = document.getElementById('selectSensorModal');
+            var modal = $('div[id="selectSensorModal"]');//.html(data);
+            modal.html(data);
+            modal.css("display", "block");
+            //var modal = div.getElementById('ModalKeypad');
+            $('a[name="sensorbutton"]').click({param1: 10, param2: "World"}, onSelectSensorClicked);
+
+            //modal.style.display = "block";
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    }
+}
+
+
+    function modalKeypad(btn, event) {
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+
+            //trsasformare in funzione con parametro event e div (vedi sotto) + lista item das aggiungere
+
+            $.get("numericKeypad.html", function (data) {
+
+                //$("#selectSensorModal").html(data);
+                //var modal = document.getElementById('selectSensorModal').html(data);
+                // Get the modal
+                //var modal = document.getElementById('selectSensorModal');
+                var modal = $('div[id="selectSensorModal"]');//.questo diventa un div da poassare
+                modal.html(data);
+                modal.css("display", "block");
+                //var modal = div.getElementById('ModalKeypad');
+                $('a[name="sensorbutton"]').click({param1: 10, param2: "World"}, event);
+
+                //modal.style.display = "block";
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+        }
+
+
+        /*
+         // Get the button that opens the modal
+         var btn = document.getElementById("selectsensorbutton");
+         // When the user clicks the button, open the modal
+         btn.onclick = function () {
+         modal.style.display = "block";
+         }
+
+         // Get the <span> element that closes the modal
+         var span = document.getElementsByClassName("close")[0];
+
+         // When the user clicks on <span> (x), close the modal
+         span.onclick = function () {
+         modal.style.display = "none";
+         }
+         // When the user clicks anywhere outside of the modal, close it
+         window.onclick = function (event) {
+         if (event.target == modal) {
+         modal.style.display = "none";
+         }
+         }
+         */
+    }
+
+    function loadKeyboardModal() {
+        // Get the modal
+        modalKeyboard = document.getElementById('ModalKeyboard');
+        // Get the button that opens the modal
+        var btn = document.getElementById("keyboardbutton");
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modalKeyboard.style.display = "block";
+        }
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modalKeyboard.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
+
+    function onSelectSensorClicked(event) {
+
+        activeSensorId = event.data.id;
+        activeSensorName = event.data.name;
+        // close select sensro modal dialog
+        modal.style.display = "none";
+
+        updateManualProgram();
+    }
+
+    function load() {
+
+        /*var btn = document.getElementById("keypadbutton");
+         // When the user clicks the button, open the modal
+         btn.onclick = function () {
+         modal.style.display = "block";
+         };*/
+        var btn = document.getElementById("selectsensorbutton");
+        // When the user clicks the button, open the modal
+        modalKeypad(btn, onSelectSensorClicked);
+        //loadSelectSensorModal();
+
+
+        /*var btnx = document.getElementById("keypadbuttonx");
+         btnx.onclick = function () {
+
+         $.getScript("assets/js/modal.js", function () {
+
+         loadKeypadModal(btnx);
+         // show();
+         //alert("Script loaded but not necessarily executed.");
+
+         });
+
+         }*/
+
+
+        $('a[name="targetplus"]').click({param1: 0.1, param2: "World"}, onTargetButtonClicked);
+        $('a[name="targetminus"]').click({param1: -0.1, param2: "World"}, onTargetButtonClicked);
+
+        $('a[name="durationplus"]').click({param1: 10, param2: "World"}, onDurationButtonClicked);
+        $('a[name="durationminus"]').click({param1: -10, param2: "World"}, onDurationButtonClicked);
+
+        //$('a[name="dropdownitem"]').click({param1: 10, param2: "World"}, onSelectSensorClicked);
+
+        //loadSensors();
+
+        //loadKeyboardModal();
+
+
+        loadSensors();
+        actuator = loadActuator(1);
+    }

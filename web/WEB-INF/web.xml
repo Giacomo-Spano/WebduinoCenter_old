@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+
+    <!--<listener>
+
+        <listener-class>
+            org.quartz.ee.servlet.QuartzInitializerListener
+        </listener-class>
+    </listener>-->
+
+    <listener>
+        <listener-class>com.quartz.QuartzListener</listener-class>
+    </listener>
+
+
+    <!--<listener>
+        <listener-class>
+            com.server.webduino.core.BackgroundJobManager
+        </listener-class>
+    </listener>-->
+
+    <servlet>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>com.server.webduino.Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/prova</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.HomeServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SensorServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.SensorServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SensorServlet</servlet-name>
+        <url-pattern>/sensor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ActuatorServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.ActuatorServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActuatorServlet</servlet-name>
+        <url-pattern>/actuator</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProgramServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.ProgramServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProgramServlet</servlet-name>
+        <url-pattern>/program</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotificationServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.NotificationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationServlet</servlet-name>
+        <url-pattern>/notification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendAllMessagesServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.SendAllMessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendAllMessagesServlet</servlet-name>
+        <url-pattern>/sendall</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DataLogServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.DataLogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataLogServlet</servlet-name>
+        <url-pattern>/datalog</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>
