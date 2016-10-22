@@ -55,7 +55,7 @@ public class Actuators {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
             // Open a connection
-            Connection conn = DriverManager.getConnection(Core.DB_URL, Core.USER, Core.PASS);
+            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;

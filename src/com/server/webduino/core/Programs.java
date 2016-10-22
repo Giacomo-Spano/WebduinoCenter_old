@@ -72,7 +72,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
             // Open a connection
-            Connection conn = DriverManager.getConnection(Core.DB_URL, Core.USER, Core.PASS);
+            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
@@ -168,9 +168,14 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             mActiveProgram = getActiveProgram(currentDate);
 
             mNextProgramList = nextPrograms(currentDate);
+            LOGGER.info("found " +  mNextProgramList.size() + "active program");
+
+
             Date date = mNextProgramList.get(0).endDate;
 
+            LOGGER.info("schedule job");
             scheduleJob(date);
+            LOGGER.info("end schedule job");
 
             if (mActiveProgram == null) {
                 LOGGER.info("->No active program");
@@ -257,6 +262,8 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
     private ArrayList<ActiveProgram> nextPrograms(Date currentDate) {
 
+        LOGGER.info("nextPrograms");
+
         ActiveProgram currentProgram = getActiveProgram(currentDate);//mActiveProgram;
 
         Calendar nextDateTimeCalendar = Calendar.getInstance();
@@ -271,11 +278,14 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
         ArrayList<ActiveProgram> nextProgramList = new ArrayList<ActiveProgram>();
 
+        // calcola i prossimi programmi attivi per i prossimi sette giorni
         for (int i = 0; i < 7; i++) {
+
+            LOGGER.info("i="+i);
 
             String t = "23:59:00";
             Time eodtime = Time.valueOf(t);
-            while (currentProgram.timeRange.endTime.before(eodtime)) {
+            while (currentProgram != null && currentProgram.timeRange.endTime.before(eodtime)) {
 
                 ActiveProgram nextActive = null;
                 Calendar endtime = Calendar.getInstance();
@@ -286,6 +296,8 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                 } else {
                     endtime.setTime(currentProgram.timeRange.endTime);
                 }
+                Date date = endtime.getTime();
+                LOGGER.info("endtime="+date.toString());
 
                 // cerca un programma con data e ora programma precedente alla fine dell'ore fi fine del timerange corrente
                 Iterator<Program> iterator = mProgramList.iterator();
@@ -293,8 +305,15 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
                     Program program = iterator.next();
 
-                    if (program.dateEnabled && program.startDate.equals(nextDateCalendar.getTime()) && program.startTime.before(currentProgram.timeRange.endTime)) {
+                    LOGGER.info("program.id="+program.id);
 
+                    if (program.dateEnabled && program.startDate.equals(nextDateCalendar.getTime())
+                            && program.startTime.before(currentProgram.timeRange.endTime)) {
+
+                        LOGGER.info("program.dateEnabled="+program.dateEnabled);
+                        LOGGER.info("program.startDate="+program.startDate);
+                        LOGGER.info("program.startTime="+program.startTime);
+                        LOGGER.info("currentProgram.timeRange="+currentProgram.timeRange.endTime);
                         nextActive = new ActiveProgram();
                         nextActive.program = program;
                         Iterator<TimeRange> timerangeIterator = program.mTimeRanges.iterator();
@@ -314,10 +333,15 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                 nextDateTimeCalendar.set(Calendar.SECOND, 0);
                 nextDateTimeCalendar.set(Calendar.MILLISECOND, 0);
                 //nextDateTimeCalendar.add(Calendar.MINUTE, 1);
+                date = nextDateTimeCalendar.getTime();
+                LOGGER.info("nextDateTimeCalendar="+date.toString());
 
                 Date next = nextDateTimeCalendar.getTime();
-                currentProgram.endDate = next;
-                nextProgramList.add(currentProgram);
+                if(currentProgram != null) {
+                    currentProgram.endDate = next;
+                    LOGGER.info("add program: " + currentProgram);
+                    nextProgramList.add(currentProgram);
+                }
 
                 currentProgram = getActiveProgram(next);
             }
@@ -329,27 +353,39 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             nextDateTimeCalendar.set(Calendar.MILLISECOND, 0);
             nextDateTimeCalendar.add(Calendar.DATE, 1);
             Date next = nextDateTimeCalendar.getTime();
-            currentProgram.endDate = next;
-            nextProgramList.add(currentProgram);
+            if (currentProgram != null) {
+                currentProgram.endDate = next;
+                LOGGER.info("add program: " + currentProgram);
+                nextProgramList.add(currentProgram);
+            }
 
             nextDateCalendar.setTime(nextDateTimeCalendar.getTime());
             currentProgram = getActiveProgram(nextDateTimeCalendar.getTime());
         }
 
+        if (nextProgramList != null)
+            LOGGER.info("nextProgramList: " + nextProgramList);
+        else
+            LOGGER.info("nextProgramList: null");
         return nextProgramList;
     }
 
     protected ActiveProgram getActiveProgram(Date currentDate) {
+        LOGGER.info("getActiveProgram " + currentDate.toString());
         // loop di tutti i programmi per trovare quello attivo alla data corrente
         ActiveProgram activeProgram = null;
 
         Iterator<Program> iterator = mProgramList.iterator();
         while (iterator.hasNext()) {
+            //LOGGER.info("activeProgram " + activeProgram.program.id);
             Program program = iterator.next();
+            LOGGER.info("program " + program.id);
             TimeRange timerange = program.getActiveTimeRange(currentDate);
-            if (timerange != null) {
 
+            if (timerange != null) {
+                LOGGER.info("timerange " + timerange.ID);
                 if (activeProgram != null/*mActiveProgram != null && activeTimerange != null*/) {
+                    LOGGER.info("activeProgram == null");
                     //if (program.priority > mActiveProgram.priority || (program.dateEnabled && !mActiveProgram.dateEnabled))
                     if (program.priority > activeProgram.program.priority || (program.dateEnabled && !activeProgram.program.dateEnabled)) {
                         activeProgram = new ActiveProgram();
@@ -358,6 +394,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                         activeProgram.startDate = currentDate;
                     }
                 } else {
+                    LOGGER.info("activeProgram == null");
                     activeProgram = new ActiveProgram();
                     activeProgram.program = program;
                     activeProgram.timeRange = timerange;
@@ -365,6 +402,10 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                 }
             }
         }
+        if (activeProgram != null)
+            LOGGER.info("return activeProgram " + activeProgram.program.id);
+        else
+            LOGGER.info("return activeProgram null");
         return activeProgram;
     }
 
@@ -395,7 +436,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
             // Open a connection
-            Connection conn = DriverManager.getConnection(Core.DB_URL, Core.USER, Core.PASS);
+            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
@@ -424,7 +465,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
         try {
 
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(Core.DB_URL, Core.USER, Core.PASS);
+            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
 
             String sql;
             sql = "DELETE FROM programs WHERE id=" + id;
@@ -465,7 +506,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             Class.forName("com.mysql.jdbc.Driver");
             // Open a connection
             /*Connection */
-            conn = DriverManager.getConnection(Core.DB_URL, Core.USER, Core.PASS);
+            conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
 
             conn.setAutoCommit(false);
             // Execute SQL query

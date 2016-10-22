@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_webduinoserver" default="compile.module.webduinoserver">
+  <dirname property="module.webduinoserver.basedir" file="${ant.file.module_webduinoserver}"/>
+  
+  <property name="module.jdk.home.webduinoserver" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.webduinoserver" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.webduinoserver" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.webduinoserver" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="webduinoserver.output.dir" value="${module.webduinoserver.basedir}/out/production/WebduinoServer"/>
+  <property name="webduinoserver.testoutput.dir" value="${module.webduinoserver.basedir}/out/test/WebduinoServer"/>
+  
+  <path id="webduinoserver.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="webduinoserver.module.production.classpath">
+    <path refid="${module.jdk.classpath.webduinoserver}"/>
+    <path refid="library.java_ee_6-java_ee_6.classpath"/>
+    <path refid="library.mysql-connector-java-5.1.37-bin.classpath"/>
+    <path refid="library.java-json.classpath"/>
+    <path refid="library.gcm-server.classpath"/>
+    <path refid="library.org.json-20120521.classpath"/>
+    <path refid="library.json_simple-1.1.classpath"/>
+    <path refid="library.quartz-2.2.2.classpath"/>
+  </path>
+  
+  <path id="webduinoserver.runtime.production.module.classpath">
+    <pathelement location="${webduinoserver.output.dir}"/>
+    <path refid="library.java_ee_6-java_ee_6.classpath"/>
+    <path refid="library.mysql-connector-java-5.1.37-bin.classpath"/>
+    <path refid="library.java-json.classpath"/>
+    <path refid="library.gcm-server.classpath"/>
+    <path refid="library.org.json-20120521.classpath"/>
+    <path refid="library.json_simple-1.1.classpath"/>
+    <path refid="library.quartz-2.2.2.classpath"/>
+  </path>
+  
+  <path id="webduinoserver.module.classpath">
+    <path refid="${module.jdk.classpath.webduinoserver}"/>
+    <pathelement location="${webduinoserver.output.dir}"/>
+    <path refid="library.java_ee_6-java_ee_6.classpath"/>
+    <path refid="library.mysql-connector-java-5.1.37-bin.classpath"/>
+    <path refid="library.java-json.classpath"/>
+    <path refid="library.gcm-server.classpath"/>
+    <path refid="library.org.json-20120521.classpath"/>
+    <path refid="library.json_simple-1.1.classpath"/>
+    <path refid="library.quartz-2.2.2.classpath"/>
+  </path>
+  
+  <path id="webduinoserver.runtime.module.classpath">
+    <pathelement location="${webduinoserver.testoutput.dir}"/>
+    <pathelement location="${webduinoserver.output.dir}"/>
+    <path refid="library.java_ee_6-java_ee_6.classpath"/>
+    <path refid="library.mysql-connector-java-5.1.37-bin.classpath"/>
+    <path refid="library.java-json.classpath"/>
+    <path refid="library.gcm-server.classpath"/>
+    <path refid="library.org.json-20120521.classpath"/>
+    <path refid="library.json_simple-1.1.classpath"/>
+    <path refid="library.quartz-2.2.2.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.webduinoserver">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.webduinoserver">
+    <patternset refid="excluded.from.module.webduinoserver"/>
+  </patternset>
+  
+  <path id="webduinoserver.module.sourcepath">
+    <dirset dir="${module.webduinoserver.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.webduinoserver" depends="compile.module.webduinoserver.production,compile.module.webduinoserver.tests" description="Compile module WebduinoServer"/>
+  
+  <target name="compile.module.webduinoserver.production" depends="register.custom.compilers" description="Compile module WebduinoServer; production classes">
+    <mkdir dir="${webduinoserver.output.dir}"/>
+    <javac2 destdir="${webduinoserver.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.webduinoserver}/javac">
+      <compilerarg line="${compiler.args.webduinoserver}"/>
+      <bootclasspath refid="webduinoserver.module.bootclasspath"/>
+      <classpath refid="webduinoserver.module.production.classpath"/>
+      <src refid="webduinoserver.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.webduinoserver"/>
+    </javac2>
+    
+    <copy todir="${webduinoserver.output.dir}">
+      <fileset dir="${module.webduinoserver.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.webduinoserver.tests" depends="register.custom.compilers,compile.module.webduinoserver.production" description="compile module WebduinoServer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.webduinoserver" description="cleanup module">
+    <delete dir="${webduinoserver.output.dir}"/>
+    <delete dir="${webduinoserver.testoutput.dir}"/>
+  </target>
+</project>
