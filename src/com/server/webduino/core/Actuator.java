@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,29 +31,22 @@ public class Actuator extends SensorBase {
 
     private String status = "";
 
-    /*public Actuator(URL url, int id, String name, List<ActuatorListener> listeners) {
-        super(url);
+    public Actuator() {
+    }
 
-        init(id, name, listeners);
-    }*/
-
-    public Actuator(URL url, int id, String name) {
-        super(url);
+    public void SetData(int id, int shieldid, String subaddress, String name, Date lastupdate) {
+        super.setData(shieldid, subaddress, name, lastUpdate);
 
         this.id = id;
-        this.name = name;
-
+        //this.name = name;
         listeners = new ArrayList<ActuatorListener>();
     }
 
-
     interface ActuatorListener {
         void changeStatus(String newStatus, String oldStatus);
-        //void changeReleStatus(boolean newReleStatus, boolean oldReleStatus);
-        //void changeProgram(int newProgram, int oldProgram, int newTimerange, int oldTimerange);
     }
 
-    protected List<ActuatorListener> listeners;// = new ArrayList<ActuatorListener>();
+    protected List<ActuatorListener> listeners = new ArrayList<ActuatorListener>();
 
     public void addListener(ActuatorListener toAdd) {
         listeners.add(toAdd);
@@ -63,11 +57,6 @@ public class Actuator extends SensorBase {
         String oldStatus = this.status;
         this.status = status;
 
-        /*if (!status.equals(oldStatus)) {
-            // Notify everybody that may be interested.
-            for (ActuatorListener hl : listeners)
-                hl.changeStatus(status, oldStatus);
-        }*/
     }
 
     public String getStatus() {
@@ -78,8 +67,8 @@ public class Actuator extends SensorBase {
             // questa per ora è usata solo dat heater actuator
 
         //String result = callPost(path, postParam);
-        String result = call("POST", path, postParam);
-        if (result == null) {
+        Result result = call("POST", path, postParam);
+        if (result.res == false) {
             for (int i = 0; i < 2; i++) {
 
                 LOGGER.info("retry..." + i);
@@ -89,10 +78,10 @@ public class Actuator extends SensorBase {
                     break;
             }
         }
-        if (result != null) {
+        if (result.res == true) {
             //updateStatus();
             try {
-                JSONObject json = new JSONObject(result);
+                JSONObject json = new JSONObject(result.response);
                 updateFromJson(json);
             } catch (JSONException e) {
                 e.printStackTrace();

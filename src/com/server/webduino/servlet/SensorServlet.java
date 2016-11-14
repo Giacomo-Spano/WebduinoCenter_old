@@ -6,7 +6,6 @@ import com.server.webduino.core.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import sun.management.Sensor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -31,8 +29,7 @@ public class SensorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOGGER.info("SensorServlet:doPost");
-
-
+        //String registershieldParam = request.getParameter("registershield");
 
         StringBuffer jb = new StringBuffer();
         String line = null;
@@ -47,59 +44,95 @@ public class SensorServlet extends HttpServlet {
             return;
         }
 
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
+        //create Json Response Object
+        JSONObject jsonResponse = new JSONObject();
 
         try {
             JSONObject jsonObj = new JSONObject(jb.toString());
 
             LOGGER.info("SensorServlet:doPost" + jb.toString());
 
-            int id = jsonObj.getInt("id");
-            double avTemperature = jsonObj.getDouble("avtemperature");
-            double temperature = jsonObj.getDouble("temperature");
 
+            //URL url = new URL("http://" + request.getRemoteAddr());
 
-            out.println("<HTML>");
-            out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
-            out.println("<BODY>");
-            out.println("result=1");
-            out.println("</BODY></HTML>");
-
-            updateSensor(id, avTemperature, temperature);
-
-            //}
+            updateShieldSensorsStatus(jsonObj/*, url*/);
 
         } catch (JSONException e) {
-            e.printStackTrace();
-            out.println("<HTML>");
-            out.println("<HEAD><TITLE>Hello World</TITLE></HEAD>");
-            out.println("<BODY>");
-            out.println("result=-1");
-            out.println("</BODY></HTML>");
+            try {
+                jsonResponse.put("result", "error");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
         }
+        // put some value pairs into the JSON object .
+        try {
+            jsonResponse.put("result", "success");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // finally output the json string
+        out.print(jsonResponse.toString());
     }
 
-    private void updateSensor(int id, double avTemperature, double temperature) {
+    private void updateShieldSensorsStatus(JSONObject jsonObj/*, URL url*/) throws JSONException {
+        Date lastupdate = Core.getDate();
+
+        if (jsonObj.has("id")) {
+            int shieldid = jsonObj.getInt("id");
+            if (jsonObj.has("sensors")) {
+                JSONArray jsonArray = jsonObj.getJSONArray("sensors");
+                updateSensors(shieldid, lastupdate, jsonArray);
+
+
+                /*for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject json = jsonArray.getJSONObject(i);
+                    if (json.has("addr")) {
+                        String subaddress = json.getString("addr");
+                        updateSensor(shieldid, subaddress, lastupdate, json);
+                    }
+                }*/
+            }
+        }
+
+    }
+
+    /*private void registerShield(JSONObject jsonObj, URL url) throws JSONException {
+
+        int id;
+
+        String MACAddress = "";
+        String boardName = "";
+        Date lastupdate = Core.getDate();
+
+        Shield shield = new Shield(jsonObj);
+
+        new RegisterShieldThread(shield).start();
+    }*/
+
+
+    private void updateSensors(int shieldid, Date lastupdate, JSONArray jsonArray) {
 
         LOGGER.info("SensorServlet:updateSensor - start");
-        new UpdateSensorThread(getServletContext(),id,avTemperature,temperature).start();
+        new UpdateSensorsThread(getServletContext(), shieldid, lastupdate, jsonArray).start();
+
 
         LOGGER.info("SensorServlet:updateSensor - end");
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("id");
+        String shieldParam = request.getParameter("shield");
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
 
-        //ArrayList<TemperatureSensor> list = Core.getSensors();
-
-        Core core = (Core)getServletContext().getAttribute(QuartzListener.CoreClass);
-
+        Core core = (Core) getServletContext().getAttribute(QuartzListener.CoreClass);
 
         //create Json Object
         JSONArray jsonarray = new JSONArray();
@@ -110,26 +143,34 @@ public class SensorServlet extends HttpServlet {
             JSONObject json = sensor.getJson();
             out.print(json.toString());
 
+        } else if (shieldParam != null) {
+
+            Shields shields = new Shields();
+            List<Shield> list = shields.getShields();
+
+            JSONArray jarray = new JSONArray();
+            for (Shield shield : list) {
+                JSONObject json = shield.toJson();
+                jarray.put(json);
+            }
+            JSONObject jshields = new JSONObject();
+            try {
+                jshields.put("shields", jarray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            out.print(jshields.toString());
+
         } else {
 
-            ArrayList<TemperatureSensor> list = core.getSensors();
-                Iterator<TemperatureSensor> iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    TemperatureSensor sd = iterator.next();
-                    JSONObject json = sd.getJson();
-                    /*JSONObject json = new JSONObject();
-                    json.put("id", sd.getId());
-                    json.put("temperature", sd.getTemperature());
-                    json.put("avtemperature", sd.getAvTemperature());
-                    json.put("url", sd.getUrl());
-                    json.put("humidity", sd.humidity);
-                    json.put("name", sd.getName());
-                    json.put("pressure", sd.pressure);
-                    json.put("lastupdate", sd.getLastUpdate());*/
+            List<SensorBase> list = core.getLastSensorData();
 
-                    jsonarray.put(json);
-                }
 
+            for (SensorBase sensor : list) {
+                JSONObject json = sensor.getJson();
+                jsonarray.put(json);
+            }
 
             // finally output the json string
             out.print(jsonarray.toString());

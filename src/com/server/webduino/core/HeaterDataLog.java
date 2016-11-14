@@ -24,10 +24,8 @@ public class HeaterDataLog extends DataLog {
 
         try {
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String strdate = dateFormat.format(date);
-            DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-            String strtime = timeFormat.format(date);
 
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -36,18 +34,17 @@ public class HeaterDataLog extends DataLog {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            sql = "INSERT INTO heaterdatalog (id, date, time, relestatus, status, localtemperature, remotetemperature, targettemperature, activeprogram, activetimerange, activesensor) " +
+            sql = "INSERT INTO heaterdatalog (id, date, relestatus, status, localtemperature, remotetemperature, targettemperature, activeprogram, activetimerange, activesensor) " +
                     "                                   VALUES (" + id + ", '" +
-                    strdate + "','" +
-                    strtime + "'," +
+                    strdate + "'," +
                     heater.releStatus + ",'" +
-                    heater.getStatus() + "','" +
-                    heater.getAvTemperature() + "','" +
-                    heater.remoteTemperature + "','" +
-                    heater.targetTemperature + "','" +
-                    heater.activeProgramID + "','" +
-                    heater.activeTimeRangeID + "','" +
-                    heater.activeSensorID + "'" +
+                    heater.getStatus() + "'," +
+                    heater.getAvTemperature() + "," +
+                    heater.remoteTemperature + "," +
+                    heater.targetTemperature + "," +
+                    heater.activeProgramID + "," +
+                    heater.activeTimeRangeID + "," +
+                    heater.activeSensorID + "" +
                     ");";
             stmt.executeUpdate(sql);
 
@@ -91,7 +88,6 @@ public class HeaterDataLog extends DataLog {
             while (rs.next()) {
                 HeaterDataLog data = new HeaterDataLog();
                 data.date = rs.getDate("date");
-                data.time = rs.getTime("time");
                 data.releStatus = rs.getBoolean("relestatus");
                 data.status = rs.getString("status");
                 data.localTemperature = rs.getDouble("localtemperature");

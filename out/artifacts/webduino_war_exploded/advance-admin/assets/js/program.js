@@ -1,6 +1,11 @@
 var $mProgramForm;
 var $mProgramPanel;
+
 var programservletpath = "../program";
+var sensorServletPath = "../sensor";
+
+
+var $sensors = [];
 
 
 function load() {
@@ -13,20 +18,36 @@ function load() {
     $(this).find('button#addprogram').click(onAddProgramButtonClick);
 
     var jqxhr = $.getJSON(programservletpath, function (data) {
-            console.log("success");
+        console.log("success");
 
-            var $lastlistelem = $('.row#programlist');
+        var $lastlistelem = $('.row#programlist');
 
-            a = data;
-            $.each(a, function (idx, elem) {
+        a = data;
+        $.each(a, function (idx, elem) {
 
-                    $program = createProgramPanel(elem/*, $lastlistelem*/)
+                $program = createProgramPanel(elem/*, $lastlistelem*/)
 
-                    $lastlistelem.after($program);
-                    $lastlistelem = $program;
-                }
-            );
+                $lastlistelem.after($program);
+                $lastlistelem = $program;
+            }
+        );
+    })
+        .done(function () {
         })
+        .fail(function () {
+            alert("error1");
+        })
+        .always(function () {
+        });
+
+    var jqxhr = $.getJSON(sensorServletPath, function (data) {
+
+        for (i = 0; i < data.length; i++) {
+            $sensors.push(data[i]);
+        }
+
+
+    })
         .done(function () {
             console.log("succes");
         })
@@ -39,15 +60,13 @@ function load() {
         });
 }
 
-function createProgramPanel(elem/*, lastlistelem*/) {
+function createProgramPanel(elem) {
 
     var $program = $mProgramPanel.clone();
     $($program).attr('style', 'display: visible');
     $($program).find('button#change').click(onChangeButtonClicked);
     $($program).find(".panel-heading").text("Programma " + elem.id + elem.name);
-
     $($program).find('div[id="programid"]').text(elem.id);// questo serve, non eliminare
-
 
     if (elem.active) {
 
@@ -150,7 +169,20 @@ function createProgramForm(elem) {
         $tr.find('input[name="timerangename"]').val(value.name);
         $tr.find('input[name="temperature"]').val(value.temperature);
         $tr.find('input[name="endtime"]').val(value.endtime);
-        $tr.find('select[name="sensor"]').val(value.sensorid);
+
+
+        sensorCombo = $tr.find('select[name="sensor"]');//.val(value.sensorid);
+
+        sensorCombo.empty();
+        for (i = 0; i < $sensors.length; i++) {
+            sensorCombo.append("<option value='" + $sensors[i].id + "'>" + $sensors[i].name + "</option>");
+            /*if (value.sensorid == $sensors[i].id)
+                curval = $sensors[i].id*/
+
+
+        }
+        sensorCombo.val(value.sensorid);
+
         $tr.find('td[id="timerangestarttime"]').text(starttime);
 
         $tr.find('input[name="endtime"]').change(function () { // set next timerange starttime to this endtime
@@ -179,6 +211,25 @@ function createProgramForm(elem) {
 
     return $newform;
 }
+
+/*function setSubAddress(node, id, subaddress) {
+
+
+    sub = node.find('select[name="subaddress"]');
+    sub.val(subaddress);
+    sub.empty();
+    //sub.append("<option value='6'>" + id + "</option>");
+
+    for (i = 0; i < $shields.length; i++) {
+        if ($shields[i].id == id) {
+            for (k = 0; k < $shields[i].sensors.length; k++) {
+                sub.append("<option value='" + $shields[i].sensors[k].subaddress + "'>" + $shields[i].sensors[k].subaddress + "</option>");
+            }
+        }
+    }
+
+}*/
+
 function onChangeButtonClicked() { // clicked 'modifica' button. Enable save button and inpu controls
 
     var $form = $(this).parent().parent();
@@ -186,11 +237,11 @@ function onChangeButtonClicked() { // clicked 'modifica' button. Enable save but
 
     var json = $.getJSON(programservletpath + '?id=' + programid, function (elem) {
 
-            var $newform = createProgramForm(elem);
+        var $newform = createProgramForm(elem);
 
-            $form.after($newform);
-            $form.remove();
-        })
+        $form.after($newform);
+        $form.remove();
+    })
         .done(function () {
             console.log("succes");
         })
@@ -255,11 +306,11 @@ function onCancelButtonClick() {
 
     var json = $.getJSON(programservletpath + '?id=' + programid, function (elem) {
 
-            $program = createProgramPanel(elem)
+        $program = createProgramPanel(elem)
 
-            form.parent().replaceWith($program);
+        form.parent().replaceWith($program);
 
-        })
+    })
         .done(function () {
             console.log("succes");
         })
@@ -380,12 +431,14 @@ function onSaveButtonClick() {
 
         endtime = $(this).find("input[name=endtime]").val();
         sensor = $(this).find("select[name=sensor]").val();
+        subaddress = $(this).find("select[name=subaddress]").val();
         temperature = $(this).find("input[name=temperature]").val();
         name = $(this).find("input[name=timerangename]").val();
 
         program.timeranges.push({
             "endtime": endtime,
-            "sensor": sensor,
+            "sensorid": sensor,
+            "subaddress": subaddress,
             "temperature": temperature,
             "name": name
         });
@@ -395,12 +448,12 @@ function onSaveButtonClick() {
 
             var json = $.getJSON(programservletpath + '?id=' + jsondata.id, function (elem) {
 
-                    $program = createProgramPanel(elem)
+                $program = createProgramPanel(elem)
 
-                    form.parent().replaceWith($program);
-                    //form.parent().after($program);
+                form.parent().replaceWith($program);
+                //form.parent().after($program);
 
-                })
+            })
                 .done(function () {
                     console.log("succes");
                 })

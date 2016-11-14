@@ -173,8 +173,10 @@ public class ProgramServlet extends HttpServlet {
                 tr.endTime = Time.valueOf(JSONrange.getString("endtime") + ":00");
             if (!JSONrange.isNull(("temperature")))
                 tr.temperature = JSONrange.getDouble("temperature");
-            if (!JSONrange.isNull(("sensor")))
-                tr.sensorID = JSONrange.getInt("sensor");
+            /*if (!JSONrange.isNull(("sensor")))
+                tr.shieldId = JSONrange.getInt("sensor");*/
+            if (!JSONrange.isNull(("sensorid")))
+                tr.sensorId = JSONrange.getInt("sensorid");
             if (!JSONrange.isNull(("priority")))
                 tr.priority = JSONrange.getInt("priority");
 
@@ -217,7 +219,7 @@ public class ProgramServlet extends HttpServlet {
                     json.put("startdate", active.startDate);
                     json.put("enddate", active.endDate);
                     json.put("temperature", active.timeRange.temperature);
-                    json.put("sensor", active.timeRange.sensorID);
+                    json.put("sensor", active.timeRange.sensorId);
 
 
                     jsonarray.put(json);
@@ -257,12 +259,12 @@ public class ProgramServlet extends HttpServlet {
                     json.put("timerangename", activeProgram.timeRange.name);
                     json.put("endtime", activeProgram.timeRange.endTime);
                     json.put("temperature", activeProgram.timeRange.temperature);
-                    json.put("sensor", activeProgram.timeRange.sensorID);
+                    json.put("sensor", activeProgram.timeRange.sensorId);
                     String sensorName = "local";
                     Double sensorTemperature = 0.0;
-                    if (activeProgram.timeRange.sensorID != 0) {
-                        sensorName = core.getSensorFromId(activeProgram.timeRange.sensorID).getName();
-                        sensorTemperature = core.getSensorFromId(activeProgram.timeRange.sensorID).getAvTemperature();
+                    if (activeProgram.timeRange.sensorId != 0) {
+                        sensorName = core.getSensorFromId(activeProgram.timeRange.sensorId).getName();
+                        sensorTemperature = core.getSensorFromId(activeProgram.timeRange.sensorId).getAvTemperature();
                     }
                     json.put("sensorname", sensorName);
                     json.put("sensortemperature", sensorTemperature);
@@ -326,7 +328,8 @@ public class ProgramServlet extends HttpServlet {
             range.put("name", tr.name);
             if (tr.endTime != null)
                 range.put("endtime", df.format(tr.endTime));
-            range.put("sensorid", tr.sensorID);
+            range.put("sensorid", tr.sensorId);
+            //range.put("subaddress", tr.subAddress);
             range.put("temperature", tr.temperature);
             range.put("priority", tr.priority);
             timerange.put(range);

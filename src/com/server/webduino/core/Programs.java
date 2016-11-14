@@ -20,7 +20,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * Created by Giacomo Span� on 07/11/2015.
  */
-public class Programs implements HeaterActuator.HeaterActuatorListener, TemperatureSensor.TemperatureSensorListener {
+public class Programs implements HeaterActuator.HeaterActuatorListener, TemperatureSensor.TemperatureSensorListener,
+        Shields.ShieldsListener, Sensors.SensorsListener {
 
     Scheduler scheduler = null;
     JobDetail mNextProgramJob = null;
@@ -30,19 +31,10 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
     }
 
     HeaterActuator mActuator;
-
     private static final Logger LOGGER = Logger.getLogger(Programs.class.getName());
-
     private ArrayList<Program> mProgramList;
     protected ArrayList<ActiveProgram> mNextProgramList;
-
     private Date mLastActiveProgramUpdate;
-
-    //private Program mActiveProgram = null;
-    //int mOldActiveProgramID;
-    //int mOldActiveTimeRangeID;
-
-
     protected ActiveProgram mActiveProgram = null, mOldActiveProgram = null;
     double mActiveSensorTemperature;
     //int mActiveSensorID;
@@ -51,11 +43,13 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
         return mActiveSensorTemperature;
     }
 
-    public void init(Actuator actuator) {
-        //Core core = (Core)getServletContext().getAttribute(QuartzListener.CoreClass);
-        mActuator = (HeaterActuator) actuator;//Core.getActuatorFromId(1);
-        mActuator.addListener(this);
+    public void init(HeaterActuator actuator) {
 
+        mActuator = actuator;
+        if (mActuator != null) {
+            mActuator = (HeaterActuator) actuator;//Core.getFromShieldId(1);
+            mActuator.addListener(this);
+        }
 
         try {
             scheduler = new StdSchedulerFactory().getScheduler();
@@ -107,7 +101,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
             for (int i = 0; i < mProgramList.size(); i++) {
                 stmt = conn.createStatement();
-                sql = "SELECT id, name, endtime, sensorid, programid, temperature, priority FROM timeranges WHERE programid=" + mProgramList.get(i).id + " ORDER BY priority ASC";
+                sql = "SELECT * FROM timeranges WHERE programid=" + mProgramList.get(i).id + " ORDER BY priority ASC";
                 rs = stmt.executeQuery(sql);
 
                 while (rs.next()) {
@@ -116,10 +110,11 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                     range.ID = rs.getInt("id");
                     range.programID = rs.getInt("programid");
                     range.name = rs.getString("name");
-                    range.sensorID = rs.getInt("sensorid");
+                    range.sensorId = rs.getInt("sensorid");
                     range.endTime = rs.getTime("endtime");
                     range.temperature = rs.getDouble("temperature");
                     range.priority = rs.getInt("priority");
+                    //range.subAddress = rs.getString("subaddress");
 
                     mProgramList.get(i).mTimeRanges.add(range);
                 }
@@ -146,11 +141,11 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
         checkProgram();
     }*/
 
-    public /*synchronized*/ void checkProgram() { // synchronize dperchè risorse potrebbereo essere aggiornate contemporaneamente da listener e da servlet get/do program
+    public void checkProgram() { // synchronize dperchè risorse potrebbereo essere aggiornate contemporaneamente da listener e da servlet get/do program
 
         mLastActiveProgramUpdate = Core.getDate();
 
-        if (mActuator != null && mActuator.getStatus() == null) {
+        if (mActuator == null || mActuator.getStatus() == null) {
             ;// errore  NESSUN ACTUATOR DISPONIBILE
             LOGGER.severe("->No actuator available");
             Core.sendPushNotification(SendPushMessages.notification_error, "errore", ">No actuator available", "0");
@@ -200,23 +195,23 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
                         // get current temperature from active sensor local or remote
                         double currentTemperature = 0.0; // temperatura del sensore locale o remoto
-                        if (mActiveProgram.timeRange.sensorID == 0) {
+                        if (mActiveProgram.timeRange.sensorId == 0) {
                             currentTemperature = mActuator.avTemperature;
                         } else {
                             currentTemperature = mActiveSensorTemperature;//temperatureSensor.getAvTemperature();
                         }
 
-                        //mActuator.setActiveSensorID(mActiveProgram.timeRange.sensorID);
-                        //mActuator.setActiveSensorName(mActiveProgram.timeRange.sensorID);
-                        if (mActiveProgram.timeRange.sensorID/* actuator.activeSensorID*/ == 0) { // active sensor local
+                        //mActuator.setActiveSensorID(mActiveProgram.timeRange.shieldId);
+                        //mActuator.setActiveSensorName(mActiveProgram.timeRange.shieldId);
+                        if (mActiveProgram.timeRange.sensorId/* actuator.activeSensorID*/ == 0) { // active sensor local
 
-                            mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorID, currentTemperature);
+                            mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
                         } else {
                             if (currentTemperature < mActiveProgram.timeRange.temperature) {
 
-                                mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorID, currentTemperature);
+                                mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
                             } else {
-                                mActuator.sendCommand(Actuator.Command_Program_Off, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorID, currentTemperature);
+                                mActuator.sendCommand(Actuator.Command_Program_Off, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
                             }
                         }
                     } catch (ParseException e) {
@@ -497,7 +492,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
     public int insert(Program prgm) {
 
-        LOGGER.info("insert prgm=" + prgm.id + " " + prgm.name);
+        LOGGER.info("update prgm=" + prgm.id + " " + prgm.name);
 
         Connection conn = null;
         int lastid;
@@ -580,7 +575,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                     endTime = "NULL";
 
                 sql = "INSERT INTO timeranges (id, programid, name, priority, endtime, sensorid, temperature)" +
-                        " VALUES (" + tr.ID + "," + tr.programID + ",'" + tr.name + "'," + tr.priority + "," + endTime + "," + tr.sensorID + "," + tr.temperature + ")";
+                        " VALUES (" + tr.ID + "," + tr.programID + ",'" + tr.name + "'," + tr.priority + "," + endTime + "," + tr.sensorId + "," + tr.temperature + ")";
 
                 numero = stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             }
@@ -649,6 +644,9 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
         LOGGER.info("changeStatus");
         String description = "Status changed from " + oldStatus + " to " + newStatus;
+
+        checkProgram();
+
         Core.sendPushNotification(SendPushMessages.notification_statuschange,"Status",description,"0");
 
         //Core.sendPushNotification(SendPushMessages.notification_statuschange, "title", "description", "0");
@@ -679,24 +677,59 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
     }
 
     @Override
-    public void changeTemperature(int ID, double temperature) {
+    public void changeTemperature(int shieldId, String subAddress, double temperature) {
 
     }
 
     @Override
-    public void changeAvTemperature(int ID, double avTemperature) {
+    public void changeAvTemperature(int sendorId/*, String subAddress*/, double avTemperature) {
         // chiamato quando cambia la temperatura media di un sensore di temperatura
 
-        LOGGER.info("changeAvTemperature ID=" + ID + ", avTemperature = " + avTemperature);
-        if (mActiveProgram.timeRange.sensorID == ID) {
+        LOGGER.info("changeAvTemperature ID=" + sendorId + ", avTemperature = " + avTemperature);
+        if (mActiveProgram.timeRange.sensorId == sendorId) {
             //synchronized (mActiveSensorTemperature) {
             mActiveSensorTemperature = avTemperature;
             checkProgram();
             //}
-            mActuator.sendCommand(Actuator.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorID, mActiveSensorTemperature/*activeTemperatureSensor.getAvTemperature()*/);
+            mActuator.sendCommand(Actuator.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorId, mActiveSensorTemperature/*activeTemperatureSensor.getAvTemperature()*/);
 
 
         }
         LOGGER.info("changeAvTemperature END");
+    }
+
+    @Override
+    public void addedActuator(Actuator actuator) {
+
+    }
+
+    @Override
+    public void addedSensor(SensorBase sensor) {
+
+    }
+
+    @Override
+    public void addedShield(Shield shield) {
+
+    }
+
+    @Override
+    public void updatedActuator(Actuator actuator) {
+
+    }
+
+    @Override
+    public void updatedSensor(SensorBase sensor) {
+
+    }
+
+    @Override
+    public void updatedShield(Shield shield) {
+
+    }
+
+    @Override
+    public void updatedSensorValue(SensorBase sensor) {
+
     }
 }

@@ -12,14 +12,18 @@ public class SensorDataLog extends DataLog {
     public Double temperature = 0.0;
     public Double avTemperature = 0.0;
 
-    public void writelog(int id, /*double temperature, double avTemperature, */java.util.Date date, TemperatureSensor sensor) {
+    public void writelog(int shieldid, String subaddress, java.util.Date date, double temperature, double avTemperature) {
 
         try {
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String strDate = "NULL";
+            strDate = "'" + df.format(date) + "'";
+
+            /*DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String strdate = dateFormat.format(date);
             DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-            String strtime = timeFormat.format(date);
+            String strtime = timeFormat.format(date);*/
 
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -28,7 +32,7 @@ public class SensorDataLog extends DataLog {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            sql = "INSERT INTO sensordatalog (id, date, time, temperature, avtemperature) VALUES ("+ id + ", '" + strdate + "','" + strtime + "'," + sensor.getTemperature() + "," + sensor.getAvTemperature() + ");";
+            sql = "INSERT INTO sensordatalog (shieldid, subaddress, date, temperature, avtemperature) VALUES ("+ shieldid + ",'" + subaddress + "',"  + strDate + "," + temperature + "," + avTemperature + ");";
             stmt.executeUpdate(sql);
 
             // Extract data from result set
@@ -66,7 +70,7 @@ public class SensorDataLog extends DataLog {
 
             String sql;
             //sql = "SELECT id, date, time, temperature, avtemperature FROM sensordatalog WHERE id = " + id +" AND date BETWEEN '2016-02-27 12:00:00' AND '2016-02-28 06:00:00'";
-            sql = "SELECT id, date, time, temperature, avtemperature FROM sensordatalog WHERE id = " + id +" AND TIMESTAMP(date, time) BETWEEN '" + start + "' AND '" + end + "'";
+            sql = "SELECT id, shieldid, date, time, temperature, avtemperature FROM sensordatalog WHERE id = " + id +" AND TIMESTAMP(date, time) BETWEEN '" + start + "' AND '" + end + "'";
 
             //YYYY-MM-DD HH:MI:SS
             ResultSet rs = stmt.executeQuery(sql);

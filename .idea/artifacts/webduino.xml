@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="webduino">
+    <output-path>$PROJECT_DIR$/out/artifacts/webduino</output-path>
+    <root id="archive" name="webduino.war">
+      <element id="artifact" artifact-name="webduino:war exploded" />
+    </root>
+  </artifact>
+</component>

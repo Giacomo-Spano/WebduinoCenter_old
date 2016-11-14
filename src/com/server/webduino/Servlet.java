@@ -77,7 +77,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
 
                 TimeRange tr = program.mTimeRanges.get(k);
                 out.println("-> id:"+ tr.ID + " end:"+ tr.endTime +
-                        " temperature" + tr.temperature + " sensor" + tr.sensorID  + "<br>");
+                        " temperature" + tr.temperature + " sensor" + tr.sensorId + "<br>");
 
             }
         }

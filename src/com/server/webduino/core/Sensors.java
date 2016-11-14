@@ -1,73 +1,81 @@
 package com.server.webduino.core;
 
-import com.server.webduino.servlet.SendPushMessages;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.sql.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
  * Created by Giacomo Span� on 08/11/2015.
  */
-public class Sensors {
+public class Sensors implements Shields.ShieldsListener {
 
-    private static final Logger LOGGER = Logger.getLogger(Sensors.class.getName());
-
-    private static ArrayList<TemperatureSensor> mTemperatureSensorList = new ArrayList<TemperatureSensor>();
-
-    public Sensors() {
+    interface SensorsListener {
+        void updatedSensorValue(SensorBase sensor);
     }
 
-    public TemperatureSensor getSensorFromId(int id) {
-        Iterator<TemperatureSensor> iterator = mTemperatureSensorList.iterator();
-        while (iterator.hasNext()) {
-            TemperatureSensor temperatureSensor = iterator.next();
-            if (temperatureSensor.id == id)
-                return temperatureSensor;
+    List<SensorBase> list = new ArrayList<>();
+    protected List<SensorsListener> listeners = new ArrayList<>();
+
+    public void addListener(SensorsListener toAdd) {
+        listeners.add(toAdd);
+    }
+
+    public Sensors() {
+        read();
+    }
+
+    public List<SensorBase> getLastSensorData() {
+        return list;
+    }
+
+    public SensorBase getFromShieldIdandSubaddress(int shieldid, String subaddress) {
+        for (SensorBase sensor: list) {
+            if (sensor.subaddress.equals(subaddress) && sensor.shieldid == shieldid)
+                return sensor;
         }
         return null;
     }
 
-    public ArrayList<TemperatureSensor> getSensorList() {
+    boolean updateSensors(int shieldid, JSONArray jsonArray) {
 
-        return mTemperatureSensorList;
-    }
-
-    public static TemperatureSensor get(int index) {
-
-        if (index < 0 || index >= mTemperatureSensorList.size())
-            return null;
-
-        return mTemperatureSensorList.get(index);
-    }
-
-    public void update() {
-
-        java.util.Date date = new java.util.Date();
-
-        Iterator<TemperatureSensor> iterator = mTemperatureSensorList.iterator();
-        while (iterator.hasNext()) {
-            TemperatureSensor temperatureSensor = iterator.next();
-            LOGGER.info("SENSOR " + temperatureSensor.mURL.toString() + " Call updateStatus");
-            String txt = temperatureSensor.updateStatus();
-
-            if (txt == null) {
-                LOGGER.severe("temperatureSensor " + temperatureSensor.mURL.toString() + " OFFLINE");
-                Core.sendPushNotification(SendPushMessages.notification_error,"errore","temperatureSensor " + temperatureSensor.mURL.toString() + " OFFLINE","0");
-            } else {
-                LOGGER.info(txt);
-
-                //SensorDataLog dl = new SensorDataLog();
-                //dl.writelog(temperatureSensor.id, temperatureSensor.getTemperature(), temperatureSensor.getAvTemperature(), date);
-                //writelog(temperatureSensor.mData, date);
-                //
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject json = null;
+            try {
+                json = jsonArray.getJSONObject(i);
+                if (json.has("addr")) {
+                    String subaddress = json.getString("addr");
+                    SensorBase sensor = getFromShieldIdandSubaddress(shieldid, subaddress);
+                    if (sensor != null)
+                        sensor.updateFromJson(json);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
+        /*for (TemperatureSensor.TemperatureSensorListener listener : sensor.lis) {
+            listener.changeAvTemperature(shieldid,subaddress,sensor.);
+        }
+
+        for (SensorsListener listener : listeners) {
+            listener.updatedSensorValue(sensor);
+        }*/
+
+        return  true;
     }
 
     public void read() {
 
+        //List<SensorBase> list = new ArrayList<>();
         try {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -76,19 +84,25 @@ public class Sensors {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            sql = "SELECT id, url, name FROM sensors";
+            sql = "SELECT * FROM sensors";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Extract data from result set
             while (rs.next()) {
 
-                String str = rs.getString("url");
-                URL url = new URL(str);
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                TemperatureSensor temperatureSensor = new TemperatureSensor(url, id, name);
-
-                mTemperatureSensorList.add(temperatureSensor);
+                SensorBase sensor = null;
+                if (true) {
+                    sensor = new TemperatureSensor();
+                }
+                sensor.id = rs.getInt("id");
+                sensor.shieldid = rs.getInt("shieldid");
+                if (rs.getString("subaddress") != null)
+                    sensor.subaddress = rs.getString("subaddress");
+                if (rs.getString("name") != null)
+                    sensor.name = rs.getString("name");
+                if (rs.getString("type") != null)
+                    sensor.type = rs.getString("type");
+                list.add(sensor);
             }
             // Clean-up environment
             rs.close();
@@ -103,5 +117,33 @@ public class Sensors {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
+        //return list;
     }
+
+    @Override
+    public void addedActuator(Actuator actuator) {
+    }
+
+    @Override
+    public void addedSensor(SensorBase sensor) {
+        list.add(sensor);
+    }
+
+    @Override
+    public void addedShield(Shield shield) {
+    }
+
+    @Override
+    public void updatedActuator(Actuator actuator) {
+    }
+
+    @Override
+    public void updatedSensor(SensorBase sensor) {
+    }
+
+    @Override
+    public void updatedShield(Shield shield) {
+    }
+
+
 }

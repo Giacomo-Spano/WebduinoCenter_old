@@ -37,23 +37,23 @@ public class ActuatorQuartzJob implements Job {
     }
 
     private volatile boolean flag_locked = false;
-    private /*synchronized*/ void update(JobExecutionContext context) {
+    private void update(JobExecutionContext context) {
         //Date date = Core.getDate();
         LOGGER.info("ActuatorQuartzJob:update");
-        if (flag_locked) {
+        /*if (flag_locked) {
             LOGGER.info("ActuatorQuartzJob:update - LOCKED");
             return;
-        }
-        flag_locked = true;
+        }*/
+        //flag_locked = true;
 
         //Core core = (Core)getServletContext().getAttribute(QuartzListener.CoreClass);
         ServletContext servletContext = (ServletContext) context.getMergedJobDataMap().get("servletContext");
         Core core = (Core)servletContext.getAttribute(QuartzListener.CoreClass);
         LOGGER.info("ActuatorQuartzJob:update  start");
 
-        //core.mActuators.update();
+        core.mShields.updateStatus();
 
-        flag_locked = false;
+        //flag_locked = false;
         LOGGER.info("ActuatorQuartzJob:update  end");
 
     }

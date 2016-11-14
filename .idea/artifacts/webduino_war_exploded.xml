@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="webduino:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/webduino_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="WebduinoServer/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="WebduinoServer" />
@@ -16,6 +15,7 @@
           <element id="library" level="project" name="quartz-2.2.2" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="WebduinoServer/web/Web" />
     </root>
   </artifact>
 </component>

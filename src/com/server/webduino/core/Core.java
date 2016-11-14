@@ -1,9 +1,12 @@
 package com.server.webduino.core;
 
+import org.json.JSONArray;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
@@ -13,11 +16,6 @@ import java.util.logging.Logger;
 public class Core {
 
     private static final Logger LOGGER = Logger.getLogger(Core.class.getName());
-
-    /*static private final String USER = "root";
-    static private final String PASS = "giacomo";
-    static private String DB_URL = "jdbc:mysql://127.0.0.1:3306/webduino";*/
-
     protected static String appDNS_envVar;
     protected static String mysqlDBHost_envVar;
     protected static String mysqlDBPort_envVar;
@@ -28,23 +26,13 @@ public class Core {
     public static String APP_DNS_OPENSHIFT = "webduinocenter.rhcloud.com";
     public static String APP_DNS_OPENSHIFTTEST = "webduinocenterbeta-giacomohome.rhcloud.com";
 
-    public Sensors mSensors;// = new Sensors();
-    public Actuators mActuators;// = new Actuators();
-    public Programs mPrograms;// = new Programs();
+    public Shields mShields;
+
+    public Programs mPrograms;
 
     public static Devices mDevices = new Devices();
 
     public Core() {
-
-        mSensors = new Sensors();
-        mActuators = new Actuators();
-        mPrograms = new Programs();
-
-        /*String var = System.getenv("debug");
-        if (var != null && var.equals("true"))
-            DB_URL = "jdbc:mysql://127.0.0.1:3306/webduinodebug";*/
-
-
         appDNS_envVar = System.getenv("OPENSHIFT_APP_DNS");
         mysqlDBHost_envVar = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
         mysqlDBPort_envVar = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
@@ -87,10 +75,23 @@ public class Core {
     }
 
     public void init() {
-        loadData();
+
+        mShields = new Shields();
+        mPrograms = new Programs();
+
+        //mSensors.addListener(mPrograms);
+
+        mShields.addListener(mPrograms); /// TODO quetso a cosa serve????
+
+        mShields.addTemeratureSensorListener(mPrograms);// metti program in ascolto di ogni variazione di temperatura
+
+        Settings settings = new Settings();
+        mPrograms.init((HeaterActuator)getFromId(settings.HeaterActuatorId));
+        mPrograms.read(); // caricare actuator prima di program!!
+        mDevices.read();
     }
 
-    public static /*synchronized*/ void sendPushNotification(String type, String title, String description, String value) {
+    public static void sendPushNotification(String type, String title, String description, String value) {
 
         LOGGER.info("sendPushNotification type=" + type + "title=" + title + "value=" + value);
         new PushNotificationThread(type,title,description,value).start();
@@ -98,28 +99,41 @@ public class Core {
         LOGGER.info("sendPushNotification sent");
     }
 
-    public void loadData() {
-        mSensors.read();
-        mActuators.read();
-        for (int i = 0; i < mSensors.getSensorList().size(); i++) {
-            mSensors.getSensorList().get(i).addListener(mPrograms);
-        }
-        mPrograms.init(getActuatorFromId(1));
-        mPrograms.read(); // caricare actuator prima di program!!
-        mDevices.read();
+    public ArrayList<Actuator> getActuators() {
+        return mShields.getActuators();
     }
 
-    public /*static */ArrayList<Actuator> getActuators() {
-        return mActuators.getActuatorList();
+    public List<SensorBase> getLastSensorData() {
+        return mShields.getLastSensorData();
     }
 
-    public /*static */ArrayList<Program> getPrograms() {
+    boolean updateSensors(int shieldid, JSONArray jsonArray) {
+        return mShields.updateSensors(shieldid,jsonArray);
+    }
+
+    public Actuator getFromShieldId(int shieldid, String subaddress) {
+        return mShields.getFromShieldId(shieldid, subaddress); }
+
+    public Actuator getFromId(int id) {
+        return mShields.getFromId(id); }
+
+    /*public SensorBase getSensorFromShieldIdAndSubadress(int shieldid, String subaddress) {
+        return mSensors.getFromShieldIdandSubaddress(shieldid, subaddress); }*/
+
+
+
+
+    public ArrayList<Program> getPrograms() {
         return mPrograms.getProgramList();
     }
 
-    public /*static */ArrayList<TemperatureSensor> getSensors() {
-        return mSensors.getSensorList();
+    public List<TemperatureSensor> getSensors() {
+        return mShields.getSensorList();
     }
+
+
+
+
     public ArrayList<ActiveProgram> getNextActiveProgramlist() {
         return mPrograms.getActiveProgramList();
     }
@@ -132,18 +146,18 @@ public class Core {
     public Date getLastActiveProgramUpdate() {
         return mPrograms.getLastActiveProgramUpdate();
     }
-    public  /*synchronized*/ TemperatureSensor getSensorFromId(int id) {
-        return mSensors.getSensorFromId(id);
+    public TemperatureSensor getSensorFromId(int id) {
+        return mShields.getSensorFromId(id);
     }
-    public /*synchronized*/ Actuator getActuatorFromId(int id) { return mActuators.getFromId(id); }
-    public /*static */int deleteProgram(int id) {
+
+    public int deleteProgram(int id) {
         return mPrograms.delete(id);
     }
-    public/* static*/ int updatePrograms(Program program) {
+    public int updatePrograms(Program program) {
         return mPrograms.insert(program);
     }
 
-    public /*synchronized*/ static Date getDate() {
+    public static Date getDate() {
 
         LOGGER.info("getDate");
         Date date = new Date();

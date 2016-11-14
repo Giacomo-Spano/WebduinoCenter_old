@@ -1,7 +1,6 @@
 package com.server.webduino.servlet;
 import com.server.webduino.core.Core;
 //import com.server.webduino.core.SensorData;
-import com.server.webduino.core.Sensors;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -52,7 +51,7 @@ public class HomeServlet extends HttpServlet  {
         URL remoteURL1 = new URL("http://"+"192.168.1.95:80"); // studio
         sensor = new TemperatureSensor(remoteURL1);
         String txt = sensor.updateStatus();*/
-        //SensorData data = Sensors.get(0);
+        //SensorData data = Shields.get(0);
 
         PrintWriter out = response.getWriter();
         out.println("<html>");

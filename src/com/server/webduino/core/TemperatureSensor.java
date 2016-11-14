@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -14,12 +13,12 @@ public class TemperatureSensor extends SensorBase {
 
     private double temperature;
     private double avTemperature;
-    public String humidity;
-    public String pressure;
+
 
     public interface TemperatureSensorListener {
-        void changeTemperature(int ID, double temperature);
-        void changeAvTemperature(int ID, double avTemperature);
+        void changeTemperature(int shieldId, String subAddress, double temperature);
+
+        void changeAvTemperature(int sensorId, double avTemperature);
     }
 
     private List<TemperatureSensorListener> listeners = new ArrayList<TemperatureSensorListener>();
@@ -28,36 +27,36 @@ public class TemperatureSensor extends SensorBase {
         listeners.add(toAdd);
     }
 
-    public TemperatureSensor(URL url, int id, String name) {
-        super(url);
+    /*public TemperatureSensor(int shieldid, String subaddress, String name, Date lastupdate, double temperature, double avTemperature) {
+        super(shieldid, subaddress, name, lastupdate);
 
-        this.url = url;
-        this.id = id;
-        this.name = name;
+        this.temperature = temperature;
+        this.avTemperature = avTemperature;
+
+
+    }*/
+
+    public TemperatureSensor() {
     }
 
-    public void setData(Date date, double temperature, double avTemperature) {
-
-        setLastUpdate(date);
-        setTemperature(temperature);
-        setAvTemperature(avTemperature);
-
+    public void setData(int shieldid, String subaddress, String name, Date date, double temperature, double avTemperature) {
+        super.setData(shieldid, subaddress, name, date);
+        //lastUpdate = date;
+        temperature = temperature;
+        avTemperature = avTemperature;
         SensorDataLog dl = new SensorDataLog();
-        dl.writelog(id, /*temperature, avTemperature, */date, this);
+        dl.writelog(shieldid, subaddress, date, temperature,avTemperature);
     }
+
 
     public void setAvTemperature(double avTemperature) {
 
         LOGGER.info("setAvTemperature");
 
-        double oldAvTemperature = this.avTemperature;
         this.avTemperature = avTemperature;
-
- //       if (avTemperature!= oldAvTemperature) {
-            // Notify everybody that may be interested.
-            for (TemperatureSensorListener hl : listeners)
-                hl.changeAvTemperature(id, avTemperature);
-   //     }
+        // Notify everybody that may be interested.
+        for (TemperatureSensorListener hl : listeners)
+            hl.changeAvTemperature(id, avTemperature);
     }
 
     public double getAvTemperature() {
@@ -69,10 +68,10 @@ public class TemperatureSensor extends SensorBase {
         double oldtemperature = this.temperature;
         this.temperature = temperature;
 
-        if (temperature!= oldtemperature) {
+        if (temperature != oldtemperature) {
             // Notify everybody that may be interested.
             for (TemperatureSensorListener hl : listeners)
-                hl.changeTemperature(id, temperature);
+                hl.changeTemperature(id, subaddress, temperature);
         }
     }
 
@@ -83,6 +82,7 @@ public class TemperatureSensor extends SensorBase {
     @Override
     void updateFromJson(JSONObject json) {
 
+        double oldAvTemperature = avTemperature;
         try {
             Date date = Core.getDate();
             lastUpdate = date;
@@ -90,12 +90,16 @@ public class TemperatureSensor extends SensorBase {
                 setTemperature(json.getDouble("temperature"));
             if (json.has("avtemperature"))
                 setAvTemperature(json.getDouble("avtemperature"));
-            if (json.has("humidity"))
-                humidity = json.getString("humidity");
             if (json.has("name"))
-                boardName = json.getString("name");
-            if (json.has("sensorid"))
-                id = json.getInt("sensorid");
+                name = json.getString("name");
+            setData(shieldid, subaddress, name, date, temperature, avTemperature);
+
+            if (oldAvTemperature != avTemperature) {
+                for (TemperatureSensorListener listener : listeners) {
+                    listener.changeAvTemperature(id,avTemperature);
+                }
+            }
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -108,13 +112,13 @@ public class TemperatureSensor extends SensorBase {
         JSONObject json = new JSONObject();
         try {
             json.put("id", getId());
+            json.put("shieldid", shieldid);
+            json.put("subaddress", subaddress);
             json.put("temperature", getTemperature());
             json.put("avtemperature", getAvTemperature());
-            json.put("url", getUrl());
-            json.put("humidity", humidity);
             json.put("name", getName());
-            json.put("pressure", pressure);
             json.put("lastupdate", getLastUpdate());
+            json.put("type", type);
 
         } catch (JSONException e) {
             e.printStackTrace();

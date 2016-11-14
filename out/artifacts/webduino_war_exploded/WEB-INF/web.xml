@@ -53,9 +53,17 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ShieldServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.ShieldServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShieldServlet</servlet-name>
+        <url-pattern>/shield</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ActuatorServlet</servlet-name>
         <servlet-class>com.server.webduino.servlet.ActuatorServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>ActuatorServlet</servlet-name>
@@ -88,6 +96,28 @@
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.LogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogServlet</servlet-name>
+        <url-pattern>/log</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TimeServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.TimeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TimeServlet</servlet-name>
+        <url-pattern>/time</url-pattern>
+    </servlet-mapping>
+
+
+
+
 
     <servlet>
         <servlet-name>SendAllMessagesServlet</servlet-name>

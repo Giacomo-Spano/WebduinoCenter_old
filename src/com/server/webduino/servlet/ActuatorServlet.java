@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -39,7 +38,7 @@ public class ActuatorServlet extends HttpServlet {
 
         if (id != null) {
 
-            Actuator actuator = core.getActuatorFromId(Integer.valueOf(id));
+            Actuator actuator = core.getFromShieldId(Integer.valueOf(id),null);
             JSONObject json = actuator.getJson();
             out.print(json.toString());
 
@@ -108,7 +107,7 @@ public class ActuatorServlet extends HttpServlet {
                     localSensor = true;
                 else
                     localSensor = false;
-                HeaterActuator actuator = (HeaterActuator) core.getActuatorFromId(id);
+                HeaterActuator actuator = (HeaterActuator) core.getFromId(id);
                 //actuator.setActiveSensorID(sensor);
                 boolean res = actuator.sendCommand(Actuator.Command_Manual_Start, duration, temperature, localSensor, 0, 0, sensor,0);
 
@@ -123,7 +122,7 @@ public class ActuatorServlet extends HttpServlet {
 
 
             } else if (command.equals("stop")) {
-                HeaterActuator actuator = (HeaterActuator) core.getActuatorFromId(id);
+                HeaterActuator actuator = (HeaterActuator) core.getFromId(id);
                 actuator.sendCommand(Actuator.Command_Manual_Stop, 0, 0, false, 0, 0, 0, 0);
             } else {
                 LOGGER.severe("command not found");
@@ -149,7 +148,7 @@ public class ActuatorServlet extends HttpServlet {
             json.put("answer", "success");
             json.put("id", id);
 
-            Actuator actuator = core.getActuatorFromId(id);
+            Actuator actuator = core.getFromId(id);
             JSONObject actuatorJson = actuator.getJson();
 
             json.put("actuator", actuatorJson.toString());
@@ -172,7 +171,7 @@ public class ActuatorServlet extends HttpServlet {
         String status = json.getString("status");
         Boolean relestatus = json.getBoolean("relestatus");*/
 
-        new UpdateActuatorThread(getServletContext(),id,json/*,status,relestatus,avtemperature*/).start();
+        new UpdateActuatorThread(getServletContext(),json).start();
 
         LOGGER.info("SensorServlet:updateActuator - end");
     }
