@@ -15,7 +15,11 @@ public class SensorBase extends httpClient {
 
     private static Logger LOGGER = Logger.getLogger(SensorBase.class.getName());
 
+    public static final String Status_Offline = "OFFLINE";
+    public static final String Status_Online = "ONLINE";
+
     protected int shieldid;
+    protected String onlinestatus = Status_Offline;
     protected String subaddress;
     protected String name; // valore letto dal db
     protected Date lastUpdate;
@@ -99,7 +103,7 @@ public class SensorBase extends httpClient {
 
         Shields shields = new Shields();
         URL url = shields.getURL(shieldid);
-
+        LOGGER.info("url: " + url.toString());
         //boolean res;
 
         Result result = null;

@@ -163,19 +163,30 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             mActiveProgram = getActiveProgram(currentDate);
 
             mNextProgramList = nextPrograms(currentDate);
-            LOGGER.info("found " +  mNextProgramList.size() + "active program");
+            LOGGER.info("found " + mNextProgramList.size() + "active program");
 
+            if (mNextProgramList == null)
+                LOGGER.severe("mNextProgramList NULL");
 
-            Date date = mNextProgramList.get(0).endDate;
-
-            LOGGER.info("schedule job");
-            scheduleJob(date);
-            LOGGER.info("end schedule job");
+            if (mNextProgramList.get(0) == null && mNextProgramList.get(0).endDate != null) {
+                Date date = mNextProgramList.get(0).endDate;
+                scheduleJob(date);
+            } else {
+                LOGGER.severe("CANNOT schedule next job");
+            }
 
             if (mActiveProgram == null) {
                 LOGGER.info("->No active program");
                 Core.sendPushNotification(SendPushMessages.notification_error, "errore", "no active program", "0");
                 mOldActiveProgram = null;
+
+                // schedula controllo programmi tra un minuto
+                Date date = Core.getDate();
+                Calendar now = Calendar.getInstance();
+                now.setTime(date);
+                now.add(Calendar.MINUTE, 1);
+                Date oneMinuteFromNow = now.getTime();
+                scheduleJob(oneMinuteFromNow);
 
             } else {
                 LOGGER.info("->Active program" + mActiveProgram.program.id + " " + mActiveProgram.program.name);
@@ -682,20 +693,18 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
     }
 
     @Override
-    public void changeAvTemperature(int sendorId/*, String subAddress*/, double avTemperature) {
+    public void changeAvTemperature(int sendorId, double avTemperature) {
         // chiamato quando cambia la temperatura media di un sensore di temperatura
 
-        LOGGER.info("changeAvTemperature ID=" + sendorId + ", avTemperature = " + avTemperature);
-        if (mActiveProgram.timeRange.sensorId == sendorId) {
-            //synchronized (mActiveSensorTemperature) {
+        LOGGER.info("changeAvTemperature sendorId=" + sendorId + ", avTemperature = " + avTemperature);
+
+        if (mActiveProgram == null ) {
+            LOGGER.severe("No active program");
+        } else if (mActiveProgram.timeRange.sensorId == sendorId) {
             mActiveSensorTemperature = avTemperature;
             checkProgram();
-            //}
-            mActuator.sendCommand(Actuator.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorId, mActiveSensorTemperature/*activeTemperatureSensor.getAvTemperature()*/);
-
-
+            mActuator.sendCommand(Actuator.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorId, mActiveSensorTemperature);
         }
-        LOGGER.info("changeAvTemperature END");
     }
 
     @Override

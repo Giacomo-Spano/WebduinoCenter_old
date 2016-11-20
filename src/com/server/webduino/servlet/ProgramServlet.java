@@ -1,10 +1,7 @@
 package com.server.webduino.servlet;
 
 import com.quartz.QuartzListener;
-import com.server.webduino.core.ActiveProgram;
-import com.server.webduino.core.Core;
-import com.server.webduino.core.Program;
-import com.server.webduino.core.TimeRange;
+import com.server.webduino.core.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,13 +18,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * Created by Giacomo Span� on 08/11/2015.
  */
 //@WebServlet(name = "SensorServlet")
 public class ProgramServlet extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(Actuator.class.getName());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -264,7 +262,10 @@ public class ProgramServlet extends HttpServlet {
                     Double sensorTemperature = 0.0;
                     if (activeProgram.timeRange.sensorId != 0) {
                         sensorName = core.getSensorFromId(activeProgram.timeRange.sensorId).getName();
-                        sensorTemperature = core.getSensorFromId(activeProgram.timeRange.sensorId).getAvTemperature();
+                        if(sensorName != null)
+                            sensorTemperature = core.getSensorFromId(activeProgram.timeRange.sensorId).getAvTemperature();
+                        else
+                            LOGGER.severe("Sensor name null");
                     }
                     json.put("sensorname", sensorName);
                     json.put("sensortemperature", sensorTemperature);

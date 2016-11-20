@@ -55,9 +55,6 @@ public class SensorServlet extends HttpServlet {
 
             LOGGER.info("SensorServlet:doPost" + jb.toString());
 
-
-            //URL url = new URL("http://" + request.getRemoteAddr());
-
             updateShieldSensorsStatus(jsonObj/*, url*/);
 
         } catch (JSONException e) {
@@ -85,15 +82,6 @@ public class SensorServlet extends HttpServlet {
             if (jsonObj.has("sensors")) {
                 JSONArray jsonArray = jsonObj.getJSONArray("sensors");
                 updateSensors(shieldid, lastupdate, jsonArray);
-
-
-                /*for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject json = jsonArray.getJSONObject(i);
-                    if (json.has("addr")) {
-                        String subaddress = json.getString("addr");
-                        updateSensor(shieldid, subaddress, lastupdate, json);
-                    }
-                }*/
             }
         }
 

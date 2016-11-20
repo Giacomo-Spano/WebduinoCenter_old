@@ -89,6 +89,9 @@ public class httpClient {
 
     protected Result callPost(String path, String urlParameters, URL url) {
 
+        LOGGER.info("path: " + path + "urlParameters: " + urlParameters+ "url: " + url.toString());
+
+
         Result result = new Result();
         try {
             URL jsonurl = new URL(url.toString() + path);
@@ -117,7 +120,7 @@ public class httpClient {
             int res = connection.getResponseCode();
 
             if (res == HttpURLConnection.HTTP_OK) {
-                // OK
+                LOGGER.info("result: " + result.toString());
                 result.res = true;
                 return result;
             } else {

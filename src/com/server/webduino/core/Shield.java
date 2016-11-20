@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.server.webduino.core.SensorBase.Status_Offline;
+
 public class Shield extends httpClient {
 
     private static Logger LOGGER = Logger.getLogger(Shield.class.getName());
@@ -30,7 +32,31 @@ public class Shield extends httpClient {
     public Shield() {
     }
 
+    public boolean sensorsIsNotUpdated() {
 
+        Date currentDate = Core.getDate();
+        boolean res = false;
+        for (SensorBase s : sensors) {
+            if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
+                s.onlinestatus = Status_Offline;
+                res = true;
+            }
+        }
+        return res;
+    }
+
+    public boolean actuatorsIsNotUpdated() {
+
+        Date currentDate = Core.getDate();
+        boolean res = false;
+        for (SensorBase s : actuators) {
+            if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
+                s.onlinestatus = Status_Offline;
+                res = true;
+            }
+        }
+        return res;
+    }
 
     void FromJson(JSONObject json) {
 

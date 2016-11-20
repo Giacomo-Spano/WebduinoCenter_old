@@ -46,7 +46,7 @@ public class QuartzListener implements ServletContextListener {
             JobDataMap jobDataMap = new JobDataMap();
             jobDataMap.put("servletContext", servletContext.getServletContext());
             // define the job and tie it to our job's class
-            JobDetail sensorJob = newJob(ActuatorQuartzJob.class).withIdentity(
+            JobDetail sensorJob = newJob(ShieldsQuartzJob.class).withIdentity(
                     "CronSensorQuartzJob", "Group")
                     .usingJobData(jobDataMap)
                     .build();

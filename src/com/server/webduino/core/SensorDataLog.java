@@ -20,11 +20,6 @@ public class SensorDataLog extends DataLog {
             String strDate = "NULL";
             strDate = "'" + df.format(date) + "'";
 
-            /*DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String strdate = dateFormat.format(date);
-            DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-            String strtime = timeFormat.format(date);*/
-
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
             // Open a connection

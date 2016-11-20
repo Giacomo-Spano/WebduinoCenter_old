@@ -1,6 +1,8 @@
 package com.server.webduino.core;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.sql.*;
@@ -48,11 +50,41 @@ public class Shields {
     public void updateStatus() {
 
         List<Shield> shields = getShields();
-
-
         for (Shield s : shields) {
-            httpClient.Result result = s.callGet("", "/status",s.url);
-            //s.actuators
+
+            if (s.sensorsIsNotUpdated()) {
+
+                httpClient.Result result = s.callGet("", "/sensorstatus", s.url);
+                if (result.response != null) {
+                    try {
+                        JSONObject json = new JSONObject(result.response);
+                        //int shieldid = json.getInt("id");
+                        if (json.has("sensors")) {
+                            JSONArray jsonArray = json.getJSONArray("sensors");
+                            updateSensors(s.id, jsonArray);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            if (s.actuatorsIsNotUpdated()) {
+
+                httpClient.Result result = s.callGet("", "/actuatorstatus", s.url);
+                if (result.response != null) {
+                    try {
+                        JSONObject json = new JSONObject(result.response);
+                        //int shieldid = json.getInt("id");
+                        if (json.has("actuators")) {
+                            JSONArray jsonArray = json.getJSONArray("actuators");
+                            updateActuators(s.id, jsonArray);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
@@ -80,6 +112,10 @@ public class Shields {
 
     boolean updateSensors(int shieldid, JSONArray jsonArray) {
         return mSensors.updateSensors(shieldid,jsonArray);
+    }
+
+    boolean updateActuators(int shieldid, JSONArray jsonArray) {
+        return mActuators.updateActuators(shieldid,jsonArray);
     }
 
     public Actuator getFromShieldId(int shieldid, String subaddress) {

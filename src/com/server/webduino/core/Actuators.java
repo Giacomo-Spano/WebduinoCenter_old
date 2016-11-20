@@ -1,6 +1,9 @@
 package com.server.webduino.core;
 
 import com.server.webduino.servlet.SendPushMessages;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.sql.*;
@@ -92,6 +95,34 @@ public class Actuators implements Shields.ShieldsListener {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
+    }
+
+    boolean updateActuators(int shieldid, JSONArray jsonArray) {
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject json = null;
+            try {
+                json = jsonArray.getJSONObject(i);
+                if (json.has("addr")) {
+                    String subaddress = json.getString("addr");
+                    SensorBase sensor = getFromShieldIdandSubaddress(shieldid, subaddress);
+                    if (sensor != null)
+                        sensor.updateFromJson(json);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return  true;
+    }
+
+    public SensorBase getFromShieldIdandSubaddress(int shieldid, String subaddress) {
+        for (SensorBase sensor: mActuatorList) {
+            if (sensor.subaddress.equals(subaddress) && sensor.shieldid == shieldid)
+                return sensor;
+        }
+        return null;
     }
 
 

@@ -115,6 +115,15 @@
         <url-pattern>/time</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ProvaServlet</servlet-name>
+        <servlet-class>com.server.webduino.servlet.ProvaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProvaServlet</servlet-name>
+        <url-pattern>/power</url-pattern>
+    </servlet-mapping>
+
 
 
 

@@ -46,6 +46,7 @@ function loadSensors() {
             newtr = $mSensorRow.clone();
             newtr.find('td[name="id"]').text(elem.id);
             newtr.find('td[name="shieldid"]').text(elem.shieldid);
+            newtr.find('td[name="onlinestatus"]').text(elem.onlinestatus);
             newtr.find('td[name="type"]').text(elem.type);
             newtr.find('td[name="date"]').text(elem.lastupdate);
             newtr.find('td[name="temperature"]').text(elem.temperature + "°C");
@@ -83,6 +84,7 @@ function loadActuators() {
             }
             newtr.find('td[name="id"]').text(elem.id);
             newtr.find('td[name="shieldid"]').text(elem.shieldid);
+            newtr.find('td[name="onlinestatus"]').text(elem.onlinestatus);
             newtr.find('td[name="type"]').text(elem.type);
             newtr.find('td[name="date"]').text(elem.lastupdate);
             newtr.find('td[name="temperature"]').text(elem.temperature + "°C");
