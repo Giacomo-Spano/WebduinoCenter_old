@@ -261,16 +261,23 @@ public class ProgramServlet extends HttpServlet {
                     String sensorName = "local";
                     Double sensorTemperature = 0.0;
                     if (activeProgram.timeRange.sensorId != 0) {
-                        sensorName = core.getSensorFromId(activeProgram.timeRange.sensorId).getName();
-                        if(sensorName != null)
-                            sensorTemperature = core.getSensorFromId(activeProgram.timeRange.sensorId).getAvTemperature();
-                        else
+                        SensorBase sensor = core.getSensorFromId(activeProgram.timeRange.sensorId);
+                        if(sensorName != null) {
+                            try {
+                                TemperatureSensor ts = (TemperatureSensor) sensor;
+                                sensorName = ts.getName();
+                                sensorTemperature = ts.getAvTemperature();
+                                json.put("sensorname", sensorName);
+                                json.put("sensortemperature", sensorTemperature);
+                                out.print(json.toString());
+                            } catch (ClassCastException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
                             LOGGER.severe("Sensor name null");
+                        }
                     }
-                    json.put("sensorname", sensorName);
-                    json.put("sensortemperature", sensorTemperature);
 
-                    out.print(json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -17,6 +17,18 @@ import java.util.logging.Logger;
  */
 public class Shields {
 
+    public JSONArray getShieldsJsonArray() {
+        Shields shields = new Shields();
+        List<Shield> list = shields.getShields();
+
+        JSONArray jarray = new JSONArray();
+        for (Shield shield : list) {
+            JSONObject json = shield.toJson();
+            jarray.put(json);
+        }
+        return jarray;
+    }
+
     interface ShieldsListener {
         void addedActuator(Actuator actuator);
         void addedSensor(SensorBase sensor);
@@ -28,77 +40,36 @@ public class Shields {
     }
 
     protected List<ShieldsListener> listeners = new ArrayList<>();
-
     public void addListener(ShieldsListener toAdd) {
         listeners.add(toAdd);
-    }
-
-    public void addTemeratureSensorListener(TemperatureSensor.TemperatureSensorListener toAdd) {
-
-        for (SensorBase sensor : mSensors.getLastSensorData()) {
-            //if (sensor.type.equalsIgnoreCase("TemperatureSensor")) {
-                try { // aggiungi un listener solo se è un sensore di temperatura
-                    TemperatureSensor ts = (TemperatureSensor) sensor;
-                    ts.addListener(toAdd);
-                } catch (ClassCastException e) {
-                    e.printStackTrace();
-                }
-            //}
-        }
-    }
-
-    public void updateStatus() {
-
-        List<Shield> shields = getShields();
-        for (Shield s : shields) {
-
-            if (s.sensorsIsNotUpdated()) {
-
-                httpClient.Result result = s.callGet("", "/sensorstatus", s.url);
-                if (result.response != null) {
-                    try {
-                        JSONObject json = new JSONObject(result.response);
-                        //int shieldid = json.getInt("id");
-                        if (json.has("sensors")) {
-                            JSONArray jsonArray = json.getJSONArray("sensors");
-                            updateSensors(s.id, jsonArray);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            if (s.actuatorsIsNotUpdated()) {
-
-                httpClient.Result result = s.callGet("", "/actuatorstatus", s.url);
-                if (result.response != null) {
-                    try {
-                        JSONObject json = new JSONObject(result.response);
-                        //int shieldid = json.getInt("id");
-                        if (json.has("actuators")) {
-                            JSONArray jsonArray = json.getJSONArray("actuators");
-                            updateActuators(s.id, jsonArray);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
     }
 
     private static final Logger LOGGER = Logger.getLogger(Shields.class.getName());
 
     private static List<TemperatureSensor> mTemperatureSensorList = new ArrayList<TemperatureSensor>();
     private static Actuators mActuators;
-    public Sensors mSensors;
+    public static Sensors mSensors;
+
+
+    public void addTemeratureSensorListener(TemperatureSensor.TemperatureSensorListener toAdd) {
+
+        for (SensorBase sensor : mSensors.getLastSensorData()) {
+                try { // aggiungi un listener solo se è un sensore di temperatura
+                    TemperatureSensor ts = (TemperatureSensor) sensor;
+                    ts.addListener(toAdd);
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+        }
+    }
 
     public Shields() {
+    }
+
+    public void init() {
 
         mActuators = new Actuators();
         mSensors = new Sensors();
-
         addListener(mActuators);
     }
 
@@ -236,80 +207,9 @@ public class Shields {
 
     }
 
-    public TemperatureSensor getSensorFromId(int id) {
-        for (TemperatureSensor ts : mTemperatureSensorList) {
-            if (ts.id == id)
-                return ts;
-        }
-        return null;
-    }
+    public SensorBase getSensorFromId(int id) {
 
-    public List<TemperatureSensor> ____getLastSensorData() {
-
-        List<TemperatureSensor> list = new ArrayList<>();
-        try {
-            // Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-            // Open a connection
-            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
-            // Execute SQL query
-            Statement stmt = conn.createStatement();
-            String sql;
-            //sql = "SELECT id, url, name FROM sensors";
-            sql = "SELECT * FROM (\n" +
-                    "(SELECT max(date) as maxdate,id, shieldid FROM sensordatalog GROUP BY id) as lastdata\n" +
-                    ")\n" +
-                    "INNER JOIN shields ON shields.id = lastdata.shieldid\n" +
-                    "INNER JOIN sensordatalog ON sensordatalog.shieldid = shields.id AND lastdata.maxdate = sensordatalog.date\n ";
-            //;//"WHERE subaddress = 0";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            // Extract data from result set
-            while (rs.next()) {
-
-                String str = rs.getString("url");
-                URL url = null;
-                if (str != null) {
-                    try {
-                        url = new URL(str);
-                    } catch (Exception e) {
-                        //Handle errors for Class.forName
-                        e.printStackTrace();
-                    }
-                }
-                int id = rs.getInt("id");
-                int shieldid = rs.getInt("shieldid");
-                Timestamp timestamp = rs.getTimestamp("lastupdate");
-                Date date = null;
-                if (timestamp != null)
-                    date = new Date(timestamp.getTime());
-                //Date date = rs.getDate("lastupdate");
-                String name = rs.getString("name");
-                String MACAddress = rs.getString("MACAddress");
-                String subaddress = rs.getString("subaddress");
-                String boardName = rs.getString("boardName");
-                Double temperature = rs.getDouble("temperature");
-                Double avtemperature = rs.getDouble("avtemperature");
-                Double pressure = rs.getDouble("pressure");
-                Double humidity = rs.getDouble("humidity");
-                TemperatureSensor temperatureSensor = new TemperatureSensor();
-
-                list.add(temperatureSensor);
-            }
-            // Clean-up environment
-            rs.close();
-            stmt.close();
-            conn.close();
-
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }
-        return list;
+        return mSensors.getSensorFromId(id);
     }
 
     public List<Shield> getShields() {

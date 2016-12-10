@@ -22,7 +22,7 @@ public class Sensors implements Shields.ShieldsListener {
         void updatedSensorValue(SensorBase sensor);
     }
 
-    List<SensorBase> list = new ArrayList<>();
+    private static List<SensorBase> list = new ArrayList<>();
     protected List<SensorsListener> listeners = new ArrayList<>();
 
     public void addListener(SensorsListener toAdd) {
@@ -35,6 +35,14 @@ public class Sensors implements Shields.ShieldsListener {
 
     public List<SensorBase> getLastSensorData() {
         return list;
+    }
+
+    public SensorBase getSensorFromId(int sensorId) {
+        for (SensorBase sensor : list) {
+            if (sensor.id == sensorId)
+                return sensor;
+        }
+        return null;
     }
 
     public SensorBase getFromShieldIdandSubaddress(int shieldid, String subaddress) {

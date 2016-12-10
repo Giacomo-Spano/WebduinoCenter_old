@@ -19,7 +19,7 @@ public class Device {
 
     public String name;
     public int id;
-    public String regId;
+    public String tokenId;
     public Date date;
 
     public Device() {

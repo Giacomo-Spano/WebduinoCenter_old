@@ -9,7 +9,14 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="192.168.1.34">
+      <paths name="192.168.1.34 (project level)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="192.168.1.8">
         <serverdata>
           <mappings>
             <mapping deploy="/Downloads" local="$PROJECT_DIR$" web="/" />

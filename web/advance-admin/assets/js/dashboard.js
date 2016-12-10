@@ -6,28 +6,41 @@ var $mSensorRow;
 var $actuators;
 var $activeProgram;
 
-function onCommandButtonClicked() {
 
-    url = actuatorServletPath;
+function commanCallback(element, actuator) {
+    //element.find('td[name="status"]').text(actuator.status + 'modificato');
+    setActuatorElement(element, actuator);
+}
 
-    var command = {
-        id: 1,
-        command: 'start',
-        duration: 30,
-        sensor: 0,
-        target: 22.0
+function sendActuatorCommand(actuatorId, command, duration, sensorId, remote, target, element) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+
+            var json = JSON.parse(this.response);
+            if (json.answer = 'success') {
+
+                var actuator = JSON.parse(json.actuator);
+                commanCallback(element, actuator);
+            } else {
+                element.find('td[name="commandstatus"]').text("command failed");
+            }
+        }
     };
 
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: JSON.stringify(command),
-        dataType: "json"
-    })
-        .done(function (msg) {
-            alert("Data Saved: " + msg);
-            loadActuators()
-        });
+    xhttp.open("POST", actuatorServletPath, true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send("{ \"status\" : 1" +
+        ",\"id\" : " + actuatorId +
+        ",\"command\" : " + command +
+        ",\"duration\" : " + duration +
+        ",\"target\" : " + target +
+        ",\"sensorid\" : " + sensorId +
+        ",\"remote\" : " + remote +
+        ",\"program\" : 0" +
+        ",\"timerange\" : 0" +
+        "}");
 }
 
 function loadSensors() {
@@ -69,6 +82,59 @@ function loadSensors() {
             console.log("error2");
         });
 }
+function setActuatorElement(element, actuator) {
+
+    element.find('td[name="id"]').text(actuator.id);
+    element.find('td[name="shieldid"]').text(actuator.shieldid);
+    element.find('td[name="onlinestatus"]').text(actuator.onlinestatus);
+    element.find('td[name="type"]').text(actuator.type);
+    element.find('td[name="date"]').text(actuator.lastupdate);
+    element.find('td[name="temperature"]').text(actuator.temperature + "°C");
+    element.find('td[name="avtemperature"]').text(actuator.avtemperature + "°C");
+
+    element.find('td[name="remote"]').text(actuator.remotetemperature + "°C");
+    element.find('input[name="target"]').val(actuator.target);
+    if (actuator.localsensor)
+        element.find('td[name="sensor"]').text("Locale");
+    else
+        element.find('td[name="sensor"]').text("Remoto: " + actuator.sensorID);
+
+    element.find('td[name="url"]').text(actuator.url);
+    element.find('td[name="name"]').text(actuator.name);
+    if (actuator.relestatus)
+        element.find('td[name="relestatus"]').text("Acceso");
+    else
+        element.find('td[name="relestatus"]').text("Spento");
+
+    var statusElement = element;//.find('td[name="status"]');
+    if (actuator.status == "program")
+        element.find('td[name="status"]').text(actuator.status + " " + actuator.program + "." + actuator.timerange);
+    else
+        element.find('td[name="status"]').text(actuator.status);
+
+    element.find('td[name="duration"]').text(actuator.duration);
+    element.find('td[name="remaining"]').text(actuator.remaining);
+
+    element.find('td[name="commandstatus"]').text("");
+    //element.find('button[name="commandbutton"]').style.visibility='visible';
+
+    if (actuator.status == 'manual') { // Manual
+        element.find('button[name="commandbutton"]').text("stop manual");
+        element.find('button[name="commandbutton"]').click(function () {
+            element.find('td[name="commandstatus"]').text("sending stop manual command");
+            //element.find('button[name="commandbutton"]').style.visibility='hidden';
+            sendActuatorCommand(actuator.id, 'stop', 30, 0, true, 23.0, element)
+        });
+    } else if (actuator.status == 'idle' || actuator.status == 'program') { // Manual{
+        element.find('button[name="commandbutton"]').text("start manual");
+        element.find('button[name="commandbutton"]').click(function () {
+            element.find('td[name="commandstatus"]').text("sending start manual command");
+            //element.find('button[name="commandbutton"]').style.visibility='hidden';
+            sendActuatorCommand(actuator.id, 'start', 30, 0, true, 23.0, element)
+        });
+    }
+}
+
 function loadActuators() {
     $.getJSON(actuatorServletPath, function (data) {
         console.log("success");
@@ -76,56 +142,28 @@ function loadActuators() {
         a = data;
         $.each(a, function (idx, elem) {
 
+            var newtr;
             tr = $actuators.find('tr[name="actuator"]');
             if (idx > 0) {
                 newtr = tr.clone();
             } else {
                 newtr = tr;
             }
-            newtr.find('td[name="id"]').text(elem.id);
-            newtr.find('td[name="shieldid"]').text(elem.shieldid);
-            newtr.find('td[name="onlinestatus"]').text(elem.onlinestatus);
-            newtr.find('td[name="type"]').text(elem.type);
-            newtr.find('td[name="date"]').text(elem.lastupdate);
-            newtr.find('td[name="temperature"]').text(elem.temperature + "°C");
-            newtr.find('td[name="avtemperature"]').text(elem.avtemperature + "°C");
+            setActuatorElement(newtr, elem);
 
-            newtr.find('td[name="remote"]').text(elem.remotetemperature + "°C");
-            newtr.find('td[name="target"]').text(elem.target + "°C");
-            if (elem.localsensor)
-                newtr.find('td[name="sensor"]').text("Locale");
-            else
-                newtr.find('td[name="sensor"]').text("Remoto: " + elem.sensorID);
-
-            newtr.find('td[name="url"]').text(elem.url);
-            newtr.find('td[name="name"]').text(elem.name);
-            if (elem.relestatus)
-                newtr.find('td[name="relestatus"]').text("Acceso");
-            else
-                newtr.find('td[name="relestatus"]').text("Spento");
-
-            if (elem.status == "program")
-                newtr.find('td[name="status"]').text(elem.status + " " + elem.program + "." + elem.timerange);
-            else
-                newtr.find('td[name="status"]').text(elem.status);
-
-
-            newtr.find('td[name="duration"]').text(elem.duration);
-            newtr.find('td[name="remaining"]').text(elem.remaining);
-            newtr.find('button[name="commandbutton"]').text("on");
-            newtr.find('button[name="commandbutton"]').click(onCommandButtonClicked);
             tr.last().after(newtr);
         });
+
     })
         .done(function () {
-            console.log("succes");
+            //console.log("succes");
         })
         .fail(function () {
-            console.log("error1");
-            alert("error1");
+            //console.log("error1");
+            alert("cannot load actuator");
         })
         .always(function () {
-            console.log("error2");
+            //console.log("error2");
         });
 }
 function loadActiveProgramList() {
@@ -178,6 +216,7 @@ function loadActiveProgramList() {
             console.log("error2");
         });
 }
+
 function loadActiveProgram() {
     $.getJSON(programServletPath + '?active=true', function (data) {
         console.log("success");
@@ -193,7 +232,7 @@ function loadActiveProgram() {
             //console.log("error1");
         })
         .always(function () {
-            console.log("error2");
+            console.log("cannot load active program");
         });
 }
 

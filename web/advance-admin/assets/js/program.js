@@ -288,7 +288,7 @@ function onDeleteProgramButtonClick() {
         success: function (data, status, jqXHR) {
 
             form.parent().remove();
-            //callback(data, form);
+            //commanCallback(data, form);
 
         },
         error: function (xhr) {

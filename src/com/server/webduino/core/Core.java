@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 public class Core {
 
     private static final Logger LOGGER = Logger.getLogger(Core.class.getName());
+
+    protected static String production_envVar;
     protected static String appDNS_envVar;
     protected static String mysqlDBHost_envVar;
     protected static String mysqlDBPort_envVar;
@@ -26,13 +28,13 @@ public class Core {
     public static String APP_DNS_OPENSHIFT = "webduinocenter.rhcloud.com";
     public static String APP_DNS_OPENSHIFTTEST = "webduinocenterbeta-giacomohome.rhcloud.com";
 
-    public Shields mShields;
-
+    public static Shields mShields;
     public Programs mPrograms;
 
     public static Devices mDevices = new Devices();
 
     public Core() {
+        production_envVar = System.getenv("PRODUCTION");
         appDNS_envVar = System.getenv("OPENSHIFT_APP_DNS");
         mysqlDBHost_envVar = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
         mysqlDBPort_envVar = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
@@ -63,20 +65,29 @@ public class Core {
     }
 
     public static String getDbUrl() {
-        if (appDNS_envVar != null && appDNS_envVar.equals(APP_DNS_OPENSHIFT)) { // production
+        /*if (appDNS_envVar != null && appDNS_envVar.equals(APP_DNS_OPENSHIFT)) { // production
             return "jdbc:mysql://" + mysqlDBHost_envVar + ":" + mysqlDBPort_envVar + "/" + "webduino";
         } else if (appDNS_envVar != null && appDNS_envVar.equals(APP_DNS_OPENSHIFTTEST)) { // test
             return "jdbc:mysql://" + mysqlDBHost_envVar + ":" + mysqlDBPort_envVar + "/" + "webduino";
             //return "jdbc:mysql://" + mysqlDBHost_envVar + ":" + mysqlDBPort_envVar + "/" + "jbossews";
-        } else
+        } else*/
         //test
-        return "jdbc:mysql://127.0.0.1:3306/webduino";
+        if (production_envVar != null && production_envVar.equals("0")) {
+            //LOGGER.info("jdbc:mysql://127.0.0.1:3306/webduino_debug");
+            return "jdbc:mysql://127.0.0.1:3306/webduino_debug";
+        } else {
+            //LOGGER.info("jdbc:mysql://127.0.0.1:3306/webduino");
+            return "jdbc:mysql://127.0.0.1:3306/webduino";
+        }
         //return "jdbc:mysql://127.0.0.1:3307/jbossews"; // production
     }
 
     public void init() {
 
+        LOGGER.info("init");
+
         mShields = new Shields();
+        mShields.init();
         mPrograms = new Programs();
 
         //mSensors.addListener(mPrograms);
@@ -86,7 +97,7 @@ public class Core {
         mShields.addTemeratureSensorListener(mPrograms);// metti program in ascolto di ogni variazione di temperatura
 
         Settings settings = new Settings();
-        mPrograms.init((HeaterActuator)getFromId(settings.HeaterActuatorId));
+        mPrograms.init((HeaterActuator) getFromId(settings.HeaterActuatorId));
         mPrograms.read(); // caricare actuator prima di program!!
         mDevices.read();
     }
@@ -94,7 +105,7 @@ public class Core {
     public static void sendPushNotification(String type, String title, String description, String value) {
 
         LOGGER.info("sendPushNotification type=" + type + "title=" + title + "value=" + value);
-        new PushNotificationThread(type,title,description,value).start();
+        new PushNotificationThread(type, title, description, value).start();
 
         LOGGER.info("sendPushNotification sent");
     }
@@ -108,20 +119,16 @@ public class Core {
     }
 
     boolean updateSensors(int shieldid, JSONArray jsonArray) {
-        return mShields.updateSensors(shieldid,jsonArray);
+        return mShields.updateSensors(shieldid, jsonArray);
     }
 
     public Actuator getFromShieldId(int shieldid, String subaddress) {
-        return mShields.getFromShieldId(shieldid, subaddress); }
+        return mShields.getFromShieldId(shieldid, subaddress);
+    }
 
     public Actuator getFromId(int id) {
-        return mShields.getFromId(id); }
-
-    /*public SensorBase getSensorFromShieldIdAndSubadress(int shieldid, String subaddress) {
-        return mSensors.getFromShieldIdandSubaddress(shieldid, subaddress); }*/
-
-
-
+        return mShields.getFromId(id);
+    }
 
     public ArrayList<Program> getPrograms() {
         return mPrograms.getProgramList();
@@ -131,28 +138,34 @@ public class Core {
         return mShields.getSensorList();
     }
 
-
-
+    public static int registerShield(Shield shield) {
+        return mShields.register(shield);
+    }
 
     public ArrayList<ActiveProgram> getNextActiveProgramlist() {
         return mPrograms.getActiveProgramList();
     }
+
     public Program getProgramFromId(int id) {
         return mPrograms.getProgramFromId(id);
     }
+
     public ActiveProgram getActiveProgram() {
         return mPrograms.getActiveProgram();
     }
+
     public Date getLastActiveProgramUpdate() {
         return mPrograms.getLastActiveProgramUpdate();
     }
-    public TemperatureSensor getSensorFromId(int id) {
+
+    public SensorBase getSensorFromId(int id) {
         return mShields.getSensorFromId(id);
     }
 
     public int deleteProgram(int id) {
         return mPrograms.delete(id);
     }
+
     public int updatePrograms(Program program) {
         return mPrograms.insert(program);
     }
@@ -175,5 +188,9 @@ public class Core {
             e.printStackTrace();
         }
         return newDate;
+    }
+
+    public JSONArray getShieldsJsonArray() {
+        return mShields.getShieldsJsonArray();
     }
 }

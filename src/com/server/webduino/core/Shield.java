@@ -81,7 +81,7 @@ public class Shield extends httpClient {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
                         String type = j.getString("type");
-                        if (type.equals("TemperatureSensor")) {
+                        if (type.equals("temperature")) {
                             TemperatureSensor sensor = new TemperatureSensor();
                             if (j.has("name"))
                                 sensor.name = j.getString("name");
@@ -100,7 +100,7 @@ public class Shield extends httpClient {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
                         String type = j.getString("type");
-                        if (type.equals("HeaterActuator")) {
+                        if (type.equals("heater")) {
                             HeaterActuator actuator = new HeaterActuator();
                             if (j.has("name"))
                                 actuator.name = j.getString("name");

@@ -17,23 +17,15 @@ package com.server.webduino.servlet;
 
 import com.server.webduino.core.Core;
 import com.server.webduino.core.Device;
-import com.sun.org.apache.xpath.internal.operations.String;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-/**
- * Servlet that registers a device, whose registration id is identified by
- * {@link #PARAMETER_REG_ID}.
- * <p/>
- * <p/>
- * The client app should call this servlet everytime it receives a
- * {@code com.google.android.c2dm.intent.REGISTRATION C2DM} intent without an
- * error or {@code unregistered} extra.
- */
 public class RegisterServlet extends BaseServlet {
 
     @Override
@@ -42,13 +34,34 @@ public class RegisterServlet extends BaseServlet {
 
         Device device = new Device();
         device.id= 0;
-        device.regId = getParameter(req, "regId");
+        device.tokenId = getParameter(req, "tokenid");
         device.name = getParameter(req, "name");
         device.date = Core.getDate();
 
-        Core.mDevices.insert(device);
+        int id = Core.mDevices.insert(device);
 
         setSuccess(resp);
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("utf-8");
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+            //create Json Response Object
+            JSONObject jsonResponse = new JSONObject();
+            // put some value pairs into the JSON object .
+            try {
+                jsonResponse.put("result", "success");
+                jsonResponse.put("id", "" + id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // finally output the json string
+            out.print(jsonResponse.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

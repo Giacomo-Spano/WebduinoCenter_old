@@ -92,10 +92,11 @@ public class ShieldServlet extends HttpServlet {
     private int registerShield(JSONObject jsonObj) throws JSONException {
 
         Shield shield = new Shield(jsonObj);
-        Shields shields = new Shields();
-        int id = shields.register(shield);
+        //Shields shields = new Shields();
+        int shieldid = Core.registerShield(shield);
+        //int id = shields.register(shieldid);
 
-        return id;
+        return shieldid;
 
         //new RegisterShieldThread(shield).start();
     }
@@ -114,22 +115,16 @@ public class ShieldServlet extends HttpServlet {
         //create Json Object
         JSONArray jsonarray = new JSONArray();
 
-        if (id != null) {
+        /*if (id != null) {
 
             TemperatureSensor sensor = core.getSensorFromId(Integer.valueOf(id));
             JSONObject json = sensor.getJson();
             out.print(json.toString());
 
-        } else if (shieldParam != null) {
+        } else*/ if (shieldParam != null) {
 
-            Shields shields = new Shields();
-            List<Shield> list = shields.getShields();
+            JSONArray jarray = core.getShieldsJsonArray();
 
-            JSONArray jarray = new JSONArray();
-            for (Shield shield : list) {
-                JSONObject json = shield.toJson();
-                jarray.put(json);
-            }
             JSONObject jshields = new JSONObject();
             try {
                 jshields.put("shields", jarray);

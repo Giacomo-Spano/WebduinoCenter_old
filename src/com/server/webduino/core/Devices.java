@@ -46,7 +46,7 @@ public class Devices {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            sql = "SELECT id, name, regid, date FROM devices";
+            sql = "SELECT * FROM devices";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Extract data from result set
@@ -55,7 +55,7 @@ public class Devices {
 
                 Device device = new Device();
                 device.id = rs.getInt("id");
-                device.regId = rs.getString("regid");
+                device.tokenId = rs.getString("tokenid");
                 device.name = rs.getString("name");
                 device.date = rs.getDate("date");
 
@@ -96,21 +96,26 @@ public class Devices {
 
             String sql;
 
-            sql = "INSERT INTO devices (id, regid, date, name)" +
-                    " VALUES (" + device.id + ",\"" + device.regId + "\"," + date + ",\"" + device.name + "\") " +
-                    "ON DUPLICATE KEY UPDATE id=" + device.id + ", regid=\"" + device.regId + "\", date=" + date + ", name=\"" + device.name + "\"";
+            sql = "INSERT INTO devices (tokenid, date, name)" +
+                    " VALUES (" + "\"" + device.tokenId + "\"," + date + ",\"" + device.name + "\") " +
+                    "ON DUPLICATE KEY UPDATE tokenid=\"" + device.tokenId + "\", date=" + date + ", name=\"" + device.name + "\"";
 
             Statement stmt = conn.createStatement();
-            Integer numero = stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            Integer affectedRows = stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 lastid = rs.getInt(1);
             } else {
-                lastid = device.id;
+                lastid = -1;
             }
 
+            if (affectedRows == 2) { // row updated
+                device.id = lastid;
+            } else if (affectedRows == 1) { // row inserted
+                device.id = lastid;
+            } else { // error
+            }
             stmt.close();
-
             conn.close();
         } catch (SQLException se) {
             //Handle errors for JDBC
@@ -124,7 +129,7 @@ public class Devices {
         }
 
         read(); // reload data
-        return lastid;
+        return device.id;
     }
 
 }

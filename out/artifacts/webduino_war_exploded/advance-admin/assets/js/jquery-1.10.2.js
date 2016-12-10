@@ -82,7 +82,7 @@ var
 	rmsPrefix = /^-ms-/,
 	rdashAlpha = /-([\da-z])/gi,
 
-	// Used by jQuery.camelCase as callback to replace()
+	// Used by jQuery.camelCase as commanCallback to replace()
 	fcamelCase = function( all, letter ) {
 		return letter.toUpperCase();
 	};
@@ -130,7 +130,7 @@ jQuery.fn = jQuery.prototype = {
 		return ret;
 	},
 
-	// Execute a callback for every element in the matched set.
+	// Execute a commanCallback for every element in the matched set.
 	// (You can seed the arguments with an array of args, but this is
 	// only used internally.)
 	each: function( callback, args ) {
@@ -3044,25 +3044,25 @@ function createOptions( options ) {
 }
 
 /*
- * Create a callback list using the following parameters:
+ * Create a commanCallback list using the following parameters:
  *
  *	options: an optional list of space-separated options that will change how
- *			the callback list behaves or a more traditional option object
+ *			the commanCallback list behaves or a more traditional option object
  *
- * By default a callback list will act like an event callback list and can be
+ * By default a commanCallback list will act like an event commanCallback list and can be
  * "fired" multiple times.
  *
  * Possible options:
  *
- *	once:			will ensure the callback list can only be fired once (like a Deferred)
+ *	once:			will ensure the commanCallback list can only be fired once (like a Deferred)
  *
- *	memory:			will keep track of previous values and will call any callback added
+ *	memory:			will keep track of previous values and will call any commanCallback added
  *					after the list has been fired right away with the latest "memorized"
  *					values (like a Deferred)
  *
- *	unique:			will ensure a callback can only be added once (no duplicate in the list)
+ *	unique:			will ensure a commanCallback can only be added once (no duplicate in the list)
  *
- *	stopOnFalse:	interrupt callings when a callback returns false
+ *	stopOnFalse:	interrupt callings when a commanCallback returns false
  *
  */
 jQuery.Callbacks = function( options ) {
@@ -3081,11 +3081,11 @@ jQuery.Callbacks = function( options ) {
 		fired,
 		// End of the loop when firing
 		firingLength,
-		// Index of currently firing callback (modified by remove if needed)
+		// Index of currently firing commanCallback (modified by remove if needed)
 		firingIndex,
-		// First callback to fire (used internally by add and fireWith)
+		// First commanCallback to fire (used internally by add and fireWith)
 		firingStart,
-		// Actual callback list
+		// Actual commanCallback list
 		list = [],
 		// Stack of fire calls for repeatable lists
 		stack = !options.once && [],
@@ -3118,7 +3118,7 @@ jQuery.Callbacks = function( options ) {
 		},
 		// Actual Callbacks object
 		self = {
-			// Add a callback or a collection of callbacks to the list
+			// Add a commanCallback or a collection of callbacks to the list
 			add: function() {
 				if ( list ) {
 					// First, we save the current length
@@ -3149,7 +3149,7 @@ jQuery.Callbacks = function( options ) {
 				}
 				return this;
 			},
-			// Remove a callback from the list
+			// Remove a commanCallback from the list
 			remove: function() {
 				if ( list ) {
 					jQuery.each( arguments, function( _, arg ) {
@@ -3170,7 +3170,7 @@ jQuery.Callbacks = function( options ) {
 				}
 				return this;
 			},
-			// Check if a given callback is in the list.
+			// Check if a given commanCallback is in the list.
 			// If no argument is given, return whether or not list has callbacks attached.
 			has: function( fn ) {
 				return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
@@ -3377,7 +3377,7 @@ jQuery.extend({
 var readyList;
 
 jQuery.fn.ready = function( fn ) {
-	// Add the callback
+	// Add the commanCallback
 	jQuery.ready.promise().done( fn );
 
 	return this;
@@ -3470,7 +3470,7 @@ jQuery.ready.promise = function( obj ) {
 
 		// Standards-based browsers support DOMContentLoaded
 		} else if ( document.addEventListener ) {
-			// Use the handy event callback
+			// Use the handy event commanCallback
 			document.addEventListener( "DOMContentLoaded", completed, false );
 
 			// A fallback to window.onload, that will always work
@@ -9044,7 +9044,7 @@ jQuery.extend({
 					if ( map ) {
 						if ( state < 2 ) {
 							for ( code in map ) {
-								// Lazy-add the new callback in a way that preserves old ones
+								// Lazy-add the new commanCallback in a way that preserves old ones
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
 						} else {
@@ -9724,11 +9724,11 @@ if ( xhrSupported ) {
 					};
 
 					if ( !options.async ) {
-						// if we're in sync mode we fire the callback
+						// if we're in sync mode we fire the commanCallback
 						callback();
 					} else if ( xhr.readyState === 4 ) {
 						// (IE6 & IE7) if it's in cache and has been
-						// retrieved directly we need to fire the callback
+						// retrieved directly we need to fire the commanCallback
 						setTimeout( callback );
 					} else {
 						// Add to the list of active xhr callbacks
@@ -9857,7 +9857,7 @@ var oldCallbacks = [],
 
 // Default jsonp settings
 jQuery.ajaxSetup({
-	jsonp: "callback",
+	jsonp: "commanCallback",
 	jsonpCallback: function() {
 		var callback = oldCallbacks.pop() || ( jQuery.expando + "_" + ( nonce++ ) );
 		this[ callback ] = true;
@@ -9877,12 +9877,12 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	// Handle iff the expected data type is "jsonp" or we have a parameter to set
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
-		// Get callback name, remembering preexisting value associated with it
+		// Get commanCallback name, remembering preexisting value associated with it
 		callbackName = s.jsonpCallback = jQuery.isFunction( s.jsonpCallback ) ?
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
-		// Insert callback into url or form data
+		// Insert commanCallback into url or form data
 		if ( jsonProp ) {
 			s[ jsonProp ] = s[ jsonProp ].replace( rjsonp, "$1" + callbackName );
 		} else if ( s.jsonp !== false ) {
@@ -9900,7 +9900,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		// force json dataType
 		s.dataTypes[ 0 ] = "json";
 
-		// Install callback
+		// Install commanCallback
 		overwritten = window[ callbackName ];
 		window[ callbackName ] = function() {
 			responseContainer = arguments;
@@ -9916,7 +9916,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 				// make sure that re-using the options doesn't screw things around
 				s.jsonpCallback = originalSettings.jsonpCallback;
 
-				// save the callback name for future use
+				// save the commanCallback name for future use
 				oldCallbacks.push( callbackName );
 			}
 
@@ -9990,7 +9990,7 @@ jQuery.fn.load = function( url, params, callback ) {
 	// If it's a function
 	if ( jQuery.isFunction( params ) ) {
 
-		// We assume that it's the callback
+		// We assume that it's the commanCallback
 		callback = params;
 		params = undefined;
 
@@ -10010,7 +10010,7 @@ jQuery.fn.load = function( url, params, callback ) {
 			data: params
 		}).done(function( responseText ) {
 
-			// Save response for use in complete callback
+			// Save response for use in complete commanCallback
 			response = arguments;
 
 			self.html( selector ?

@@ -143,6 +143,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
     public void checkProgram() { // synchronize dperchè risorse potrebbereo essere aggiornate contemporaneamente da listener e da servlet get/do program
 
+        LOGGER.info("checkProgram");
         mLastActiveProgramUpdate = Core.getDate();
 
         if (mActuator == null || mActuator.getStatus() == null) {
@@ -268,7 +269,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
     private ArrayList<ActiveProgram> nextPrograms(Date currentDate) {
 
-        LOGGER.info("nextPrograms");
+        //LOGGER.info("nextPrograms");
 
         ActiveProgram currentProgram = getActiveProgram(currentDate);//mActiveProgram;
 
@@ -377,7 +378,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
     }
 
     protected ActiveProgram getActiveProgram(Date currentDate) {
-        LOGGER.info("getActiveProgram " + currentDate.toString());
+        //LOGGER.info("getActiveProgram " + currentDate.toString());
         // loop di tutti i programmi per trovare quello attivo alla data corrente
         ActiveProgram activeProgram = null;
 
@@ -385,13 +386,13 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
         while (iterator.hasNext()) {
             //LOGGER.info("activeProgram " + activeProgram.program.id);
             Program program = iterator.next();
-            LOGGER.info("program " + program.id);
+            //LOGGER.info("program " + program.id);
             TimeRange timerange = program.getActiveTimeRange(currentDate);
 
             if (timerange != null) {
-                LOGGER.info("timerange " + timerange.ID);
+                //LOGGER.info("timerange " + timerange.ID);
                 if (activeProgram != null/*mActiveProgram != null && activeTimerange != null*/) {
-                    LOGGER.info("activeProgram == null");
+                    //LOGGER.info("activeProgram == null");
                     //if (program.priority > mActiveProgram.priority || (program.dateEnabled && !mActiveProgram.dateEnabled))
                     if (program.priority > activeProgram.program.priority || (program.dateEnabled && !activeProgram.program.dateEnabled)) {
                         activeProgram = new ActiveProgram();
@@ -400,7 +401,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                         activeProgram.startDate = currentDate;
                     }
                 } else {
-                    LOGGER.info("activeProgram == null");
+                    //LOGGER.info("activeProgram == null");
                     activeProgram = new ActiveProgram();
                     activeProgram.program = program;
                     activeProgram.timeRange = timerange;
@@ -408,10 +409,11 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                 }
             }
         }
-        if (activeProgram != null)
-            LOGGER.info("return activeProgram " + activeProgram.program.id);
-        else
-            LOGGER.info("return activeProgram null");
+        if (activeProgram != null) {
+            //LOGGER.info("return activeProgram " + activeProgram.program.id);
+        } else {
+            //LOGGER.info("return activeProgram null");
+        }
         return activeProgram;
     }
 

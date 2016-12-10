@@ -29,8 +29,11 @@ public class PushNotificationThread extends Thread {
     public void run() {
 
         LOGGER.info("PushNotificationThread type=" + type + "title=" + title + "value=" + value);
-        SendPushMessages sp = new SendPushMessages(type, title, description, value);
-        sp.send();
+        //SendPushMessages sp = new SendPushMessages(type, title, description, value);
+        //sp.send();
+
+        SendNotification notification = new SendNotification();
+        notification.send(title, description + " type=" + type + ",value=" + value);
         LOGGER.info("PushNotificationThread type=" + type + "title=" + title + "value=" + value);
     }
 }

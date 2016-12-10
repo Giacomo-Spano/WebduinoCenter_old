@@ -127,20 +127,17 @@ public class SensorServlet extends HttpServlet {
 
         if (id != null) {
 
-            TemperatureSensor sensor = core.getSensorFromId(Integer.valueOf(id));
+            SensorBase sensor = core.getSensorFromId(Integer.valueOf(id));
             JSONObject json = sensor.getJson();
             out.print(json.toString());
 
-        } else if (shieldParam != null) {
+        } else if (shieldParam != null) { // todo eliminare
 
             Shields shields = new Shields();
             List<Shield> list = shields.getShields();
 
-            JSONArray jarray = new JSONArray();
-            for (Shield shield : list) {
-                JSONObject json = shield.toJson();
-                jarray.put(json);
-            }
+            JSONArray jarray = core.getShieldsJsonArray();
+
             JSONObject jshields = new JSONObject();
             try {
                 jshields.put("shields", jarray);

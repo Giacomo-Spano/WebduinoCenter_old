@@ -51,7 +51,9 @@ public class NotificationServlet extends HttpServlet {
         }
 
 
-        Notification notification = new Notification();
+        Core.sendPushNotification("type","title","description","value");
+
+        /*Notification notification = new Notification();
 
         java.util.Date date = Core.getDate();
         notification.writelog(date,.0,.0,false,0, jb.toString());
@@ -66,15 +68,12 @@ public class NotificationServlet extends HttpServlet {
             LOGGER.info("notification- id=" + id + "type=" + type+ "value=" + value);
 
             String title = "notifica";
-            //String value = "descrizione" + jb.toString();
             Core.sendPushNotification(type,title,"description",""+value);
-           // SendPushMessages sp = new SendPushMessages(SendPushMessages.NotificationType_Rele, title,description);
-            //sp.send();
 
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
         response.setContentType("text/html");

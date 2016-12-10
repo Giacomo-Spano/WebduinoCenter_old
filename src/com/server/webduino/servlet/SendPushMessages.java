@@ -3,7 +3,6 @@ package com.server.webduino.servlet;
 import com.google.android.gcm.server.*;
 import com.server.webduino.core.Core;
 import com.server.webduino.core.Device;
-import com.server.webduino.core.Devices;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class SendPushMessages {
             // could always send a multicast, even for just one recipient
             if (false/* devices.size() == 1 */) {
                 // send a single message using plain post
-                //String registrationId = list.get(0).regId;
+                //String registrationId = list.get(0).tokenId;
                 // Message message = new Message.Builder().build();
 
                 //Result result = sendSingleMessage(registrationId,message);
@@ -93,8 +92,8 @@ public class SendPushMessages {
                 int tasks = 0;
                 for (Device device : Core.mDevices.getList()) {
                     counter++;
-                    LOGGER.info("regid:" + device.regId + " name:" + device.name);
-                    partialDevices.add(device.regId);
+                    LOGGER.info("regid:" + device.tokenId + " name:" + device.name);
+                    partialDevices.add(device.tokenId);
 
                     int partialSize = partialDevices.size();
                     if (partialSize == MULTICAST_SIZE || counter == total) {
@@ -145,7 +144,7 @@ public class SendPushMessages {
             Result result = results.get(i);
             String messageId = result.getMessageId();
             if (messageId != null) {
-                /*logger.fine("Succesfully sent message to device: " + regId
+                /*logger.fine("Succesfully sent message to device: " + tokenId
 						+ "; messageId = " + messageId);*/
                 String canonicalRegId = result.getCanonicalRegistrationId();
                 if (canonicalRegId != null) {
@@ -154,7 +153,7 @@ public class SendPushMessages {
                     LOGGER.severe("same device has more than on registration id: - update it");
                     //logger.info("canonicalRegId " + canonicalRegId);
 
-                    //Datastore.updateRegistration(regId, canonicalRegId);  //XXXXXXXXXXXXXXXXXXXXXXXXX
+                    //Datastore.updateRegistration(tokenId, canonicalRegId);  //XXXXXXXXXXXXXXXXXXXXXXXXX
                 }
             } else {
                 String error = result.getErrorCodeName();
@@ -163,8 +162,8 @@ public class SendPushMessages {
                     // application has been removed from device -
                     // unregister it
                     LOGGER.severe("application has been removed from device - unregister it");
-                    //logger.info("Unregistered device: " + regId);
-                    //Datastore.unregister(regId);//XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    //logger.info("Unregistered device: " + tokenId);
+                    //Datastore.unregister(tokenId);//XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 } else {
                     LOGGER.severe("Error sending message to " + regId + ": "
                             + error);
@@ -192,29 +191,29 @@ public class SendPushMessages {
 				List<Result> results = multicastResult.getResults();
 				// analyze the results
 				for (int i = 0; i < devices.size(); i++) {
-					String regId = devices.get(i);
+					String tokenId = devices.get(i);
 					Result result = results.get(i);
 					String messageId = result.getMessageId();
 					if (messageId != null) {
 						logger.fine("Succesfully sent message to device: "
-								+ regId + "; messageId = " + messageId);
+								+ tokenId + "; messageId = " + messageId);
 						String canonicalRegId = result
 								.getCanonicalRegistrationId();
 						if (canonicalRegId != null) {
 							// same device has more than on registration id:
 							// update it
 							logger.info("canonicalRegId " + canonicalRegId);
-							Datastore.updateRegistration(regId, canonicalRegId);
+							Datastore.updateRegistration(tokenId, canonicalRegId);
 						}
 					} else {
 						String error = result.getErrorCodeName();
 						if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
 							// application has been removed from device -
 							// unregister it
-							logger.info("Unregistered device: " + regId);
-							Datastore.unregister(regId);
+							logger.info("Unregistered device: " + tokenId);
+							Datastore.unregister(tokenId);
 						} else {
-							logger.severe("Error sending message to " + regId
+							logger.severe("Error sending message to " + tokenId
 									+ ": " + error);
 						}
 					}
