@@ -37,6 +37,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
 
     public HeaterActuator() {
         super();
+        type = "heater";
     }
 
     /*public HeaterActuator(int id, int shieldid, String subaddress, String name) {
@@ -367,6 +368,8 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
 
             json.put("shieldid", shieldid);
             json.put("onlinestatus", onlinestatus);
+
+            json.put("type", type);
 
 
 

@@ -31,7 +31,6 @@
       <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/quartz/ActuatorQuartzJob.java" afterPath="$PROJECT_DIR$/src/com/quartz/ShieldsQuartzJob.java" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/server/webduino/core/UpdateSensorThread.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/core/UpdateSensorsThread.java" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/web/prova2.html" afterPath="$PROJECT_DIR$/web/WebduinoIndex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/WebduinoServer/com/server/webduino/Servlet.class" afterPath="$PROJECT_DIR$/out/production/WebduinoServer/com/server/webduino/Servlet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -101,48 +100,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Core.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Core.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
-              <folding>
-                <element signature="e#4484#4485#0" expanded="true" />
-                <element signature="e#4550#4551#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Programs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Programs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="755">
-              <caret line="168" column="41" selection-start-line="168" selection-start-column="41" selection-end-line="168" selection-end-column="41" />
+            <state relative-caret-position="190">
+              <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
               <folding>
-                <marker date="1479807692090" expanded="true" signature="2273:2459" ph="SELECT id, a... programs" />
-                <marker date="1479807692090" expanded="true" signature="3889:3982" ph="SELECT id, n... timeranges" />
-                <marker date="1479807692090" expanded="true" signature="19617:20009" ph="INSERT INTO datalog... " />
-                <marker date="1479807692090" expanded="true" signature="20702:20732" ph="DELETE FROM " />
-                <marker date="1479807692090" expanded="true" signature="20896:20926" ph="DELETE FROM " />
-                <marker date="1479807692090" expanded="true" signature="21076:21115" ph="DELETE FROM " />
-                <marker date="1479807692090" expanded="true" signature="22769:24351" ph="INSERT INTO programs... " />
-                <marker date="1479807692090" expanded="true" signature="24750:24789" ph="DELETE FROM " />
-                <marker date="1479807692090" expanded="true" signature="25212:25409" ph="INSERT INTO timeranges... " />
-                <marker date="1479807692090" expanded="true" signature="25212:25468" ph="INSERT INTO timeranges... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NextProgramQuartzJob.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/quartz/NextProgramQuartzJob.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="false" />
-                <element signature="imports" expanded="false" />
+                <marker date="1481964154771" expanded="true" signature="2273:2459" ph="SELECT id, a... programs" />
+                <marker date="1481964154771" expanded="true" signature="3889:3982" ph="SELECT id, n... timeranges" />
+                <marker date="1481964154771" expanded="true" signature="20237:20629" ph="INSERT INTO datalog... " />
+                <marker date="1481964154771" expanded="true" signature="21322:21352" ph="DELETE FROM " />
+                <marker date="1481964154771" expanded="true" signature="21516:21546" ph="DELETE FROM " />
+                <marker date="1481964154771" expanded="true" signature="21696:21735" ph="DELETE FROM " />
+                <marker date="1481964154771" expanded="true" signature="23389:24971" ph="INSERT INTO programs... " />
+                <marker date="1481964154771" expanded="true" signature="25370:25409" ph="DELETE FROM " />
+                <marker date="1481964154771" expanded="true" signature="25832:26029" ph="INSERT INTO timeranges... " />
+                <marker date="1481964154771" expanded="true" signature="25832:26088" ph="INSERT INTO timeranges... " />
               </folding>
             </state>
           </provider>
@@ -151,42 +124,44 @@
       <file leaf-file-name="Shields.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shields.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="84" column="32" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
+            <state relative-caret-position="207">
+              <caret line="225" column="13" selection-start-line="225" selection-start-column="13" selection-end-line="225" selection-end-column="13" />
               <folding>
-                <element signature="e#2365#2366#0" expanded="true" />
-                <element signature="e#2430#2431#0" expanded="true" />
-                <marker date="1480176848648" expanded="true" signature="3487:3611" ph="INSERT INTO shields... " />
-                <marker date="1480176848648" expanded="true" signature="3487:4007" ph="INSERT INTO shields... " />
-                <marker date="1480176848648" expanded="true" signature="3487:4029" ph="INSERT INTO shields... " />
-                <marker date="1480176848648" expanded="true" signature="4439:4560" ph="INSERT INTO sensors... " />
-                <marker date="1480176848648" expanded="true" signature="4439:4575" ph="INSERT INTO sensors... " />
-                <marker date="1480176848648" expanded="true" signature="4439:4686" ph="INSERT INTO sensors... " />
-                <marker date="1480176848648" expanded="true" signature="4439:4740" ph="INSERT INTO sensors... " />
-                <marker date="1480176848648" expanded="true" signature="4439:5041" ph="INSERT INTO shields... " />
-                <marker date="1480176848648" expanded="true" signature="4439:5071" ph="INSERT INTO sensors... " />
-                <marker date="1480176848648" expanded="true" signature="5210:5803" ph="INSERT INTO actuators... " />
-                <marker date="1480176848648" expanded="true" signature="5210:5826" ph="INSERT INTO actuators... " />
-                <marker date="1480176848648" expanded="true" signature="7615:7629" ph="SELECT * FRO... max" />
-                <marker date="1480176848648" expanded="true" signature="7615:7636" ph="SELECT * FRO... shields" />
-                <marker date="1480176848648" expanded="true" signature="8389:8655" ph="SELECT * FRO... shields" />
-                <marker date="1480176848648" expanded="false" signature="9774:11921" ph="{...}" />
-                <marker date="1480176848648" expanded="true" signature="10260:10963" ph="INSERT INTO shields... " />
-                <marker date="1480176848648" expanded="true" signature="12481:12502" ph="SELECT * FRO... shields" />
-                <marker date="1480176848648" expanded="true" signature="14089:14120" ph="SELECT * FRO... shields" />
+                <element signature="e#2117#2118#0" expanded="true" />
+                <element signature="e#2168#2169#0" expanded="true" />
+                <element signature="e#2219#2220#0" expanded="true" />
+                <element signature="e#2270#2271#0" expanded="true" />
+                <marker date="1481824044126" expanded="true" signature="3456:3580" ph="INSERT INTO shields... " />
+                <marker date="1481824044126" expanded="true" signature="3456:3976" ph="INSERT INTO shields... " />
+                <marker date="1481824044126" expanded="true" signature="3456:3998" ph="INSERT INTO shields... " />
+                <marker date="1481824044126" expanded="true" signature="4468:4589" ph="INSERT INTO sensors... " />
+                <marker date="1481824044126" expanded="true" signature="4468:4604" ph="INSERT INTO sensors... " />
+                <marker date="1481824044126" expanded="true" signature="4468:4715" ph="INSERT INTO sensors... " />
+                <marker date="1481824044126" expanded="true" signature="4468:4769" ph="INSERT INTO sensors... " />
+                <marker date="1481824044126" expanded="true" signature="4468:5070" ph="INSERT INTO shields... " />
+                <marker date="1481824044126" expanded="true" signature="4468:5100" ph="INSERT INTO sensors... " />
+                <marker date="1481824044126" expanded="true" signature="5302:5895" ph="INSERT INTO actuators... " />
+                <marker date="1481824044126" expanded="true" signature="5302:5918" ph="INSERT INTO actuators... " />
+                <marker date="1481824044126" expanded="true" signature="7975:7989" ph="SELECT * FRO... max" />
+                <marker date="1481824044126" expanded="true" signature="7975:7996" ph="SELECT * FRO... shields" />
+                <marker date="1481824044126" expanded="true" signature="8749:8817" ph="SELECT * FRO... sensors" />
+                <marker date="1481824044126" expanded="true" signature="8749:8830" ph="SELECT * FRO... shields" />
+                <marker date="1481824044126" expanded="true" signature="9772:9842" ph="SELECT * FRO... actuators" />
+                <marker date="1481824044126" expanded="false" signature="11327:13474" ph="{...}" />
+                <marker date="1481824044126" expanded="true" signature="11813:12516" ph="INSERT INTO shields... " />
+                <marker date="1481824044126" expanded="true" signature="14036:14057" ph="SELECT * FRO... shields" />
+                <marker date="1481824044126" expanded="true" signature="15646:15677" ph="SELECT * FRO... shields" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sensors.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java">
+      <file leaf-file-name="Shield.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shield.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-              <folding>
-                <marker date="1480176663088" expanded="true" signature="2762:2783" ph="SELECT * FRO... sensors" />
-              </folding>
+            <state relative-caret-position="292">
+              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -194,48 +169,73 @@
       <file leaf-file-name="TemperatureSensor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+            <state relative-caret-position="363">
+              <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActuatorServlet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java">
+      <file leaf-file-name="Sensors.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="190" column="21" selection-start-line="190" selection-start-column="21" selection-end-line="190" selection-end-column="21" />
-              <folding />
+            <state relative-caret-position="-1140">
+              <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+              <folding>
+                <marker date="1480176663088" expanded="true" signature="2762:2783" ph="SELECT * FRO... sensors" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateActuatorThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/UpdateActuatorThread.java">
+      <file leaf-file-name="SensorBase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="190">
+              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+              <folding>
+                <element signature="e#1114#1115#0" expanded="true" />
+                <element signature="e#1147#1148#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Actuator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HeaterActuator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ShieldServlet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HeaterActuator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="284" column="17" selection-start-line="284" selection-start-column="17" selection-end-line="284" selection-end-column="17" />
+            <state relative-caret-position="425">
+              <caret line="289" column="0" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateSensorsThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/UpdateSensorsThread.java">
+      <file leaf-file-name="RegisterServlet.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+            <state relative-caret-position="187">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -290,9 +290,6 @@
         <option value="$PROJECT_DIR$/web/WebduinoHeaterActuator.html" />
         <option value="$PROJECT_DIR$/web/WebduinoIndex.html" />
         <option value="$PROJECT_DIR$/src/com/quartz/ActuatorQuartzJob.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Actuators.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuator.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/SensorDataLog.java" />
         <option value="$PROJECT_DIR$/src/com/quartz/ShieldsQuartzJob.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/Device.java" />
@@ -301,18 +298,21 @@
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/Devices.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/PushNotificationThread.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/SendNotification.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/SensorServlet.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java" />
+        <option value="$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Core.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java" />
+        <option value="$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Actuators.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/Shield.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Shields.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/Programs.java" />
         <option value="$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Core.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/SensorServlet.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/core/Shields.java" />
-        <option value="$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java" />
-        <option value="$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js" />
-        <option value="$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java" />
+        <option value="$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuator.java" />
       </list>
     </option>
   </component>
@@ -370,6 +370,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Production">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -630,22 +646,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches">
-        <subPane />
-      </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Production">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -720,7 +720,7 @@
       <recent name="C:\Users\Giacomo Spanò\IdeaProjects\WebduinoCenter\web\advance-admin\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.raspberry">
+  <component name="RunManager" selected="Tomcat Server.local">
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <deployment />
       <server-settings>
@@ -1301,7 +1301,6 @@
     </configuration>
     <configuration default="false" name="local" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.65" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/webduino/advance-admin/webduino_dashboard.html" />
-      <option name="START_JAVASCRIPT_DEBUGGER" value="true" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="webduino:war exploded">
@@ -1718,6 +1717,7 @@
       <workItem from="1480200585085" duration="241000" />
       <workItem from="1480238058627" duration="9647000" />
       <workItem from="1480329427058" duration="2090000" />
+      <workItem from="1481646713912" duration="26262000" />
     </task>
     <task id="LOCAL-00001">
       <created>1447225038601</created>
@@ -1996,7 +1996,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1492452000" />
+    <option name="totallyTimeSpent" value="1518714000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -2009,30 +2009,31 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.4978678" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32502708" sideWeight="0.5895522" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32405892" sideWeight="0.5744898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3109426" sideWeight="0.35501066" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3217768" sideWeight="0.3683369" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.4765306" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22318527" sideWeight="0.48880598" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32549942" sideWeight="0.5738758" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22318527" sideWeight="0.48880598" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.33261105" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15938166" sideWeight="0.802974" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15938166" sideWeight="0.71246004" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2217529" sideWeight="0.19702603" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2274648" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17750533" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="1512" y="95" width="344" height="673" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29035753" sideWeight="0.46535182" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17643923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="1512" y="95" width="344" height="673" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3109426" sideWeight="0.6449893" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21030043" sideWeight="0.30993152" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3217768" sideWeight="0.6316631" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15938166" sideWeight="0.28753993" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2040,7 +2041,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29144096" sideWeight="0.4749467" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
@@ -2139,7 +2139,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js</url>
-          <line>26</line>
+          <line>28</line>
           <option name="timeStamp" value="2579" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2203,20 +2203,14 @@
           <option name="timeStamp" value="1804" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java</url>
-          <line>40</line>
-          <properties />
-          <option name="timeStamp" value="2013" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java</url>
-          <line>92</line>
+          <line>98</line>
           <properties />
           <option name="timeStamp" value="2110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/core/Programs.java</url>
-          <line>744</line>
+          <line>750</line>
           <properties />
           <option name="timeStamp" value="2174" />
         </line-breakpoint>
@@ -2228,7 +2222,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java</url>
-          <line>79</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="2204" />
         </line-breakpoint>
@@ -2240,7 +2234,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java</url>
-          <line>74</line>
+          <line>80</line>
           <properties />
           <option name="timeStamp" value="2325" />
         </line-breakpoint>
@@ -2281,7 +2275,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/core/Shield.java</url>
-          <line>53</line>
+          <line>55</line>
           <properties />
           <option name="timeStamp" value="2434" />
         </line-breakpoint>
@@ -2298,35 +2292,24 @@
           <option name="timeStamp" value="2436" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java</url>
-          <line>105</line>
-          <properties />
-          <option name="timeStamp" value="2522" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java</url>
           <line>161</line>
           <properties />
           <option name="timeStamp" value="2576" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java</url>
-          <line>68</line>
+          <url>file://$PROJECT_DIR$/src/com/server/webduino/core/Shield.java</url>
+          <line>80</line>
           <properties />
-          <option name="timeStamp" value="2590" />
+          <option name="timeStamp" value="2610" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="2592" />
+      <option name="time" value="2659" />
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
-        <watch expression="sql" />
-        <watch expression="this" />
-      </configuration>
-    </watches-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -2461,14 +2444,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/httpClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -2476,43 +2451,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Devices.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding>
-            <marker date="1479671065689" expanded="true" signature="1240:1261" ph="SELECT id, n... " />
-            <marker date="1479671065689" expanded="true" signature="2658:2935" ph="INSERT INTO devices... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/SendPushMessages.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="38" column="11" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shield.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1309">
-          <caret line="90" column="45" selection-start-line="90" selection-start-column="45" selection-end-line="90" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#716#717#0" expanded="false" />
-            <element signature="e#749#750#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuators.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="19" column="11" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="85" />
-          <folding>
-            <marker date="1479599204542" expanded="true" signature="1867:1890" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2534,40 +2476,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1462">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1079#1080#0" expanded="false" />
-            <element signature="e#1112#1113#0" expanded="false" />
-            <element signature="e#1138#1139#0" expanded="false" />
-            <element signature="e#1163#1164#0" expanded="false" />
-            <element signature="e#1196#1197#0" expanded="false" />
-            <element signature="e#1224#1225#0" expanded="false" />
-            <element signature="e#1255#1256#0" expanded="false" />
-            <element signature="e#1282#1283#0" expanded="false" />
-            <element signature="e#1322#1323#0" expanded="false" />
-            <element signature="e#1354#1355#0" expanded="false" />
-            <element signature="e#1514#1515#0" expanded="false" />
-            <element signature="e#1547#1548#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="275" column="32" selection-start-line="275" selection-start-column="32" selection-end-line="275" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="123" column="16" selection-start-line="123" selection-start-column="16" selection-end-line="123" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2607,44 +2519,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1586#1587#0" expanded="false" />
-            <element signature="e#1622#1623#0" expanded="false" />
-            <element signature="e#1777#1778#0" expanded="false" />
-            <element signature="e#1806#1807#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/advance-admin/webduino_programs.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5593">
           <caret line="329" column="47" selection-start-line="329" selection-start-column="47" selection-end-line="329" selection-end-column="47" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#td#3;n#tr#0;n#tbody#0;n#table#1;n#div#2;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1615">
-          <caret line="95" column="51" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4539">
-          <caret line="267" column="41" selection-start-line="267" selection-start-column="41" selection-end-line="267" selection-end-column="41" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#span#0;n#td#9;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#3;n#tr#0;n#tbody#0;n#table#1;n#div#2;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2692,109 +2572,203 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/UpdateSensorsThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
+        <state relative-caret-position="527">
           <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/UpdateActuatorThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="326" column="54" selection-start-line="326" selection-start-column="37" selection-end-line="326" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Core.java">
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Devices.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
+        <state relative-caret-position="100">
+          <caret line="78" column="17" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="17" />
           <folding>
-            <element signature="e#4484#4485#0" expanded="true" />
-            <element signature="e#4550#4551#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shields.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="84" column="32" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
-          <folding>
-            <element signature="e#2365#2366#0" expanded="true" />
-            <element signature="e#2430#2431#0" expanded="true" />
-            <marker date="1480176848648" expanded="true" signature="3487:3611" ph="INSERT INTO shields... " />
-            <marker date="1480176848648" expanded="true" signature="3487:4007" ph="INSERT INTO shields... " />
-            <marker date="1480176848648" expanded="true" signature="3487:4029" ph="INSERT INTO shields... " />
-            <marker date="1480176848648" expanded="true" signature="4439:4560" ph="INSERT INTO sensors... " />
-            <marker date="1480176848648" expanded="true" signature="4439:4575" ph="INSERT INTO sensors... " />
-            <marker date="1480176848648" expanded="true" signature="4439:4686" ph="INSERT INTO sensors... " />
-            <marker date="1480176848648" expanded="true" signature="4439:4740" ph="INSERT INTO sensors... " />
-            <marker date="1480176848648" expanded="true" signature="4439:5041" ph="INSERT INTO shields... " />
-            <marker date="1480176848648" expanded="true" signature="4439:5071" ph="INSERT INTO sensors... " />
-            <marker date="1480176848648" expanded="true" signature="5210:5803" ph="INSERT INTO actuators... " />
-            <marker date="1480176848648" expanded="true" signature="5210:5826" ph="INSERT INTO actuators... " />
-            <marker date="1480176848648" expanded="true" signature="7615:7629" ph="SELECT * FRO... max" />
-            <marker date="1480176848648" expanded="true" signature="7615:7636" ph="SELECT * FRO... shields" />
-            <marker date="1480176848648" expanded="true" signature="8389:8655" ph="SELECT * FRO... shields" />
-            <marker date="1480176848648" expanded="false" signature="9774:11921" ph="{...}" />
-            <marker date="1480176848648" expanded="true" signature="10260:10963" ph="INSERT INTO shields... " />
-            <marker date="1480176848648" expanded="true" signature="12481:12502" ph="SELECT * FRO... shields" />
-            <marker date="1480176848648" expanded="true" signature="14089:14120" ph="SELECT * FRO... shields" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding>
-            <marker date="1480176663088" expanded="true" signature="2762:2783" ph="SELECT * FRO... sensors" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Programs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="755">
-          <caret line="168" column="41" selection-start-line="168" selection-start-column="41" selection-end-line="168" selection-end-column="41" />
-          <folding>
-            <marker date="1479807692090" expanded="true" signature="2273:2459" ph="SELECT id, a... programs" />
-            <marker date="1479807692090" expanded="true" signature="3889:3982" ph="SELECT id, n... timeranges" />
-            <marker date="1479807692090" expanded="true" signature="19617:20009" ph="INSERT INTO datalog... " />
-            <marker date="1479807692090" expanded="true" signature="20702:20732" ph="DELETE FROM " />
-            <marker date="1479807692090" expanded="true" signature="20896:20926" ph="DELETE FROM " />
-            <marker date="1479807692090" expanded="true" signature="21076:21115" ph="DELETE FROM " />
-            <marker date="1479807692090" expanded="true" signature="22769:24351" ph="INSERT INTO programs... " />
-            <marker date="1479807692090" expanded="true" signature="24750:24789" ph="DELETE FROM " />
-            <marker date="1479807692090" expanded="true" signature="25212:25409" ph="INSERT INTO timeranges... " />
-            <marker date="1479807692090" expanded="true" signature="25212:25468" ph="INSERT INTO timeranges... " />
+            <marker date="1479671065689" expanded="true" signature="1240:1261" ph="SELECT id, n... " />
+            <marker date="1479671065689" expanded="true" signature="2658:2935" ph="INSERT INTO devices... " />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="190" column="21" selection-start-line="190" selection-start-column="21" selection-end-line="190" selection-end-column="21" />
+        <state relative-caret-position="323">
+          <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/UpdateActuatorThread.java">
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuators.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="219">
+          <caret line="186" column="31" selection-start-line="186" selection-start-column="31" selection-end-line="186" selection-end-column="31" />
+          <folding>
+            <marker date="1481822416867" expanded="true" signature="1867:1890" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shields.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="225" column="13" selection-start-line="225" selection-start-column="13" selection-end-line="225" selection-end-column="13" />
+          <folding>
+            <element signature="e#2117#2118#0" expanded="true" />
+            <element signature="e#2168#2169#0" expanded="true" />
+            <element signature="e#2219#2220#0" expanded="true" />
+            <element signature="e#2270#2271#0" expanded="true" />
+            <marker date="1481824044126" expanded="true" signature="3456:3580" ph="INSERT INTO shields... " />
+            <marker date="1481824044126" expanded="true" signature="3456:3976" ph="INSERT INTO shields... " />
+            <marker date="1481824044126" expanded="true" signature="3456:3998" ph="INSERT INTO shields... " />
+            <marker date="1481824044126" expanded="true" signature="4468:4589" ph="INSERT INTO sensors... " />
+            <marker date="1481824044126" expanded="true" signature="4468:4604" ph="INSERT INTO sensors... " />
+            <marker date="1481824044126" expanded="true" signature="4468:4715" ph="INSERT INTO sensors... " />
+            <marker date="1481824044126" expanded="true" signature="4468:4769" ph="INSERT INTO sensors... " />
+            <marker date="1481824044126" expanded="true" signature="4468:5070" ph="INSERT INTO shields... " />
+            <marker date="1481824044126" expanded="true" signature="4468:5100" ph="INSERT INTO sensors... " />
+            <marker date="1481824044126" expanded="true" signature="5302:5895" ph="INSERT INTO actuators... " />
+            <marker date="1481824044126" expanded="true" signature="5302:5918" ph="INSERT INTO actuators... " />
+            <marker date="1481824044126" expanded="true" signature="7975:7989" ph="SELECT * FRO... max" />
+            <marker date="1481824044126" expanded="true" signature="7975:7996" ph="SELECT * FRO... shields" />
+            <marker date="1481824044126" expanded="true" signature="8749:8817" ph="SELECT * FRO... sensors" />
+            <marker date="1481824044126" expanded="true" signature="8749:8830" ph="SELECT * FRO... shields" />
+            <marker date="1481824044126" expanded="true" signature="9772:9842" ph="SELECT * FRO... actuators" />
+            <marker date="1481824044126" expanded="false" signature="11327:13474" ph="{...}" />
+            <marker date="1481824044126" expanded="true" signature="11813:12516" ph="INSERT INTO shields... " />
+            <marker date="1481824044126" expanded="true" signature="14036:14057" ph="SELECT * FRO... shields" />
+            <marker date="1481824044126" expanded="true" signature="15646:15677" ph="SELECT * FRO... shields" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1140">
+          <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+          <folding>
+            <marker date="1480176663088" expanded="true" signature="2762:2783" ph="SELECT * FRO... sensors" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Core.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="180" column="74" selection-start-line="180" selection-start-column="8" selection-end-line="180" selection-end-column="74" />
+          <folding>
+            <element signature="e#4272#4273#0" expanded="false" />
+            <element signature="e#4318#4319#0" expanded="false" />
+            <element signature="e#4358#4359#0" expanded="false" />
+            <element signature="e#4402#4403#0" expanded="false" />
+            <element signature="e#5110#5111#0" expanded="false" />
+            <element signature="e#5158#5159#0" expanded="false" />
+            <element signature="e#6406#6407#0" expanded="false" />
+            <element signature="e#6459#6460#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Programs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
+          <folding>
+            <marker date="1481964154771" expanded="true" signature="2273:2459" ph="SELECT id, a... programs" />
+            <marker date="1481964154771" expanded="true" signature="3889:3982" ph="SELECT id, n... timeranges" />
+            <marker date="1481964154771" expanded="true" signature="20237:20629" ph="INSERT INTO datalog... " />
+            <marker date="1481964154771" expanded="true" signature="21322:21352" ph="DELETE FROM " />
+            <marker date="1481964154771" expanded="true" signature="21516:21546" ph="DELETE FROM " />
+            <marker date="1481964154771" expanded="true" signature="21696:21735" ph="DELETE FROM " />
+            <marker date="1481964154771" expanded="true" signature="23389:24971" ph="INSERT INTO programs... " />
+            <marker date="1481964154771" expanded="true" signature="25370:25409" ph="DELETE FROM " />
+            <marker date="1481964154771" expanded="true" signature="25832:26029" ph="INSERT INTO timeranges... " />
+            <marker date="1481964154771" expanded="true" signature="25832:26088" ph="INSERT INTO timeranges... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/SensorBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+          <folding>
+            <element signature="e#1114#1115#0" expanded="true" />
+            <element signature="e#1147#1148#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="284" column="17" selection-start-line="284" selection-start-column="17" selection-end-line="284" selection-end-column="17" />
+        <state relative-caret-position="425">
+          <caret line="289" column="0" selection-start-line="289" selection-start-column="0" selection-end-line="289" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shield.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding />
         </state>
       </provider>

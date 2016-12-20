@@ -1,7 +1,6 @@
 package com.server.webduino.core;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -136,7 +135,8 @@ public class Shields {
             }
 
 
-            for (SensorBase sensor : shield.sensors) {
+            for (Integer id : shield.sensorIds) {
+                SensorBase sensor = Shields.getSensorFromId(id);
                 sql = "INSERT INTO sensors (shieldid, type, subaddress, name)" +
                         " VALUES ("
                         + "\"" + lastid + "\","
@@ -152,7 +152,8 @@ public class Shields {
                 stmt.executeUpdate(sql);
             }
 
-            for (Actuator actuator : shield.actuators) {
+            for(Integer id : shield.actuatorIds) {
+                SensorBase actuator = Shields.getActuatorFromId(id);
                 sql = "INSERT INTO actuators (shieldid, type, subaddress, name)" +
                         " VALUES ("
                         + "\"" + lastid + "\","
@@ -192,10 +193,12 @@ public class Shields {
             shield.id = lastid;
             for(ShieldsListener listener : listeners) {
                 listener.addedShield(shield);
-                for(Actuator actuator: shield.actuators) {
-                    listener.addedActuator(actuator);
+                for(Integer id : shield.actuatorIds) {
+                    SensorBase actuator = Shields.getActuatorFromId(id);
+                    listener.addedActuator((Actuator) actuator);
                 }
-                for(SensorBase sensor: shield.sensors) {
+                for(Integer id : shield.sensorIds) {
+                    SensorBase sensor = Shields.getActuatorFromId(id);
                     listener.addedSensor(sensor);
                 }
             }
@@ -207,9 +210,14 @@ public class Shields {
 
     }
 
-    public SensorBase getSensorFromId(int id) {
+    public static SensorBase getSensorFromId(int id) {
 
         return mSensors.getSensorFromId(id);
+    }
+
+    public static SensorBase getActuatorFromId(int id) {
+
+        return mActuators.getActuatorFromId(id);
     }
 
     public List<Shield> getShields() {
@@ -243,23 +251,51 @@ public class Shields {
             rs.close();
 
             for (Shield shield : list) {
-                sql = "SELECT * FROM shields " +
-                        "INNER JOIN sensordatalog " +
-                        "ON shields.id = sensordatalog.id " +
-                        "WHERE shields.id = " + shield.id + " " +
-                        "GROUP BY sensordatalog.subaddress";
+                sql = "SELECT * FROM sensors " +
+                        "WHERE shieldid = " + shield.id;
 
                 ResultSet sensorRs = stmt.executeQuery(sql);
                 while (sensorRs.next()) {
-                    SensorBase sensor = new SensorBase();
-                    if (sensorRs.getString("subaddress") != null)
-                        sensor.subaddress = sensorRs.getString("subaddress");
-                    if (sensorRs.getString("name") != null)
-                        sensor.name = sensorRs.getString("name");
+                    /*if (sensorRs.getString("type").equals("temperature")) {
+                        TemperatureSensor sensor = new TemperatureSensor();
 
-                    shield.sensors.add(sensor);
+                        if (sensorRs.getString("subaddress") != null)
+                            sensor.subaddress = sensorRs.getString("subaddress");
+                        if (sensorRs.getString("name") != null)
+                            sensor.name = sensorRs.getString("name");
+
+                        shield.sensorIds.add(sensor.id);
+                    }*/
+                    if (sensorRs.getInt("id") != 0) {
+                        int id = sensorRs.getInt("id");
+                        shield.sensorIds.add(id);
+                    }
                 }
                 sensorRs.close();
+            }
+
+            for (Shield shield : list) {
+                sql = "SELECT * FROM actuators " +
+                        "WHERE shieldid = " + shield.id;
+
+                ResultSet actuatorRs = stmt.executeQuery(sql);
+                while (actuatorRs.next()) {
+                    /*if (actuatorRs.getString("type").equals("temperature")) {
+                        HeaterActuator actuator = new HeaterActuator();
+
+                        if (actuatorRs.getString("subaddress") != null)
+                            actuator.subaddress = actuatorRs.getString("subaddress");
+                        if (actuatorRs.getString("name") != null)
+                            actuator.name = actuatorRs.getString("name");
+
+                        shield.actuatorIds.add(actuator.id);
+                    }*/
+                    if (actuatorRs.getInt("id") != 0) {
+                        int id = actuatorRs.getInt("id");
+                        shield.actuatorIds.add(id);
+                    }
+                }
+                actuatorRs.close();
             }
 
             stmt.close();
@@ -356,7 +392,7 @@ public class Shields {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            //sql = "SELECT id, url, name FROM sensors";
+            //sql = "SELECT id, url, name FROM sensorIds";
             sql = "SELECT * FROM shields";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -403,7 +439,7 @@ public class Shields {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            //sql = "SELECT id, url, name FROM sensors";
+            //sql = "SELECT id, url, name FROM sensorIds";
             sql = "SELECT * FROM shields WHERE id=" + id;
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {

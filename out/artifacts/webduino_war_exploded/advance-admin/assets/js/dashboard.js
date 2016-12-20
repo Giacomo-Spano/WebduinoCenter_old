@@ -1,9 +1,11 @@
 var sensorServletPath = "../sensor";
 var actuatorServletPath = "../actuator";
+var shieldServletPath = "../shield";
 var programServletPath = "../program";
 var $mSensorPanel;
 var $mSensorRow;
 var $actuators;
+var $shieldss;
 var $activeProgram;
 
 
@@ -135,6 +137,15 @@ function setActuatorElement(element, actuator) {
     }
 }
 
+function setShieldElement(element, shield) {
+
+    element.find('td[name="id"]').text(shield.id);
+    element.find('td[name="boardname"]').text(shield.boardname);
+    element.find('td[name="url"]').text(shield.url);
+    element.find('td[name="MACAddress"]').text(shield.macaddres);
+
+}
+
 function loadActuators() {
     $.getJSON(actuatorServletPath, function (data) {
         console.log("success");
@@ -161,6 +172,37 @@ function loadActuators() {
         .fail(function () {
             //console.log("error1");
             alert("cannot load actuator");
+        })
+        .always(function () {
+            //console.log("error2");
+        });
+}
+function loadShields() {
+    $.getJSON(shieldServletPath, function (data) {
+        console.log("success");
+
+        a = data;
+        $.each(a, function (idx, elem) {
+
+            var newtr;
+            tr = $shields.find('tr[name="shield"]');
+            if (idx > 0) {
+                newtr = tr.clone();
+            } else {
+                newtr = tr;
+            }
+            setShieldElement(newtr, elem);
+
+            tr.last().after(newtr);
+        });
+
+    })
+        .done(function () {
+            //console.log("succes");
+        })
+        .fail(function () {
+            //console.log("error1");
+            alert("cannot load shield");
         })
         .always(function () {
             //console.log("error2");
@@ -243,9 +285,11 @@ function load() {
     $mSensorRow = $mSensorPanel.find('tr[name="sensor"]');
 
     $actuators = $(this).find('div[id="actuatorpanel"]');
+    $shields = $(this).find('div[id="shieldpanel"]');
     $activeProgram = $(this).find('div[id="activeprogrampanel"]');
 
     loadSensors();
     loadActuators();
+    loadShields();
     loadActiveProgramList();
 }

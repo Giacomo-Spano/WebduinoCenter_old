@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 //import com.server.webduino.core.SensorData;
@@ -91,20 +88,17 @@ public class ShieldServlet extends HttpServlet {
 
     private int registerShield(JSONObject jsonObj) throws JSONException {
 
-        Shield shield = new Shield(jsonObj);
-        //Shields shields = new Shields();
+        Shield shield = new Shield(/*jsonObj*/);
+        if (!shield.FromJson(jsonObj))
+            return 0;
+
         int shieldid = Core.registerShield(shield);
-        //int id = shields.register(shieldid);
-
         return shieldid;
-
-        //new RegisterShieldThread(shield).start();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("id");
-        String shieldParam = request.getParameter("shield");
 
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
@@ -112,42 +106,26 @@ public class ShieldServlet extends HttpServlet {
 
         Core core = (Core) getServletContext().getAttribute(QuartzListener.CoreClass);
 
-        //create Json Object
-        JSONArray jsonarray = new JSONArray();
+        if (id != null) {
 
-        /*if (id != null) {
-
-            TemperatureSensor sensor = core.getSensorFromId(Integer.valueOf(id));
-            JSONObject json = sensor.getJson();
-            out.print(json.toString());
-
-        } else*/ if (shieldParam != null) {
-
-            JSONArray jarray = core.getShieldsJsonArray();
-
-            JSONObject jshields = new JSONObject();
-            try {
-                jshields.put("shields", jarray);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            out.print(jshields.toString());
+            /*Actuator actuator = core.getFromShieldId(Integer.valueOf(id), null);
+            JSONObject json = actuator.getJson();
+            out.print(json.toString());*/
 
         } else {
 
-            /*List<TemperatureSensor> list = core.getLastSensorData();
-            Iterator<TemperatureSensor> iterator = list.iterator();
+            List<Shield> list = core.getShields();
+            //create Json Object
+            JSONArray jsonarray = new JSONArray();
+            Iterator<Shield> iterator = list.iterator();
             while (iterator.hasNext()) {
-                TemperatureSensor sd = iterator.next();
-                JSONObject json = sd.getJson();
+                Shield shield = iterator.next();
+                JSONObject json = shield.toJson();
                 jsonarray.put(json);
             }
-
-
-            // finally output the json string
-            out.print(jsonarray.toString());*/
+            out.print(jsonarray.toString());
         }
+
     }
 }
 

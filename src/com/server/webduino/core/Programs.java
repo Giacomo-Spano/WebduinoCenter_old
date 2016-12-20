@@ -166,10 +166,9 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             mNextProgramList = nextPrograms(currentDate);
             LOGGER.info("found " + mNextProgramList.size() + "active program");
 
-            if (mNextProgramList == null)
+            if (mNextProgramList == null) {
                 LOGGER.severe("mNextProgramList NULL");
-
-            if (mNextProgramList.get(0) == null && mNextProgramList.get(0).endDate != null) {
+            } else if (mNextProgramList.get(0) != null && mNextProgramList.get(0).endDate != null) {
                 Date date = mNextProgramList.get(0).endDate;
                 scheduleJob(date);
             } else {
@@ -217,13 +216,20 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                         //mActuator.setActiveSensorName(mActiveProgram.timeRange.shieldId);
                         if (mActiveProgram.timeRange.sensorId/* actuator.activeSensorID*/ == 0) { // active sensor local
 
-                            mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                            boolean res = mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                            if (!res)
+                                LOGGER.severe("sendCommand Program on failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
+
                         } else {
                             if (currentTemperature < mActiveProgram.timeRange.temperature) {
 
-                                mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                                boolean res = mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                                if (!res)
+                                    LOGGER.severe("sendCommand Program on failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
                             } else {
-                                mActuator.sendCommand(Actuator.Command_Program_Off, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                                boolean res = mActuator.sendCommand(Actuator.Command_Program_Off, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                                if (!res)
+                                    LOGGER.severe("sendCommand Program off failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
                             }
                         }
                     } catch (ParseException e) {

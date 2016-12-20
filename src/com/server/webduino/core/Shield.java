@@ -21,13 +21,13 @@ public class Shield extends httpClient {
     protected String MACAddress;
     protected String boardName;
     protected Date lastUpdate;
-    List<SensorBase> sensors = new ArrayList<>();
-    List<Actuator> actuators = new ArrayList<>();
+    List<Integer> sensorIds = new ArrayList<>();
+    List<Integer> actuatorIds = new ArrayList<>();
     public URL url;
 
-    public Shield(JSONObject jsonObj) {
-        FromJson(jsonObj);
-    }
+    /*public Shield(JSONObject jsonObj) {
+        //FromJson(jsonObj);
+    }*/
 
     public Shield() {
     }
@@ -36,7 +36,8 @@ public class Shield extends httpClient {
 
         Date currentDate = Core.getDate();
         boolean res = false;
-        for (SensorBase s : sensors) {
+        for (Integer id : sensorIds) {
+            SensorBase s = Shields.getSensorFromId(id);
             if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
                 s.onlinestatus = Status_Offline;
                 res = true;
@@ -49,7 +50,8 @@ public class Shield extends httpClient {
 
         Date currentDate = Core.getDate();
         boolean res = false;
-        for (SensorBase s : actuators) {
+        for (Integer id : actuatorIds) {
+            SensorBase s = Shields.getActuatorFromId(id);
             if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
                 s.onlinestatus = Status_Offline;
                 res = true;
@@ -58,7 +60,7 @@ public class Shield extends httpClient {
         return res;
     }
 
-    void FromJson(JSONObject json) {
+    public boolean FromJson(JSONObject json) {
 
         try {
             Date date = Core.getDate();
@@ -70,13 +72,18 @@ public class Shield extends httpClient {
             if (json.has("localIP")) {
                 try {
                     url = new URL("http://" + json.getString("localIP"));
+                    if (url.equals(new URL("http://0.0.0.0"))) {
+                        LOGGER.info("url error: " + url.toString());
+                        return false;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     LOGGER.info("url error: " + e.toString());
+                    return false;
                 }
             }
-            if (json.has("sensors")) {
-                JSONArray jsonArray = json.getJSONArray("sensors");
+            if (json.has("sensorIds")) {
+                JSONArray jsonArray = json.getJSONArray("sensorIds");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
@@ -89,13 +96,13 @@ public class Shield extends httpClient {
                                 sensor.subaddress = j.getString("addr");
                             if (j.has("type"))
                                 sensor.type = j.getString("type");
-                            sensors.add(sensor);
+                            sensorIds.add(sensor.id);
                         }
                     }
                 }
             }
-            if (json.has("actuators")) {
-                JSONArray jsonArray = json.getJSONArray("actuators");
+            if (json.has("actuatorIds")) {
+                JSONArray jsonArray = json.getJSONArray("actuatorIds");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
@@ -108,7 +115,7 @@ public class Shield extends httpClient {
                                 actuator.subaddress = j.getString("addr");
                             if (j.has("type"))
                                 actuator.type = j.getString("type");
-                            actuators.add(actuator);
+                            actuatorIds.add(actuator.id);
                         }
                     }
                 }
@@ -118,7 +125,9 @@ public class Shield extends httpClient {
             // TODO Auto-generated catch block
             e.printStackTrace();
             LOGGER.info("json error: " + e.toString());
+            return false;
         }
+        return true;
     }
 
     public JSONObject toJson() {
@@ -132,13 +141,20 @@ public class Shield extends httpClient {
             if (url != null)
                 json.put("url", url);
             JSONArray jarray = new JSONArray();
-            for (SensorBase sensor : sensors) {
-                JSONObject jsensor = new JSONObject();
-                jsensor.put("subaddress", sensor.subaddress);
-                jsensor.put("name", sensor.name);
-                jarray.put(jsensor);
+            for (Integer id : sensorIds) {
+                SensorBase sensor = Shields.getSensorFromId(id);
+                if (sensor != null)
+                    jarray.put(sensor.getJson());
             }
-            json.put("sensors", jarray);
+            json.put("sensorIds", jarray);
+
+            jarray = new JSONArray();
+            for (Integer id : actuatorIds) {
+                SensorBase actuator = Shields.getActuatorFromId(id);
+                if (actuator != null)
+                    jarray.put(actuator.getJson());
+            }
+            json.put("actuatorIds", jarray);
 
         } catch (JSONException e) {
             e.printStackTrace();

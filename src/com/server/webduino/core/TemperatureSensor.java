@@ -119,7 +119,7 @@ public class TemperatureSensor extends SensorBase {
             json.put("temperature", getTemperature());
             json.put("avtemperature", getAvTemperature());
             json.put("name", getName());
-            json.put("lastupdate", getLastUpdate());
+            json.put("lastupdate", getStrLastUpdate());
             json.put("type", type);
 
         } catch (JSONException e) {

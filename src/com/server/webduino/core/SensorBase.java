@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,11 @@ public class SensorBase extends httpClient {
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+
+    public String getStrLastUpdate() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(lastUpdate);
     }
 
     public int getId() {

@@ -114,6 +114,10 @@ public class Core {
         return mShields.getActuators();
     }
 
+    public List<Shield> getShields() {
+        return mShields.getShields();
+    }
+
     public List<SensorBase> getLastSensorData() {
         return mShields.getLastSensorData();
     }
