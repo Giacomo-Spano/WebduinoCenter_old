@@ -29,7 +29,7 @@ public class Core {
     public static String APP_DNS_OPENSHIFTTEST = "webduinocenterbeta-giacomohome.rhcloud.com";
 
     public static Shields mShields;
-    public Programs mPrograms;
+    public static Programs mPrograms;
 
     public static Devices mDevices = new Devices();
 
@@ -150,7 +150,7 @@ public class Core {
         return mPrograms.getActiveProgramList();
     }
 
-    public Program getProgramFromId(int id) {
+    public static Program getProgramFromId(int id) {
         return mPrograms.getProgramFromId(id);
     }
 
@@ -162,8 +162,12 @@ public class Core {
         return mPrograms.getLastActiveProgramUpdate();
     }
 
-    public SensorBase getSensorFromId(int id) {
+    public static SensorBase getSensorFromId(int id) {
         return mShields.getSensorFromId(id);
+    }
+
+    public static SensorBase getActuatorFromId(int id) {
+        return mShields.getActuatorFromId(id);
     }
 
     public int deleteProgram(int id) {

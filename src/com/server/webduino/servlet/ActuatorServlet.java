@@ -100,6 +100,7 @@ public class ActuatorServlet extends HttpServlet {
                 if (command.equals("status")) { // receive status update
                     out.print(json.toString());
                     updateActuator(actuatorId, json);
+                    response.setStatus(HttpServletResponse.SC_OK);
                     return;
 
                 } else if (command.equals("start")) {
@@ -112,10 +113,19 @@ public class ActuatorServlet extends HttpServlet {
                             sensorId = json.getInt("sensorid");
                         if (json.has("remote"))
                             remote = json.getBoolean("remote");
-                        HeaterActuator actuator = (HeaterActuator) core.getFromId(actuatorId);
-                        //res = actuator.sendCommand(Actuator.Command_Manual_Start, duration, temperature, localSensor, 0, 0, sensor, 0);
-                        res = actuator.sendCommand(Actuator.Command_Manual_Start, duration, target, remote, 0, 0, sensorId, 0);
 
+                        HeaterActuatorCommand cmd = new HeaterActuatorCommand();
+                        cmd.command = Actuator.Command_Manual_Auto;
+                        cmd.duration = duration;
+                        cmd.targetTemperature = target;
+                        cmd.remoteSensor = remote;
+                        cmd.activeProgramID = 0;
+                        cmd.activeTimeRangeID = 0;
+                        cmd.activeSensorID = sensorId;
+                        cmd.activeSensorTemperature = 0;
+                        new SendActuatorCommandThread(actuatorId, cmd).start();
+
+                        res = true;
                         response.setStatus(HttpServletResponse.SC_OK);
 
                     } catch (JSONException e1) {
@@ -123,24 +133,32 @@ public class ActuatorServlet extends HttpServlet {
                     }
 
                 } else if (command.equals("stop")) {
-                    try {
-                        if (json.has("duration"))
-                            duration = json.getInt("duration");
-                        if (json.has("target"))
+                    //try {
+                    if (json.has("duration"))
+                        duration = json.getInt("duration");
+                        /*if (json.has("target"))
                             target = json.getDouble("target");
                         if (json.has("sensorid"))
                             sensorId = json.getInt("sensorid");
                         if (json.has("remote"))
-                            remote = json.getBoolean("remote");
-                        HeaterActuator actuator = (HeaterActuator) core.getFromId(actuatorId);
-                        //res = actuator.sendCommand(Actuator.Command_Manual_Start, duration, temperature, localSensor, 0, 0, sensor, 0);
-                        res = actuator.sendCommand(Actuator.Command_Manual_Stop, 0, 0, false, 0, 0, 0, 0);
+                            remote = json.getBoolean("remote");*/
+                    //HeaterActuator actuator = (HeaterActuator) core.getFromId(actuatorId);
+                    //res = actuator.sendCommand(Actuator.Command_Manual_End, duration, 0, true, 0, 0, 0, 0);
 
-                        response.setStatus(HttpServletResponse.SC_OK);
+                    HeaterActuatorCommand cmd = new HeaterActuatorCommand();
+                    cmd.command = Actuator.Command_Manual_End;
+                    cmd.duration = 0;
+                    cmd.targetTemperature = 0;
+                    cmd.remoteSensor = false;
+                    cmd.activeProgramID = 0;
+                    cmd.activeTimeRangeID = 0;
+                    cmd.activeSensorID = -1;
+                    cmd.activeSensorTemperature = 0;
+                    new SendActuatorCommandThread(actuatorId, cmd).start();
 
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+                    res = true;
+                    response.setStatus(HttpServletResponse.SC_OK);
+
                 } else {
                     LOGGER.severe("command not found");
                     res = false;
@@ -148,14 +166,17 @@ public class ActuatorServlet extends HttpServlet {
             }
 
             try {
-                response.setStatus(HttpServletResponse.SC_OK);
 
-                if (res) {
+                if (res) { // questo dovrebbe essere messo a false se sono sbagliati i parametri del command
                     jsonResult.put("answer", "success");
-                    jsonResult.put("id", actuatorId);
+                    /*jsonResult.put("id", actuatorId);
                     Actuator actuator = core.getFromId(actuatorId);
+                    if (actuator == null)
+                        LOGGER.severe("actuator == null");
                     JSONObject actuatorJson = actuator.getJson();
-                    jsonResult.put("actuator", actuatorJson.toString());
+                    if (actuatorJson == null)
+                        LOGGER.severe("actuator == null");
+                    jsonResult.put("actuator", actuatorJson.toString());*/
 
                 } else {
 

@@ -50,6 +50,7 @@ public class Devices {
             ResultSet rs = stmt.executeQuery(sql);
 
             // Extract data from result set
+            mDeviceList.clear();
             while (rs.next()) {
 
 

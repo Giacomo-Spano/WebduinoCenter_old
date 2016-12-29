@@ -16,13 +16,13 @@ public class SendPushMessages {
     public static final String App_GPSAlarm = "GPSAlarm";
     public static final String App_WindAlarm = "WindAlarm";
 
-    public static final String notification_statuschange = "1";
-    public static final String notification_restarted = "2";
-    public static final String notification_programchange = "3";
-    public static final String notification_relestatuschange = "4";
-    public static final String notification_offline = "5";
-    public static final String notification_error = "6";
-    public static final String notification_register = "7";
+    public static final String notification_statuschange = "status change";
+    public static final String notification_restarted = "restart";
+    public static final String notification_programchange = "program change";
+    public static final String notification_relestatuschange = "rele status change";
+    public static final String notification_offline = "offline";
+    public static final String notification_error = "error";
+    public static final String notification_register = "register";
 
 
     private static final Logger LOGGER = Logger.getLogger(SendPushMessages.class.getName());

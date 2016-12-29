@@ -3,13 +3,7 @@ package com.server.webduino.core;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -33,6 +27,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
     static final protected int local_sensor = 0;
 
     protected int activeSensorID; //  questo valore non è letto dal sensore ma rimane solo sul server
+
     //protected String activeSensorName; //  questo valore non è letto dal sensore ma rimane solo sul server
 
     public HeaterActuator() {
@@ -181,69 +176,94 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
     }
 
     public Boolean sendCommand(int command, long duration, double targetTemperature, boolean localSensor, int activeProgramID, int activeTimeRangeID, int activeSensorID, double activeSensorTemperature) {
+
+        HeaterActuatorCommand cmd = new HeaterActuatorCommand();
+        cmd.command = command;
+        cmd.duration = duration;
+        cmd.targetTemperature = targetTemperature;
+        cmd.remoteSensor = !localSensor;
+        cmd.activeProgramID = activeProgramID;
+        cmd.activeTimeRangeID = activeTimeRangeID;
+        cmd.activeSensorID = activeSensorID;
+        cmd.activeSensorTemperature = remoteTemperature;
+        return sendCommand(cmd);
+    }
+
+    @Override
+    public Boolean sendCommand(ActuatorCommand cmd) {
         // sendcommand è usata anche da actuatorservlet per mandare i command dalle app
+
+        HeaterActuatorCommand heaterActuatorCommand = (HeaterActuatorCommand) cmd;
 
         String postParam = "";
         String path = "";
 
-        LOGGER.info("sendCommand command=" + command + ",duration=" + duration + ",targetTemperature=" + targetTemperature + ",localSensor=" + localSensor +
-                ",activeProgramID=" + activeProgramID + ",activeTimeRangeID=" + activeTimeRangeID + ",activeSensorID=" + activeSensorID + "activeSensorTemperature=" + activeSensorTemperature);
+        LOGGER.info("sendCommand command=" + heaterActuatorCommand.command + ",duration=" +heaterActuatorCommand.duration + ",targetTemperature=" + heaterActuatorCommand.targetTemperature + ",remoteSensor=" + heaterActuatorCommand.remoteSensor +
+                ",activeProgramID=" + heaterActuatorCommand.activeProgramID + ",activeTimeRangeID=" + heaterActuatorCommand.activeTimeRangeID + ",activeSensorID=" + heaterActuatorCommand.activeSensorID + "activeSensorTemperature=" + heaterActuatorCommand.activeSensorTemperature);
 
-        setActiveSensorID(activeSensorID);
+        setActiveSensorID(heaterActuatorCommand.activeSensorID);
 
-        if (command == Command_Program_On) {
+        if (heaterActuatorCommand.command == Command_Program_On) {
             path = "/rele";
             postParam = "status=1";
-            postParam += "&duration=" + duration;
-            postParam += "&target=" + targetTemperature;
+            postParam += "&duration=" + heaterActuatorCommand.duration;
+            postParam += "&target=" + heaterActuatorCommand.targetTemperature;
             if (localSensor == true)
-                postParam += "&sensor="+local_sensor;
+                postParam += "&sensor="+ !heaterActuatorCommand.remoteSensor;
             else
-                postParam += "&sensor="+activeSensorID;
-            postParam += "&program=" + activeProgramID;
-            postParam += "&timerange=" + activeTimeRangeID;
-            postParam += "&temperature=" + activeSensorTemperature;
+                postParam += "&sensor="+heaterActuatorCommand.activeSensorID;
+            postParam += "&program=" + heaterActuatorCommand.activeProgramID;
+            postParam += "&timerange=" + heaterActuatorCommand.activeTimeRangeID;
+            postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
             postParam += "&json=1";
 
-        } else if (command == Command_Program_Off) {
+        } else if (heaterActuatorCommand.command == Command_Program_Off) {
             path = "/rele";
             postParam = "status=0";
-            postParam += "&duration=" + duration;
-            postParam += "&target=" + targetTemperature;
-            if (localSensor == true)
-                postParam += "&sensor="+local_sensor;
+            postParam += "&duration=" + heaterActuatorCommand.duration;
+            postParam += "&target=" + heaterActuatorCommand.targetTemperature;
+            if (!heaterActuatorCommand.remoteSensor == true)
+                postParam += "&sensor="+!heaterActuatorCommand.remoteSensor;
             else
-                postParam += "&sensor="+activeSensorID;
-            postParam += "&program=" + activeProgramID;
-            postParam += "&timerange=" + activeTimeRangeID;
-            postParam += "&temperature=" + activeSensorTemperature;
+                postParam += "&sensor="+heaterActuatorCommand.activeSensorID;
+            postParam += "&program=" + heaterActuatorCommand.activeProgramID;
+            postParam += "&timerange=" + heaterActuatorCommand.activeTimeRangeID;
+            postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
             postParam += "&json=1";
 
-        } else if (command == Command_Manual_Start) {
+        } else if (heaterActuatorCommand.command == Command_Manual_Auto) {
             path = "/rele";
             postParam = "status=1";
-            postParam += "&duration=" + duration;
+            postParam += "&duration=" + heaterActuatorCommand.duration;
             if (localSensor == true) {
-                postParam += "&sensor="+local_sensor;
-                postParam += "&target=" + targetTemperature;
+                postParam += "&sensor="+ !heaterActuatorCommand.remoteSensor;
+                postParam += "&target=" + heaterActuatorCommand.targetTemperature;
             } else {
                 postParam += "&sensor=1";
 
             }
             postParam += "&manual=1";
-            postParam += "&temperature=" + activeSensorTemperature;
+            postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
             postParam += "&json=1";
 
-        } else if (command == Command_Manual_Stop) {
+        } else if (heaterActuatorCommand.command == Command_Manual_Off) {
+            path = "/rele";
+            postParam = "status=1";
+            postParam += "&duration=" + heaterActuatorCommand.duration;
+            postParam += "&manual=2";
+            //postParam += "&temperature=" + activeSensorTemperature;
+            postParam += "&json=1";
+
+        } else if (heaterActuatorCommand.command == Command_Manual_End) {
             path = "/rele";
             postParam = "status=0";
             postParam += "&manual=1";
             postParam += "&temperature=" + targetTemperature;
             postParam += "&json=1";
 
-        } else if (command == Command_Send_Temperature) {
+        } else if (heaterActuatorCommand.command == Command_Send_Temperature) {
             path = "/temp";
-            postParam = "temperature=" + activeSensorTemperature;
+            postParam = "temperature=" + heaterActuatorCommand.activeSensorTemperature;
             if (localSensor == true)
                 postParam += "&sensor="+local_sensor;
             else
@@ -338,14 +358,29 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             json.put("duration", duration);
             json.put("remaining", getRemaining());
             json.put("relestatus", getReleStatus());
-            json.put("lastupdate", lastUpdate);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            json.put("lastupdate", df.format(lastUpdate));
             json.put("localsensor", localSensor);
 
             json.put("target", targetTemperature);
 
+
             json.put("program", activeProgramID);
-            json.put("timerange", activeTimeRangeID);
+            Program program = Core.getProgramFromId(activeProgramID);
+            if (program != null) {
+                json.put("programname", program.name);
+                json.put("timerange", activeTimeRangeID);
+
+                TimeRange timeRange = program.getTimeRangeFromId(activeTimeRangeID);
+                if (timeRange != null)
+                    json.put("timerangename", timeRange.name);
+            }
+
             json.put("sensorID", activeSensorID);
+            SensorBase sensor = Core.getSensorFromId(activeSensorID);
+            if (sensor != null)
+                json.put("sensorIDname", sensor.name);
+
             Date currentDate = Core.getDate();
 
             Locale.setDefault(Locale.ITALIAN);
@@ -370,8 +405,6 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             json.put("onlinestatus", onlinestatus);
 
             json.put("type", type);
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();

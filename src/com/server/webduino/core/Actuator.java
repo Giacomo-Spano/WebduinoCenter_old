@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Actuator extends SensorBase {
+public abstract class Actuator extends SensorBase {
 
     private static final Logger LOGGER = Logger.getLogger(Actuator.class.getName());
 
@@ -21,8 +21,9 @@ public class Actuator extends SensorBase {
     public static final int Command_Program_Off = 0;
     public static final int Command_Program_On = 1;
     public static final int Command_Send_Temperature = 2;
-    public static final int Command_Manual_Start = 3;
-    public static final int Command_Manual_Stop = 4;
+    public static final int Command_Manual_Auto = 3;
+    public static final int Command_Manual_End = 4;
+    public static final int Command_Manual_Off = 5;
 
     static final int relestatus_off = 0;
     static final int relestatus_on = 1;
@@ -95,6 +96,8 @@ public class Actuator extends SensorBase {
         }
     }
 
+
+    public abstract Boolean sendCommand(ActuatorCommand cmd);
 
     void updateFromJson(JSONObject json) {
     }
