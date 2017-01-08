@@ -135,8 +135,8 @@ public class Shields {
             }
 
 
-            for (Integer id : shield.sensorIds) {
-                SensorBase sensor = Shields.getSensorFromId(id);
+            for (SensorBase sensor : shield.sensors) {
+                //SensorBase sensor = Shields.getSensorFromId(id);
                 sql = "INSERT INTO sensors (shieldid, type, subaddress, name)" +
                         " VALUES ("
                         + "\"" + lastid + "\","
@@ -152,8 +152,8 @@ public class Shields {
                 stmt.executeUpdate(sql);
             }
 
-            for(Integer id : shield.actuatorIds) {
-                SensorBase actuator = Shields.getActuatorFromId(id);
+            for(SensorBase actuator : shield.actuators) {
+                //SensorBase actuator = Shields.getActuatorFromId(id);
                 sql = "INSERT INTO actuators (shieldid, type, subaddress, name)" +
                         " VALUES ("
                         + "\"" + lastid + "\","
@@ -193,12 +193,12 @@ public class Shields {
             shield.id = lastid;
             for(ShieldsListener listener : listeners) {
                 listener.addedShield(shield);
-                for(Integer id : shield.actuatorIds) {
-                    SensorBase actuator = Shields.getActuatorFromId(id);
+                for(SensorBase actuator : shield.actuators) {
+                    //SensorBase actuator = Shields.getActuatorFromId(id);
                     listener.addedActuator((Actuator) actuator);
                 }
-                for(Integer id : shield.sensorIds) {
-                    SensorBase sensor = Shields.getActuatorFromId(id);
+                for(SensorBase sensor : shield.sensors) {
+                    //SensorBase sensor = Shields.getActuatorFromId(id);
                     listener.addedSensor(sensor);
                 }
             }
@@ -215,7 +215,7 @@ public class Shields {
         return mSensors.getSensorFromId(id);
     }
 
-    public static SensorBase getActuatorFromId(int id) {
+    public static Actuator getActuatorFromId(int id) {
 
         return mActuators.getActuatorFromId(id);
     }
@@ -256,20 +256,23 @@ public class Shields {
 
                 ResultSet sensorRs = stmt.executeQuery(sql);
                 while (sensorRs.next()) {
-                    /*if (sensorRs.getString("type").equals("temperature")) {
+                    if (sensorRs.getString("type").equals("temperature")) {
                         TemperatureSensor sensor = new TemperatureSensor();
 
                         if (sensorRs.getString("subaddress") != null)
                             sensor.subaddress = sensorRs.getString("subaddress");
                         if (sensorRs.getString("name") != null)
                             sensor.name = sensorRs.getString("name");
+                        if (sensorRs.getString("id") != null)
+                            sensor.id = Integer.valueOf(sensorRs.getString("id"));
 
-                        shield.sensorIds.add(sensor.id);
-                    }*/
-                    if (sensorRs.getInt("id") != 0) {
+                        shield.sensors.add(sensor);
+                    }
+                    /*if (sensorRs.getInt("id") != 0) {
+                        SensorBase sensor = new s
                         int id = sensorRs.getInt("id");
                         shield.sensorIds.add(id);
-                    }
+                    }*/
                 }
                 sensorRs.close();
             }
@@ -280,20 +283,22 @@ public class Shields {
 
                 ResultSet actuatorRs = stmt.executeQuery(sql);
                 while (actuatorRs.next()) {
-                    /*if (actuatorRs.getString("type").equals("temperature")) {
+                    if (actuatorRs.getString("type").equals("temperature")) {
                         HeaterActuator actuator = new HeaterActuator();
 
                         if (actuatorRs.getString("subaddress") != null)
                             actuator.subaddress = actuatorRs.getString("subaddress");
                         if (actuatorRs.getString("name") != null)
                             actuator.name = actuatorRs.getString("name");
+                        if (actuatorRs.getString("id") != null)
+                            actuator.id = Integer.valueOf(actuatorRs.getString("id"));
 
-                        shield.actuatorIds.add(actuator.id);
-                    }*/
-                    if (actuatorRs.getInt("id") != 0) {
+                        shield.actuators.add(actuator);
+                    }
+                    /*if (actuatorRs.getInt("id") != 0) {
                         int id = actuatorRs.getInt("id");
                         shield.actuatorIds.add(id);
-                    }
+                    }*/
                 }
                 actuatorRs.close();
             }

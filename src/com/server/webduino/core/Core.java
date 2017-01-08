@@ -126,7 +126,7 @@ public class Core {
         return mShields.updateSensors(shieldid, jsonArray);
     }
 
-    public Actuator getFromShieldId(int shieldid, String subaddress) {
+    public static Actuator getFromShieldId(int shieldid, String subaddress) {
         return mShields.getFromShieldId(shieldid, subaddress);
     }
 
@@ -166,7 +166,7 @@ public class Core {
         return mShields.getSensorFromId(id);
     }
 
-    public static SensorBase getActuatorFromId(int id) {
+    public static Actuator getActuatorFromId(int id) {
         return mShields.getActuatorFromId(id);
     }
 

@@ -154,7 +154,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             return;
         }
 
-        if (mActuator.getStatus().equals(Actuator.STATUS_MANUALMODE)) {
+        if (mActuator.getStatus().equals(HeaterActuator.STATUS_MANUAL) || mActuator.getStatus().equals(HeaterActuator.STATUS_MANUALOFF)) {
             LOGGER.info("->actuator in manual mode");
             mOldActiveProgram = null;
 
@@ -191,7 +191,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             } else {
                 LOGGER.info("->Active program" + mActiveProgram.program.id + " " + mActiveProgram.program.name);
 
-                if (mActuator.getStatus().equals(Actuator.STATUS_IDLE) || mActuator.getStatus().equals(Actuator.STATUS_PROGRAMACTIVE)) {
+                if (mActuator.getStatus().equals(HeaterActuator.STATUS_IDLE) || mActuator.getStatus().equals(HeaterActuator.STATUS_PROGRAMACTIVE)) {
 
                     DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
                     String timeStr = timeFormat.format(currentDate);
@@ -202,7 +202,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                         Date date1 = format.parse(currentTime.toString());
                         Date date2 = format.parse(mActiveProgram.timeRange.endTime.toString());
                         long difference = date2.getTime() - date1.getTime();
-                        long duration = difference / 1000 / 60 + 59*1000; // aggiungi 59 secondi per non fare andare l'actuator in idle
+                        long duration = (difference / 1000 + 59) / 60; // aggiungi 59 secondi per non fare andare l'actuator in idle
 
                         // get current temperature from active sensor local or remote
                         double currentTemperature = 0.0; // temperatura del sensore locale o remoto
@@ -215,17 +215,17 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                         if (mActiveProgram.timeRange.sensorId/* actuator.activeSensorID*/ == 0) { // active sensor local
 
                             HeaterActuatorCommand cmd = new HeaterActuatorCommand();
-                            cmd.command = Actuator.Command_Program_On;
+                            cmd.command = HeaterActuatorCommand.Command_Program_ReleOn;
                             cmd.duration = duration;
-                            cmd.targetTemperature =  mActiveProgram.timeRange.temperature;
+                            cmd.targetTemperature = mActiveProgram.timeRange.temperature;
                             cmd.remoteSensor = false;
                             cmd.activeProgramID = mActiveProgram.program.id;
                             cmd.activeTimeRangeID = mActiveProgram.timeRange.ID;
-                            cmd.activeSensorID =  mActiveProgram.timeRange.sensorId;
-                            cmd.activeSensorTemperature = currentTemperature;
+                            cmd.activeSensorID = 0;//mActiveProgram.timeRange.sensorId;
+                            cmd.activeSensorTemperature = 0;//currentTemperature;
                             boolean res = mActuator.sendCommand(cmd);
 
-                            //boolean res = mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
+                            //boolean res = mActuator.sendCommand(Actuator.Command_Program_ReleOn, duration, mActiveProgram.timeRange.temperature, true/* local sensor */, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
                             if (!res)
                                 LOGGER.severe("sendCommand Program on failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
 
@@ -233,35 +233,55 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                             if (currentTemperature < mActiveProgram.timeRange.temperature) {
 
                                 HeaterActuatorCommand cmd = new HeaterActuatorCommand();
-                                cmd.command = Actuator.Command_Program_On;
+                                cmd.command = HeaterActuatorCommand.Command_Program_ReleOn;
                                 cmd.duration = duration;
-                                cmd.targetTemperature =  mActiveProgram.timeRange.temperature;
+                                cmd.targetTemperature = mActiveProgram.timeRange.temperature;
                                 cmd.remoteSensor = true;
                                 cmd.activeProgramID = mActiveProgram.program.id;
                                 cmd.activeTimeRangeID = mActiveProgram.timeRange.ID;
-                                cmd.activeSensorID =  mActiveProgram.timeRange.sensorId;
+                                cmd.activeSensorID = mActiveProgram.timeRange.sensorId;
                                 cmd.activeSensorTemperature = currentTemperature;
-                                boolean res = mActuator.sendCommand(cmd);
 
-                                //boolean res = mActuator.sendCommand(Actuator.Command_Program_On, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
-                                if (!res)
-                                    LOGGER.severe("sendCommand Program on failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
+                                if (cmd.duration * 60 != mActuator.duration ||
+                                        cmd.targetTemperature != mActuator.targetTemperature ||
+                                        cmd.remoteSensor != !mActuator.isLocalSensor() ||
+                                        cmd.activeProgramID != mActuator.activeProgramID ||
+                                        cmd.activeTimeRangeID != mActuator.activeTimeRangeID ||
+                                        cmd.activeSensorID != mActuator.activeSensorID //||
+                                    /*cmd.activeSensorTemperature = mActuator.te*/) {
+                                    boolean res = mActuator.sendCommand(cmd);
+
+                                    if (!res)
+                                        LOGGER.severe("sendCommand Program on failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
+                                } else {
+                                    LOGGER.severe("Command not sent. No changes");
+                                }
                             } else {
 
                                 HeaterActuatorCommand cmd = new HeaterActuatorCommand();
-                                cmd.command = Actuator.Command_Program_On;
+                                cmd.command = HeaterActuatorCommand.Command_Program_ReleOff;
                                 cmd.duration = duration;
-                                cmd.targetTemperature =  mActiveProgram.timeRange.temperature;
+                                cmd.targetTemperature = mActiveProgram.timeRange.temperature;
                                 cmd.remoteSensor = false;
                                 cmd.activeProgramID = mActiveProgram.program.id;
                                 cmd.activeTimeRangeID = mActiveProgram.timeRange.ID;
-                                cmd.activeSensorID =  mActiveProgram.timeRange.sensorId;
+                                cmd.activeSensorID = mActiveProgram.timeRange.sensorId;
                                 cmd.activeSensorTemperature = currentTemperature;
-                                boolean res = mActuator.sendCommand(cmd);
 
-                                //boolean res = mActuator.sendCommand(Actuator.Command_Program_Off, duration, mActiveProgram.timeRange.temperature, false/*remote sensor*/, mActiveProgram.program.id, mActiveProgram.timeRange.ID, mActiveProgram.timeRange.sensorId, currentTemperature);
-                                if (!res)
-                                    LOGGER.severe("sendCommand Program off failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
+
+                                if (cmd.duration * 60 != mActuator.duration ||
+                                        cmd.targetTemperature != mActuator.targetTemperature ||
+                                        cmd.remoteSensor != !mActuator.isLocalSensor() ||
+                                        cmd.activeProgramID != mActuator.activeProgramID ||
+                                        cmd.activeTimeRangeID != mActuator.activeTimeRangeID ||
+                                        cmd.activeSensorID != mActuator.activeSensorID //||
+                                       /*cmd.activeSensorTemperature = mActuator.te*/) {
+                                    boolean res = mActuator.sendCommand(cmd);
+                                    if (!res)
+                                        LOGGER.severe("sendCommand Program off failed: " + mActiveProgram.program.id + " " + mActiveProgram.program.name);
+                                } else {
+                                    LOGGER.severe("Command not sent. No changes");
+                                }
                             }
                         }
                     } catch (ParseException e) {
@@ -326,7 +346,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
         // calcola i prossimi programmi attivi per i prossimi sette giorni
         for (int i = 0; i < 7; i++) {
 
-            LOGGER.info("i="+i);
+            LOGGER.info("i=" + i);
 
             String t = "23:59:00";
             Time eodtime = Time.valueOf(t);
@@ -342,7 +362,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                     endtime.setTime(currentProgram.timeRange.endTime);
                 }
                 Date date = endtime.getTime();
-                LOGGER.info("endtime="+date.toString());
+                LOGGER.info("endtime=" + date.toString());
 
                 // cerca un programma con data e ora programma precedente alla fine dell'ore fi fine del timerange corrente
                 Iterator<Program> iterator = mProgramList.iterator();
@@ -350,15 +370,15 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
                     Program program = iterator.next();
 
-                    LOGGER.info("program.id="+program.id);
+                    LOGGER.info("program.id=" + program.id);
 
                     if (program.dateEnabled && program.startDate.equals(nextDateCalendar.getTime())
                             && program.startTime.before(currentProgram.timeRange.endTime)) {
 
-                        LOGGER.info("program.dateEnabled="+program.dateEnabled);
-                        LOGGER.info("program.startDate="+program.startDate);
-                        LOGGER.info("program.startTime="+program.startTime);
-                        LOGGER.info("currentProgram.timeRange="+currentProgram.timeRange.endTime);
+                        LOGGER.info("program.dateEnabled=" + program.dateEnabled);
+                        LOGGER.info("program.startDate=" + program.startDate);
+                        LOGGER.info("program.startTime=" + program.startTime);
+                        LOGGER.info("currentProgram.timeRange=" + currentProgram.timeRange.endTime);
                         nextActive = new ActiveProgram();
                         nextActive.program = program;
                         Iterator<TimeRange> timerangeIterator = program.mTimeRanges.iterator();
@@ -379,10 +399,10 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
                 nextDateTimeCalendar.set(Calendar.MILLISECOND, 0);
                 //nextDateTimeCalendar.add(Calendar.MINUTE, 1);
                 date = nextDateTimeCalendar.getTime();
-                LOGGER.info("nextDateTimeCalendar="+date.toString());
+                LOGGER.info("nextDateTimeCalendar=" + date.toString());
 
                 Date next = nextDateTimeCalendar.getTime();
-                if(currentProgram != null) {
+                if (currentProgram != null) {
                     currentProgram.endDate = next;
                     LOGGER.info("add program: " + currentProgram);
                     nextProgramList.add(currentProgram);
@@ -698,7 +718,7 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
         checkProgram();
 
-        Core.sendPushNotification(SendPushMessages.notification_statuschange,"Status",description,"0");
+        Core.sendPushNotification(SendPushMessages.notification_statuschange, "Status", description, "0");
 
         //Core.sendPushNotification(SendPushMessages.notification_statuschange, "title", "description", "0");
     }
@@ -707,15 +727,16 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
     public void changeReleStatus(boolean newReleStatus, boolean oldReleStatus) {
         // chiamato quando cambia lo stato del relè dell'heateractuator
         if (newReleStatus == true)
-            Core.sendPushNotification(SendPushMessages.notification_relestatuschange,"titolo","stato rele","acceso");
+            Core.sendPushNotification(SendPushMessages.notification_relestatuschange, "titolo", "stato rele", "acceso");
         else
-            Core.sendPushNotification(SendPushMessages.notification_relestatuschange,"titolo","rele","spento");
+            Core.sendPushNotification(SendPushMessages.notification_relestatuschange, "titolo", "rele", "spento");
     }
 
     @Override
     public void changeProgram(HeaterActuator heater, int newProgram, int oldProgram, int newTimerange, int oldTimerange) {
 
-        String activeSensor = "no active sensor";;
+        String activeSensor = "no active sensor";
+        ;
         if (heater != null)
             activeSensor = "" + heater.getActiveSensorID();
 
@@ -730,8 +751,8 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
             }
         }
 
-        String description = "New program " + program + " " + timerange+ " " + " sensor " + activeSensor;
-        Core.sendPushNotification(SendPushMessages.notification_programchange,"Program",description,"0");
+        String description = "New program " + program + " " + timerange + " " + " sensor " + activeSensor;
+        Core.sendPushNotification(SendPushMessages.notification_programchange, "Program", description, "0");
     }
 
     @Override
@@ -745,12 +766,12 @@ public class Programs implements HeaterActuator.HeaterActuatorListener, Temperat
 
         LOGGER.info("changeAvTemperature sendorId=" + sendorId + ", avTemperature = " + avTemperature);
 
-        if (mActiveProgram == null ) {
+        if (mActiveProgram == null) {
             LOGGER.severe("No active program");
         } else if (mActiveProgram.timeRange.sensorId == sendorId) {
             mActiveSensorTemperature = avTemperature;
             checkProgram();
-            mActuator.sendCommand(Actuator.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorId, mActiveSensorTemperature);
+            mActuator.sendCommand(HeaterActuatorCommand.Command_Send_Temperature, 0, 0.0, false, 0, 0, mActiveProgram.timeRange.sensorId, mActiveSensorTemperature);
         }
     }
 

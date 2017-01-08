@@ -13,22 +13,12 @@ public abstract class Actuator extends SensorBase {
 
     private static final Logger LOGGER = Logger.getLogger(Actuator.class.getName());
 
-    static final String STATUS_IDLE = "idle";
-    static final String STATUS_PROGRAMACTIVE = "program";
-    static final String STATUS_MANUALMODE = "manual";
-    static final String STATUS_DISABLED = "disabled";
 
-    public static final int Command_Program_Off = 0;
-    public static final int Command_Program_On = 1;
-    public static final int Command_Send_Temperature = 2;
-    public static final int Command_Manual_Auto = 3;
-    public static final int Command_Manual_End = 4;
-    public static final int Command_Manual_Off = 5;
 
-    static final int relestatus_off = 0;
+    /*static final int relestatus_off = 0;
     static final int relestatus_on = 1;
     static final int relestatus_disabled = 2;
-    static final int relestatus_enabled = 3;
+    static final int relestatus_enabled = 3;*/
 
     private String status = "";
 
@@ -42,6 +32,10 @@ public abstract class Actuator extends SensorBase {
         //this.name = name;
         listeners = new ArrayList<ActuatorListener>();
     }
+
+    public abstract ActuatorCommand getCommandFromJson(JSONObject json);
+
+    public abstract void writeDataLog();
 
     interface ActuatorListener {
         void changeStatus(String newStatus, String oldStatus);

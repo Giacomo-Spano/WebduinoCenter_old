@@ -181,8 +181,8 @@ public class Actuators implements Shields.ShieldsListener {
     }
 
 
-    public SensorBase getActuatorFromId(int id) {
-        for (SensorBase actuator : mActuatorList) {
+    public Actuator getActuatorFromId(int id) {
+        for (Actuator actuator : mActuatorList) {
             if (actuator.id == id)
                 return actuator;
         }

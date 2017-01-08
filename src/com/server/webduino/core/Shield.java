@@ -3,6 +3,7 @@ package com.server.webduino.core;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import sun.management.Sensor;
 
 
 import java.net.URL;
@@ -21,8 +22,8 @@ public class Shield extends httpClient {
     protected String MACAddress;
     protected String boardName;
     protected Date lastUpdate;
-    List<Integer> sensorIds = new ArrayList<>();
-    List<Integer> actuatorIds = new ArrayList<>();
+    List<SensorBase> sensors = new ArrayList<>();
+    List<Actuator> actuators = new ArrayList<>();
     public URL url;
 
     /*public Shield(JSONObject jsonObj) {
@@ -36,10 +37,10 @@ public class Shield extends httpClient {
 
         Date currentDate = Core.getDate();
         boolean res = false;
-        for (Integer id : sensorIds) {
-            SensorBase s = Shields.getSensorFromId(id);
-            if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
-                s.onlinestatus = Status_Offline;
+        for (SensorBase sensor : sensors) {
+            //SensorBase s = Shields.getSensorFromId(id);
+            if (sensor.lastUpdate == null || (currentDate.getTime() - sensor.lastUpdate.getTime()) > (30*1000) ) {
+                sensor.onlinestatus = Status_Offline;
                 res = true;
             }
         }
@@ -50,10 +51,10 @@ public class Shield extends httpClient {
 
         Date currentDate = Core.getDate();
         boolean res = false;
-        for (Integer id : actuatorIds) {
-            SensorBase s = Shields.getActuatorFromId(id);
-            if (s.lastUpdate == null || (currentDate.getTime() - s.lastUpdate.getTime()) > (30*1000) ) {
-                s.onlinestatus = Status_Offline;
+        for (Actuator actuator : actuators) {
+            //SensorBase s = Shields.getActuatorFromId(id);
+            if (actuator.lastUpdate == null || (currentDate.getTime() - actuator.lastUpdate.getTime()) > (30*1000) ) {
+                actuator.onlinestatus = Status_Offline;
                 res = true;
             }
         }
@@ -82,8 +83,8 @@ public class Shield extends httpClient {
                     return false;
                 }
             }
-            if (json.has("sensorIds")) {
-                JSONArray jsonArray = json.getJSONArray("sensorIds");
+            if (json.has("sensors")) {
+                JSONArray jsonArray = json.getJSONArray("sensors");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
@@ -96,13 +97,13 @@ public class Shield extends httpClient {
                                 sensor.subaddress = j.getString("addr");
                             if (j.has("type"))
                                 sensor.type = j.getString("type");
-                            sensorIds.add(sensor.id);
+                            sensors.add(sensor);
                         }
                     }
                 }
             }
-            if (json.has("actuatorIds")) {
-                JSONArray jsonArray = json.getJSONArray("actuatorIds");
+            if (json.has("actuators")) {
+                JSONArray jsonArray = json.getJSONArray("actuators");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject j = jsonArray.getJSONObject(i);
                     if (j.has("type")) {
@@ -115,7 +116,7 @@ public class Shield extends httpClient {
                                 actuator.subaddress = j.getString("addr");
                             if (j.has("type"))
                                 actuator.type = j.getString("type");
-                            actuatorIds.add(actuator.id);
+                            actuators.add(actuator);
                         }
                     }
                 }
@@ -141,16 +142,16 @@ public class Shield extends httpClient {
             if (url != null)
                 json.put("url", url);
             JSONArray jarray = new JSONArray();
-            for (Integer id : sensorIds) {
-                SensorBase sensor = Shields.getSensorFromId(id);
+            for (SensorBase sensor : sensors) {
+                //SensorBase sensor = Shields.getSensorFromId(id);
                 if (sensor != null)
                     jarray.put(sensor.getJson());
             }
             json.put("sensorIds", jarray);
 
             jarray = new JSONArray();
-            for (Integer id : actuatorIds) {
-                SensorBase actuator = Shields.getActuatorFromId(id);
+            for (SensorBase actuator : actuators) {
+                //SensorBase actuator = Shields.getActuatorFromId(id);
                 if (actuator != null)
                     jarray.put(actuator.getJson());
             }

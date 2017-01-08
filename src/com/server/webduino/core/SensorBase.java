@@ -46,6 +46,8 @@ public class SensorBase extends httpClient {
     }
 
     public String getStrLastUpdate() {
+        if (lastUpdate == null)
+            return "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(lastUpdate);
     }
