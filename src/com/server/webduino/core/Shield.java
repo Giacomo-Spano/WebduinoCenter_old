@@ -33,7 +33,7 @@ public class Shield extends httpClient {
     public Shield() {
     }
 
-    public boolean sensorsIsNotUpdated() {
+    /*public boolean sensorsIsNotUpdated() {
 
         Date currentDate = Core.getDate();
         boolean res = false;
@@ -59,7 +59,7 @@ public class Shield extends httpClient {
             }
         }
         return res;
-    }
+    }*/
 
     public boolean FromJson(JSONObject json) {
 

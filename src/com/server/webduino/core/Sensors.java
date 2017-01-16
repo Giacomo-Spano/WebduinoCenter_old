@@ -45,6 +45,12 @@ public class Sensors implements Shields.ShieldsListener {
         return null;
     }
 
+    public List<SensorBase> getSensorList() {
+
+        return list;
+    }
+
+
     public SensorBase getFromShieldIdandSubaddress(int shieldid, String subaddress) {
         for (SensorBase sensor: list) {
             if (sensor.subaddress.equals(subaddress) && sensor.shieldid == shieldid)
@@ -56,6 +62,7 @@ public class Sensors implements Shields.ShieldsListener {
 
     boolean updateSensors(int shieldid, JSONArray jsonArray) {
 
+        Date date = Core.getDate();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = null;
             try {
@@ -64,7 +71,7 @@ public class Sensors implements Shields.ShieldsListener {
                     String subaddress = json.getString("addr");
                     SensorBase sensor = getFromShieldIdandSubaddress(shieldid, subaddress);
                     if (sensor != null)
-                        sensor.updateFromJson(json);
+                        sensor.updateFromJson(date,json);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

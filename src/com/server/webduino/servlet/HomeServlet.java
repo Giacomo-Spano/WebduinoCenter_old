@@ -50,7 +50,7 @@ public class HomeServlet extends HttpServlet  {
         /*TemperatureSensor sensor;
         URL remoteURL1 = new URL("http://"+"192.168.1.95:80"); // studio
         sensor = new TemperatureSensor(remoteURL1);
-        String txt = sensor.updateStatus();*/
+        String txt = sensor.requestStatusUpdate();*/
         //SensorData data = Shields.get(0);
 
         PrintWriter out = response.getWriter();

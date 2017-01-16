@@ -1,15 +1,9 @@
 package com.server.webduino.core;
 
 import com.server.webduino.servlet.SendPushMessages;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -97,25 +91,13 @@ public class Actuators implements Shields.ShieldsListener {
         }
     }
 
-    boolean updateActuators(int shieldid, JSONArray jsonArray) {
+    /*boolean requestActuatorsUpdate() {
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject json = null;
-            try {
-                json = jsonArray.getJSONObject(i);
-                if (json.has("addr")) {
-                    String subaddress = json.getString("addr");
-                    SensorBase sensor = getFromShieldIdandSubaddress(shieldid, subaddress);
-                    if (sensor != null)
-                        sensor.updateFromJson(json);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for(Actuator actuator : mActuatorList) {
+            actuator.requestStatusUpdate();
         }
-
         return  true;
-    }
+    }*/
 
     public SensorBase getFromShieldIdandSubaddress(int shieldid, String subaddress) {
         for (SensorBase sensor: mActuatorList) {
@@ -126,29 +108,25 @@ public class Actuators implements Shields.ShieldsListener {
     }
 
 
-    public void update() {
+    /*public void requestActuatorsUpdate() {
 
-        //java.util.Date date = new java.util.Date();
+        ///java.util.Date date = Core.getDate();
 
-        Iterator<Actuator> iterator = mActuatorList.iterator();
-        while (iterator.hasNext()) {
-            Actuator actuator = iterator.next();
-            LOGGER.info("ACTUATOR " + actuator.id + " Call getstatus");
-            String txt = actuator.updateStatus();
+        for(Actuator actuator : mActuatorList){
 
-            LOGGER.info(txt);
-
-            if (txt == null) {
-                LOGGER.severe("sensor " + actuator.id + " OFFLINE");
-                Core.sendPushNotification(SendPushMessages.notification_error,"errore","ACTUATOR " + actuator.id + " OFFLINE","0");
-            } else {
-                LOGGER.info(txt);
-                //
+            if (!actuator.isUpdated()) {
+            //if (actuator.lastUpdate == null || (date.getTime() - actuator.lastUpdate.getTime()) > 2 * 60 * 1000) { // se l'ultimo aggiornamento è più
+                                                                                                // vecchi0 di due minuti chiama getStatus dell'attuatore
+                String res = actuator.requestStatusUpdate();
+                if (res == null) {
+                    LOGGER.severe("actuator " + actuator.id + " OFFLINE");
+                    Core.sendPushNotification(SendPushMessages.notification_error, "errore", "ACTUATOR " + actuator.id + " OFFLINE", "0");
+                } else {
+                    LOGGER.info(res);
+                }
             }
-
-            //writelog(sensor.mData, date);
         }
-    }
+    }*/
 
     @Override
     public void addedActuator(Actuator actuator) {

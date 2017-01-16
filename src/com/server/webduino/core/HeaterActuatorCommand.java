@@ -22,13 +22,29 @@ public class HeaterActuatorCommand extends ActuatorCommand {
     public static final String Command_Manual_End = "6"; // "endmanual";
     public static final String Command_Send_Temperature = "7"; // "sendtemperature";
 
-    /*const int command_ProgramOff = 0;
-	const int command_ProgramOn = 1;
-	const int command_disabled = 2;
-	const int command_enabled = 3;
-	const int command_ManualOff = 4;
-	const int command_Manual = 5;
-	const int command_ManualEnd = 6;*/
+
+    public static String getCommandName(String n) {
+
+        switch (n) {
+            case Command_Program_ReleOff:
+                return "programoff";
+            case Command_Program_ReleOn:
+                return "programon";
+            case  Command_Send_Disabled:
+                return "sendtemperature";
+            case Command_Send_Enabled:
+                return "sendtemperature";
+            case Command_Manual_Off:
+                return "manualoff";
+            case Command_Manual_Auto:
+                return "manualauto";
+            case Command_Manual_End:
+                return"endmanual";
+            case Command_Send_Temperature:
+                return "sendtemperature";
+        }
+        return "";
+    }
 
     public long duration;
     public double targetTemperature;

@@ -12,6 +12,7 @@ import com.server.webduino.core.Core;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
@@ -45,6 +46,8 @@ public class QuartzListener implements ServletContextListener {
             //pass the servlet context to the job
             JobDataMap jobDataMap = new JobDataMap();
             jobDataMap.put("servletContext", servletContext.getServletContext());
+
+            // Job di interrogazione periodica
             // define the job and tie it to our job's class
             JobDetail sensorJob = newJob(ShieldsQuartzJob.class).withIdentity(
                     "CronSensorQuartzJob", "Group")
@@ -55,12 +58,15 @@ public class QuartzListener implements ServletContextListener {
                     .withIdentity("SensorTriggerName", "Group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(60)
+                            .withIntervalInSeconds(60*15)   // interroga ogni 15 minuti
                             .repeatForever())
                     .build();
             // Setup the Job and Trigger with Scheduler & schedule jobs
             scheduler.scheduleJob(sensorJob, sensorTrigger);
 
+            // Job di controllo periodico del programma attivo
+            // questo job non parte subito ma 10 secondi dopo quello di interrogazione
+            // per avere tempo di ricevere la risposta
             // Setup the Job class and the Job group
             JobDetail programJob = newJob(ProgramQuartzJob.class).withIdentity(
                     "CronProgramQuartzJob", "Group")
@@ -69,38 +75,12 @@ public class QuartzListener implements ServletContextListener {
             // Trigger the job to run now, and then every 40 seconds
             Trigger trigger = newTrigger()
                     .withIdentity("ProgramTriggerName", "Group")
-                    .startNow()
+                    //.startNow()
+                    .startAt(new Date(System.currentTimeMillis() + 15000))
                     .withSchedule(simpleSchedule()
                             .withIntervalInSeconds(30)
                             .repeatForever())
                     .build();
-            // Setup the Job and Trigger with Scheduler & schedule jobs
-            //scheduler.scheduleJob(programJob, trigger);
-
-            //Build a trigger for a specific moment in time, with no repeats:
-            /*SimpleTrigger trigger = (SimpleTrigger) newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .startAt(myStartTime) // some Date
-                    .forJob("job1", "group1") // identify job with name, group strings
-                    .build();*/
-
-
-            //scheduler2 = new StdSchedulerFactory().getScheduler();
-            //scheduler2.start();
-            // Setup the Job class and the Job group
-            /*JobDetail recoveryJob = newJob(NextProgramQuartzJob.class).withIdentity(
-                    "CronRecoveryQuartzJob", "Group2").build();*/
-            // Trigger the job to run now, and then every 40 seconds
-            /*Trigger recoveryTrigger = newTrigger()
-                    .withIdentity("RecoveryTriggerName", "Group2")
-                    .startNow()
-                    .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(3000)
-                            .repeatForever())
-                    .build();*/
-            // Setup the Job and Trigger with Scheduler & schedule jobs
-            //scheduler2.scheduleJob(recoveryJob, recoveryTrigger);
-
 
 
         }

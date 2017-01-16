@@ -14,7 +14,7 @@ public class LinearInterpolator {
 
     private static final Logger LOGGER = Logger.getLogger(LinearInterpolator.class.getName());
 
-    public ArrayList<DataLog> getInterpolatedData(ArrayList<DataLog> data, Date xi, Date xf, Duration step) {
+    /*public ArrayList<DataLog> getInterpolatedData(ArrayList<DataLog> data, Date xi, Date xf, Duration step) {
 
         ArrayList<DataLog> series = new ArrayList<DataLog>();
 
@@ -79,7 +79,7 @@ public class LinearInterpolator {
 
         }
         return series;
-    }
+    }*/
 
     /*
 *  Convenience method to add a specified number of minutes to a Date object

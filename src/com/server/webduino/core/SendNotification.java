@@ -18,7 +18,7 @@ public class SendNotification extends httpClient {
 
     private static final Logger LOGGER = Logger.getLogger(NotificationServlet.class.getName());
 
-    Result send(String title, String description) {
+    Result send(String title, String description, String notificationType, int id) {
         //result = callPost(param, "/fcm/send", "http://fcm.googleapis.com");
 
         Devices devices = new Devices();
@@ -39,11 +39,14 @@ public class SendNotification extends httpClient {
                     "  \"to\": \"" + to + "\",\n" +
                     "  \"data\": {\n" +
                     "    \"hello\": \"This is a Firebase Cloud Messaging Device Group Message!\",\n" +
+                    "    \"type\": \""+ notificationType + "\",\n" +
+                    "    \"id\": \"" + id + "\",\n" +
                     "   }\n" +
                     "   \"notification\" : {\n" +
                     "      \"body\" : \"" + description + "\",\n" +
                     "      \"title\" : \"" + title + "\",\n" +
                     "      \"icon\" : \"myicon\"\n" +
+
                     "    }\n" +
                     "}";
 

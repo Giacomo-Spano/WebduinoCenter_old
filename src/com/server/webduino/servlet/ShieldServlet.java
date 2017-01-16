@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -32,8 +31,13 @@ public class ShieldServlet extends HttpServlet {
 
         LOGGER.info("SensorServlet:doPost");
 
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        JSONObject jsonResponse;
+
         StringBuffer jb = new StringBuffer();
-        String line = null;
+        String line;
 
         try {
             BufferedReader reader = request.getReader();
@@ -45,16 +49,53 @@ public class ShieldServlet extends HttpServlet {
             return;
         }
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        PrintWriter out = response.getWriter();
-        //create Json Response Object
-        JSONObject jsonResponse = new JSONObject();
+        try {
+            JSONObject json = new JSONObject(jb.toString());
+
+            boolean res = false;
+
+            if (json.has("event") && json.getString("event").equals("register")) { // receive status update
+
+                if (json.has("shield")) {
+                    JSONObject jsonShield = json.getJSONObject("shield");
+
+                    jsonResponse =handleRegisterEvent(jsonShield);
+                    out.print(jsonResponse.toString());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+                return;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            LOGGER.severe("BAD REQUEST");
+            return;
+        }
+
+         out.print("");
+    }
+
+    private JSONObject handleErrorEvent(StringBuffer jb) {
+        String description = "Shield restart";
+        Core.sendPushNotification(SendPushMessages.notification_programchange, "Restart", description, "0",0);
+        return null;
+    }
+
+    private JSONObject handleRestartEvent(StringBuffer jb) {
+
+        return null;
+    }
+
+    private JSONObject handleRegisterEvent(JSONObject jsonObj) {
+
+        JSONObject jsonResponse;//create Json Response Object
+        jsonResponse = new JSONObject();
 
         try {
-            JSONObject jsonObj = new JSONObject(jb.toString());
+            //JSONObject jsonObj = new JSONObject(jb.toString());
 
-            LOGGER.info("SensorServlet:doPost" + jb.toString());
+            LOGGER.info("SensorServlet:doPost" + jsonObj.toString());
 
             int id = registerShield(jsonObj);
             // put some value pairs into the JSON object .
@@ -65,15 +106,14 @@ public class ShieldServlet extends HttpServlet {
                 Date date = Core.getDate();
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 jsonResponse.put("date", df.format(date));
-                Calendar cal=Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
-                int tzOffsetSec = (cal.get(Calendar.ZONE_OFFSET) + cal.get(Calendar.DST_OFFSET))/(1000);
-                jsonResponse.put("timesec", date.getTime()/1000+tzOffsetSec);
+                int tzOffsetSec = (cal.get(Calendar.ZONE_OFFSET) + cal.get(Calendar.DST_OFFSET)) / (1000);
+                jsonResponse.put("timesec", date.getTime() / 1000 + tzOffsetSec);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
         } catch (JSONException e) {
             try {
@@ -82,8 +122,7 @@ public class ShieldServlet extends HttpServlet {
                 e1.printStackTrace();
             }
         }
-        // finally output the json string
-        out.print(jsonResponse.toString());
+        return jsonResponse;
     }
 
     private int registerShield(JSONObject jsonObj) throws JSONException {

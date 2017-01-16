@@ -102,10 +102,10 @@ public class Core {
         mDevices.read();
     }
 
-    public static void sendPushNotification(String type, String title, String description, String value) {
+    public static void sendPushNotification(String type, String title, String description, String value, int id) {
 
         LOGGER.info("sendPushNotification type=" + type + "title=" + title + "value=" + value);
-        new PushNotificationThread(type, title, description, value).start();
+        new PushNotificationThread(type, title, description, value, id).start();
 
         LOGGER.info("sendPushNotification sent");
     }

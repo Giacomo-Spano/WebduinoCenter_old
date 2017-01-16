@@ -51,7 +51,7 @@ public class NotificationServlet extends HttpServlet {
         }
 
 
-        Core.sendPushNotification("type","title","description","value");
+        Core.sendPushNotification("type","title","description","value",0);
 
         /*Notification notification = new Notification();
 

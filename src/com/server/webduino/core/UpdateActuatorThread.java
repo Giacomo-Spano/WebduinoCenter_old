@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -14,7 +15,7 @@ public class UpdateActuatorThread extends Thread {
 
     private static final Logger LOGGER = Logger.getLogger(UpdateActuatorThread.class.getName());
 
-    //int shieldid;
+    Date date;
     String subaddress;
     ServletContext context;
     JSONObject json;
@@ -24,7 +25,7 @@ public class UpdateActuatorThread extends Thread {
 
         this.json = json;
         this.context = context;
-        //this.shieldid = shieldId;
+        this.date = Core.getDate();
 
     }
     public void run() {
@@ -39,8 +40,9 @@ public class UpdateActuatorThread extends Thread {
 
                 Actuator actuator = (HeaterActuator) core.getFromShieldId(shieldid, subaddress);
                 if (actuator != null) {
-                    actuator.updateFromJson(json);
-                    actuator.writeDataLog();
+                    actuator.writeDataLog("update received");
+                    actuator.updateFromJson(date,json);
+                    //actuator.writeDataLog(date,"update");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

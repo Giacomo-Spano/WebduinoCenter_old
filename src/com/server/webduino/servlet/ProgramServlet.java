@@ -208,14 +208,16 @@ public class ProgramServlet extends HttpServlet {
                     ActiveProgram active = iterator.next();
 
                     JSONObject json = new JSONObject();
-                    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyy HH:mm");
 
                     json.put("id", active.program.id);
                     json.put("name", active.program.name);
                     json.put("timerangeid", active.timeRange.ID);
                     json.put("timerangename", active.timeRange.name);
-                    json.put("startdate", active.startDate);
-                    json.put("enddate", active.endDate);
+                    if (active.startDate != null)
+                        json.put("startdate", df.format(active.startDate));
+                    if (active.endDate != null)
+                        json.put("enddate", df.format(active.endDate));
                     json.put("temperature", active.timeRange.temperature);
                     json.put("sensor", active.timeRange.sensorId);
 

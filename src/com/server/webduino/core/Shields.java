@@ -1,6 +1,8 @@
 package com.server.webduino.core;
 
+import com.server.webduino.servlet.SendPushMessages;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -84,9 +86,39 @@ public class Shields {
         return mSensors.updateSensors(shieldid,jsonArray);
     }
 
-    boolean updateActuators(int shieldid, JSONArray jsonArray) {
-        return mActuators.updateActuators(shieldid,jsonArray);
+    public void requestActuatorsUpdate() {
+
+        for(SensorBase sensor : mSensors.getSensorList()){
+            requestSensorStatusUpdate(sensor);
+        }
+
+        for(SensorBase actuator : mActuators.getActuatorList()){
+            requestSensorStatusUpdate(actuator);
+        }
+
     }
+
+    public void requestSensorStatusUpdate(SensorBase sensor) {
+        if (!sensor.isUpdated()) {
+            String res = sensor.requestStatusUpdate();
+            if (res == null) {
+                LOGGER.severe("sensor " + sensor.id + " OFFLINE");
+                Core.sendPushNotification(SendPushMessages.notification_error, "errore", "ACTUATOR " + sensor.id + " OFFLINE", "0",sensor.id);
+            } else {
+                LOGGER.info(res);
+
+                try {
+                    Date date = Core.getDate();
+                    JSONObject json = new JSONObject(res);
+                    sensor.updateFromJson(date, json);
+                    //writeDataLog(date,"request update");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     public Actuator getFromShieldId(int shieldid, String subaddress) {
         return mActuators.getFromShieldId(shieldid, subaddress); }

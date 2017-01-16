@@ -16,10 +16,10 @@ public class SendPushMessages {
     public static final String App_GPSAlarm = "GPSAlarm";
     public static final String App_WindAlarm = "WindAlarm";
 
-    public static final String notification_statuschange = "status change";
+    public static final String notification_statuschange = "status_change";
     public static final String notification_restarted = "restart";
-    public static final String notification_programchange = "program change";
-    public static final String notification_relestatuschange = "rele status change";
+    public static final String notification_programchange = "program_change";
+    public static final String notification_relestatuschange = "relestatus_change";
     public static final String notification_offline = "offline";
     public static final String notification_error = "error";
     public static final String notification_register = "register";

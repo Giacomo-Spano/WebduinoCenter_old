@@ -1,11 +1,15 @@
 package com.server.webduino.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class HeaterDataLog extends DataLog {
     //public Date date = new Date();
@@ -18,9 +22,51 @@ public class HeaterDataLog extends DataLog {
     public int activeProgram;
     public int activeTimerange;
 
+    @Override
+    public String getSQLInsert(String event, SensorBase sensor) {
 
+        HeaterActuator heaterActuator = (HeaterActuator) sensor;
+        String sql;
 
-    public void writelog(int id, Date date, HeaterActuator heater/*boolean releStatus*/) {
+        sql = "INSERT INTO heaterdatalog (id, date, event, relestatus, status, localtemperature, remotetemperature, targettemperature, activeprogram, activetimerange, activesensor) " +
+                " VALUES (" + heaterActuator.id + ", " +
+                getStrDate() + ",'" +
+                event + "'," +
+                heaterActuator.releStatus + ",'" +
+                heaterActuator.getStatus() + "'," +
+                heaterActuator.getAvTemperature() + "," +
+                heaterActuator.getRemoteTemperature() + "," +
+                heaterActuator.targetTemperature + "," +
+                heaterActuator.activeProgramID + "," +
+                heaterActuator.activeTimeRangeID + "," +
+                heaterActuator.activeSensorID + "" +
+                ");";
+        return sql;
+    }
+
+    public JSONObject getJson() {
+        try {
+            JSONObject json = new JSONObject();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            if (date != null) {
+
+                json.put("date", df.format(date));
+                //json.put("local", localTemperature);
+                json.put("remotetemperature", remoteTemperature);
+                json.put("targettemperature", targetTemperature);
+                json.put("relestatus", releStatus);
+                //json.put("status", status);
+                json.put("program", activeProgram);
+                json.put("timerange", activeTimerange);
+                return json;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /*public void writelog(int id, Date date, String event, HeaterActuator heater) {
 
         try {
 
@@ -34,9 +80,10 @@ public class HeaterDataLog extends DataLog {
             // Execute SQL query
             Statement stmt = conn.createStatement();
             String sql;
-            sql = "INSERT INTO heaterdatalog (id, date, relestatus, status, localtemperature, remotetemperature, targettemperature, activeprogram, activetimerange, activesensor) " +
+            sql = "INSERT INTO heaterdatalog (id, date, event, relestatus, status, localtemperature, remotetemperature, targettemperature, activeprogram, activetimerange, activesensor) " +
                     "                                   VALUES (" + id + ", '" +
-                    strdate + "'," +
+                    strdate + "','" +
+                    event + "'," +
                     heater.releStatus + ",'" +
                     heater.getStatus() + "'," +
                     heater.getAvTemperature() + "," +
@@ -59,7 +106,7 @@ public class HeaterDataLog extends DataLog {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public ArrayList<DataLog> getDataLog(int id, Date startDate, Date endDate) {
@@ -79,7 +126,7 @@ public class HeaterDataLog extends DataLog {
 
             String sql;
             //sql = "SELECT id, date, time, relestatus FROM heaterdatalog WHERE id = " + id +" AND TIMESTAMP(date, time) BETWEEN '" + start + "' AND '" + end + "'";
-            sql = "SELECT * FROM heaterdatalog WHERE id = " + id + " AND TIMESTAMP(date, time) BETWEEN '" + start + "' AND '" + end + "'" + "ORDER BY TIMESTAMP(date, time) ASC";
+            sql = "SELECT * FROM heaterdatalog WHERE id = " + id + " AND event='update' AND date BETWEEN '" + start + "' AND '" + end + "'" + "ORDER BY date ASC";
 
             //YYYY-MM-DD HH:MI:SS
             ResultSet rs = stmt.executeQuery(sql);
@@ -87,7 +134,8 @@ public class HeaterDataLog extends DataLog {
 
             while (rs.next()) {
                 HeaterDataLog data = new HeaterDataLog();
-                data.date = rs.getDate("date");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.");
+                data.date = df.parse(String.valueOf(rs.getTimestamp("date")));
                 data.releStatus = rs.getBoolean("relestatus");
                 data.status = rs.getString("status");
                 data.localTemperature = rs.getDouble("localtemperature");
@@ -112,20 +160,20 @@ public class HeaterDataLog extends DataLog {
         }
         return list;
     }
-    @Override
-    DataLog getInterpolatedDataLog(Date t, DataLog dataA, DataLog dataB)
-    {
+
+    /*@Override
+    DataLog getInterpolatedDataLog(Date t, DataLog dataA, DataLog dataB) {
 
 
         HeaterDataLog dlA = (HeaterDataLog) dataA, dlB = (HeaterDataLog) dataB;
         HeaterDataLog interpolatedDataLog = new HeaterDataLog();
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //DateFormat timeFormat = new SimpleDateFormat("");
 
         try {
             interpolatedDataLog.date = dateFormat.parse(dateFormat.format(t));
-            interpolatedDataLog.time = timeFormat.parse(timeFormat.format(t));
+            //interpolatedDataLog.time = timeFormat.parse(timeFormat.format(t));
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -146,5 +194,5 @@ public class HeaterDataLog extends DataLog {
             interpolatedDataLog.releStatus = dlA.releStatus;
         }
         return interpolatedDataLog;
-    }
+    }*/
 }

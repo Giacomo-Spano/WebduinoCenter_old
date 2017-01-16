@@ -97,7 +97,7 @@ public class ActuatorServlet extends HttpServlet {
                     shieldId = jsonActuator.getInt("shieldid");
                     subaddress = jsonActuator.getString("addr");
                     out.print(json.toString());
-                    new UpdateActuatorThread(getServletContext(), json).start();
+                    new UpdateActuatorThread(getServletContext(), jsonActuator).start();
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
                 return;

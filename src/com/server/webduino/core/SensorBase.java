@@ -32,6 +32,17 @@ public class SensorBase extends httpClient {
 
     }
 
+    public boolean isUpdated() {
+
+        Date currentDate = Core.getDate();
+        if (lastUpdate == null || (currentDate.getTime() - lastUpdate.getTime()) > (60 * 1000)) {
+            onlinestatus = Status_Offline;
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void setData(int shieldid, String subaddress, String name, Date date) {
 
         this.shieldid = shieldid;
@@ -78,9 +89,11 @@ public class SensorBase extends httpClient {
         return lastUpdate;
     }
 
-    public String updateStatus() { //
+    public String requestStatusUpdate() { //
 
-        LOGGER.info("updateStatus");
+        LOGGER.info("requestStatusUpdate");
+
+        writeDataLog("requestStatusUpdate");
 
         Result result = call("GET", "", "/status");
         if (!result.res)
@@ -93,11 +106,15 @@ public class SensorBase extends httpClient {
             if (result != null)
                 return result.response;
         }
-        LOGGER.info("end updateStatus");
+        LOGGER.info("end requestStatusUpdate");
         return null;
     }
 
-    void updateFromJson(JSONObject json) {
+
+    public void writeDataLog(String event) {
+    }
+
+    void updateFromJson(Date date, JSONObject json) {
     }
 
     public JSONObject getJson() {
@@ -120,14 +137,16 @@ public class SensorBase extends httpClient {
         if (method.equals("GET")) {
 
             result = callGet(param, path, url);
-            if (result.res) {
+            /*if (result.res) {
                 try {
+                    Date date = Core.getDate();
                     JSONObject json = new JSONObject(result.response);
-                    updateFromJson(json);
+                    updateFromJson(date, json);
+                    //writeDataLog(date,"request update");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         } else if (method.equals("POST")) {
             result = callPost(param, path, url);
         }

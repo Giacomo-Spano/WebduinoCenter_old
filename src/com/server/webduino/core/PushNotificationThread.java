@@ -15,15 +15,16 @@ public class PushNotificationThread extends Thread {
     String title;
     String description;
     String value;
+    int id;
 
-    public PushNotificationThread(String type, String title, String description, String value) {
+    public PushNotificationThread(String type, String title, String description, String value, int id) {
         super("str");
 
         this.type = type;
         this.title = title;
         this.description = description;
         this.value = value;
-
+        this.id = id;
 
     }
     public void run() {
@@ -33,7 +34,7 @@ public class PushNotificationThread extends Thread {
         //sp.send();
 
         SendNotification notification = new SendNotification();
-        notification.send(title, description + " type=" + type + ",value=" + value);
+        notification.send(title, description + " type=" + type + ",value=" + value, type, id);
         LOGGER.info("PushNotificationThread type=" + type + "title=" + title + "value=" + value);
     }
 }

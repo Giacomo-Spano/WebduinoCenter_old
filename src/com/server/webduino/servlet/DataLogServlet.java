@@ -36,7 +36,7 @@ public class DataLogServlet extends HttpServlet {
 
         if (idParamValue != null && endDateStr != null && elapsedStr != null) {
 
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             Date end;
             try {
                 end = df.parse(endDateStr);
@@ -59,29 +59,24 @@ public class DataLogServlet extends HttpServlet {
             ArrayList<DataLog> list = dl.getDataLog(Integer.valueOf(idParamValue), start, end);
 
             LinearInterpolator interpolator = new LinearInterpolator();
-            ArrayList<DataLog> interpolateData = interpolator.getInterpolatedData(list, start, end, Duration.ofSeconds(60*600/elapsed));
+            //ArrayList<DataLog> interpolateData = interpolator.getInterpolatedData(list, start, end, Duration.ofSeconds(60*600/elapsed));
 
             JSONArray jsonarray = new JSONArray();
-            try {
-                for (DataLog data : /*list*/interpolateData) {
-                    JSONObject json = getJsonFromHeaterData((HeaterDataLog) data);
+            for (DataLog data : list/*interpolateData*/) {
+                    JSONObject json = ((HeaterDataLog) data).getJson();
                     jsonarray.put(json);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             out.print(jsonarray.toString());
         }
     }
 
-    private JSONObject getJsonFromSensorData(SensorDataLog dataLog) throws JSONException {
+    /*private JSONObject getJsonFromSensorData(TemperatureSensorDataLog dataLog) throws JSONException {
 
         JSONObject json = new JSONObject();
         SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy ", Locale.ENGLISH);
         String dateStr = df.format(dataLog.date);
         SimpleDateFormat dt = new SimpleDateFormat("HH:mm:ss");
-        dateStr += dt.format(dataLog.time);
+        //dateStr += dt.format(dataLog.time);
 
         json.put("date", dateStr);
         json.put("temperature", dataLog.temperature);
@@ -89,8 +84,8 @@ public class DataLogServlet extends HttpServlet {
 
         return json;
     }
-
-    private JSONObject getJsonFromHeaterData(HeaterDataLog dataLog) throws JSONException {
+*/
+    /*private JSONObject getJsonFromHeaterData(HeaterDataLog dataLog) throws JSONException {
 
         JSONObject json = new JSONObject();
         SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy ", Locale.ENGLISH);
@@ -108,5 +103,5 @@ public class DataLogServlet extends HttpServlet {
         json.put("timerange", dataLog.activeTimerange);
 
         return json;
-    }
+    }*/
 }

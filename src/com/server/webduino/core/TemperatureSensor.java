@@ -3,7 +3,6 @@ package com.server.webduino.core;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.*;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -39,31 +38,18 @@ public class TemperatureSensor extends SensorBase {
     public TemperatureSensor() {
     }
 
-    public void setData(int shieldid, String subaddress, String name, Date date, double temperature, double avTemperature) {
+    /*public void setData(int shieldid, String subaddress, String name, Date date, double temperature, double avTemperature) {
         super.setData(shieldid, subaddress, name, date);
         //lastUpdate = date;
         temperature = temperature;
         avTemperature = avTemperature;
-        SensorDataLog dl = new SensorDataLog();
+        TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
         dl.writelog(shieldid, subaddress, date, temperature,avTemperature);
-    }
+    }*/
 
+    public void setTemperature(double temperature) {
 
-    public void setAvTemperature(double avTemperature) {
-
-        LOGGER.info("setAvTemperature");
-
-        this.avTemperature = avTemperature;
-        // Notify everybody that may be interested.
-        for (TemperatureSensorListener hl : listeners)
-            hl.changeAvTemperature(id, avTemperature);
-    }
-
-    public double getAvTemperature() {
-        return avTemperature;
-    }
-
-    public /*synchronized*/ void setTemperature(double temperature) {
+        LOGGER.info("setTemperature");
 
         double oldtemperature = this.temperature;
         this.temperature = temperature;
@@ -75,16 +61,42 @@ public class TemperatureSensor extends SensorBase {
         }
     }
 
+    public void setAvTemperature(double avTemperature) {
+
+        LOGGER.info("setAvTemperature: " + avTemperature);
+        LOGGER.info("oldAvTemperature= " + avTemperature);
+
+        double oldAvtemperature = this.avTemperature;
+        this.avTemperature = avTemperature;
+        // Notify everybody that may be interested.
+        for (TemperatureSensorListener hl : listeners)
+            hl.changeAvTemperature(id, avTemperature);
+    }
+
+    @Override
+    public void writeDataLog(String event) {
+        TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
+        dl.writelog(event, this);
+    }
+
+    public double getAvTemperature() {
+        return avTemperature;
+    }
+
+
+
     public double getTemperature() {
         return temperature;
     }
 
     @Override
-    void updateFromJson(JSONObject json) {
+    void updateFromJson(Date date, JSONObject json) {
 
-        double oldAvTemperature = avTemperature;
+
+        LOGGER.info("updateFromJson json=" + json.toString());
+
         try {
-            Date date = Core.getDate();
+            //Date date = Core.getDate();
             lastUpdate = date;
             onlinestatus = Status_Online;
             if (json.has("temperature"))
@@ -93,18 +105,25 @@ public class TemperatureSensor extends SensorBase {
                 setAvTemperature(json.getDouble("avtemperature"));
             if (json.has("name"))
                 name = json.getString("name");
-            setData(shieldid, subaddress, name, date, temperature, avTemperature);
+            //setData(shieldid, subaddress, name, date, temperature, avTemperature);
+            // ma questo a cosa serve??? Aggiorna solo la data e il nome, non gli altri campi.
+            // Forse per la gestione dell'offline??
+            super.setData(shieldid, subaddress, name, date);
 
-            if (oldAvTemperature != avTemperature) {
+            /*if (oldAvTemperature != avTemperature) {
                 for (TemperatureSensorListener listener : listeners) {
                     listener.changeAvTemperature(id,avTemperature);
                 }
-            }
+            }*/
+
+            TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
+            dl.writelog("updateFromJson",this);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             LOGGER.info("json error: " + e.toString());
+            writeDataLog("updateFromJson error");
         }
     }
 

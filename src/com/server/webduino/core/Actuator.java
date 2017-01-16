@@ -3,7 +3,6 @@ package com.server.webduino.core;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +34,7 @@ public abstract class Actuator extends SensorBase {
 
     public abstract ActuatorCommand getCommandFromJson(JSONObject json);
 
-    public abstract void writeDataLog();
+    public abstract void writeDataLog(String event);
 
     interface ActuatorListener {
         void changeStatus(String newStatus, String oldStatus);
@@ -74,28 +73,36 @@ public abstract class Actuator extends SensorBase {
             }
         }
         if (result.res == true) {
-            //updateStatus();
+            //requestStatusUpdate();
             try {
+                Date date = Core.getDate();
                 JSONObject json = new JSONObject(result.response);
-                updateFromJson(json);
+                //writeDataLog("command response rec");
+                updateFromJson(date,json);
             } catch (JSONException e) {
                 e.printStackTrace();
                 LOGGER.severe("json error ");
+                //writeDataLog("command response json error");
             }
             LOGGER.info("command sent");
             return true;
         } else {
             LOGGER.severe("command FAILED");
+            this.onlinestatus = Status_Offline;
+            writeDataLog("command FAILED");
             return false;
         }
+
     }
 
 
     public abstract Boolean sendCommand(ActuatorCommand cmd);
 
-    void updateFromJson(JSONObject json) {
+    @Override
+    void updateFromJson(Date date, JSONObject json) {
     }
 
+    @Override
     public JSONObject getJson() {
 
         return null;
