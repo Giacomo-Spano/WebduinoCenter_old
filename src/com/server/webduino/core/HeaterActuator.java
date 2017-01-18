@@ -217,7 +217,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
                 return false;
             }
 
-            if (duration == heaterActuatorCommand.duration &&
+            /*if (duration == heaterActuatorCommand.duration &&
                     targetTemperature == heaterActuatorCommand.targetTemperature &&
                     localSensor == !heaterActuatorCommand.remoteSensor &&
                     activeProgramID == heaterActuatorCommand.activeProgramID &&
@@ -240,7 +240,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
                     return false;
                 }
 
-            }
+            }*/
 
             /*// se la temperatura non è cambiata
             if (heaterActuatorCommand.command == HeaterActuatorCommand.Command_Send_Temperature
@@ -271,10 +271,12 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             postParam = "status=" + HeaterActuatorCommand.Command_Program_ReleOn;
             postParam += "&duration=" + heaterActuatorCommand.duration;
             postParam += "&target=" + heaterActuatorCommand.targetTemperature;
-            if (localSensor == true)
-                postParam += "&sensor=" + !heaterActuatorCommand.remoteSensor;
-            else
-                postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
+            if (!heaterActuatorCommand.remoteSensor) {
+                postParam += "&localsensor=1";
+            } else {
+                postParam += "&localsensor=0";
+            }
+            postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
             postParam += "&program=" + heaterActuatorCommand.activeProgramID;
             postParam += "&timerange=" + heaterActuatorCommand.activeTimeRangeID;
             postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
@@ -286,10 +288,12 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             postParam = "status=" + HeaterActuatorCommand.Command_Program_ReleOff;
             postParam += "&duration=" + heaterActuatorCommand.duration;
             postParam += "&target=" + heaterActuatorCommand.targetTemperature;
-            if (!heaterActuatorCommand.remoteSensor == true)
-                postParam += "&sensor=" + !heaterActuatorCommand.remoteSensor;
-            else
-                postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
+            if (!heaterActuatorCommand.remoteSensor) {
+                postParam += "&localsensor=1";
+            } else {
+                postParam += "&localsensor=0";
+            }
+            postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
             postParam += "&program=" + heaterActuatorCommand.activeProgramID;
             postParam += "&timerange=" + heaterActuatorCommand.activeTimeRangeID;
             postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
@@ -300,13 +304,12 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             path = "/rele";
             postParam = "status=" + HeaterActuatorCommand.Command_Manual_Auto;
             postParam += "&duration=" + heaterActuatorCommand.duration;
-            if (localSensor == true) {
-                postParam += "&sensor=" + !heaterActuatorCommand.remoteSensor;
-                postParam += "&target=" + heaterActuatorCommand.targetTemperature;
+            if (!heaterActuatorCommand.remoteSensor) {
+                postParam += "&localsensor=1";
             } else {
-                postParam += "&sensor=1";
-                postParam += "&target=" + heaterActuatorCommand.targetTemperature;
+                postParam += "&localsensor=0";
             }
+            postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
             postParam += "&manual=1";
             postParam += "&temperature=" + heaterActuatorCommand.activeSensorTemperature;
             postParam += "&json=1";
@@ -317,7 +320,6 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             postParam = "status=" + HeaterActuatorCommand.Command_Manual_Off;
             postParam += "&duration=" + heaterActuatorCommand.duration;
             postParam += "&manual=2";
-            //postParam += "&temperature=" + activeSensorTemperature;
             postParam += "&json=1";
 
         } else if (heaterActuatorCommand.command.equals(HeaterActuatorCommand.Command_Manual_End)) {
@@ -333,10 +335,10 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             path = "/temp";
             postParam = "temperature=" + heaterActuatorCommand.activeSensorTemperature;
             if (localSensor == true)
-                postParam += "&sensor=" + local_sensor;
+                postParam += "&localsensor=0";
             else
-                postParam += "&sensor=" + activeSensorID;
-
+                postParam += "&localsensor=1";
+            postParam += "&sensor=" + heaterActuatorCommand.activeSensorID;
         }
 
         boolean res = postCommand(postParam, path);
@@ -398,7 +400,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             if (json.has("remaining"))
                 setRemaining(remaining = json.getInt("remaining"));
             if (json.has("localsensor"))
-                setLocalSensor(localSensor = json.getBoolean("localsensor"));
+                setLocalSensor(json.getBoolean("localsensor"));
             if (json.has("target"))
                 setTargetTemperature(targetTemperature = json.getDouble("target"));
             if (json.has("program"))

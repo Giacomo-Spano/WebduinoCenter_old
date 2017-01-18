@@ -68,7 +68,7 @@ public class QuartzListener implements ServletContextListener {
             // questo job non parte subito ma 10 secondi dopo quello di interrogazione
             // per avere tempo di ricevere la risposta
             // Setup the Job class and the Job group
-            JobDetail programJob = newJob(ProgramQuartzJob.class).withIdentity(
+            /*JobDetail programJob = newJob(ProgramQuartzJob.class).withIdentity(
                     "CronProgramQuartzJob", "Group")
                     .usingJobData(jobDataMap)
                     .build();
@@ -78,9 +78,9 @@ public class QuartzListener implements ServletContextListener {
                     //.startNow()
                     .startAt(new Date(System.currentTimeMillis() + 15000))
                     .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(30)
+                            .withIntervalInSeconds(60)
                             .repeatForever())
-                    .build();
+                    .build();*/
 
 
         }

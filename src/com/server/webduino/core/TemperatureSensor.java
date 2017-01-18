@@ -15,7 +15,7 @@ public class TemperatureSensor extends SensorBase {
 
 
     public interface TemperatureSensorListener {
-        void changeTemperature(int shieldId, String subAddress, double temperature);
+        void changeTemperature(int sensorId, double temperature);
 
         void changeAvTemperature(int sensorId, double avTemperature);
     }
@@ -55,9 +55,11 @@ public class TemperatureSensor extends SensorBase {
         this.temperature = temperature;
 
         if (temperature != oldtemperature) {
+            TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
+            dl.writelog("updateFromJson",this);
             // Notify everybody that may be interested.
             for (TemperatureSensorListener hl : listeners)
-                hl.changeTemperature(id, subaddress, temperature);
+                hl.changeTemperature(id, temperature);
         }
     }
 
@@ -92,17 +94,15 @@ public class TemperatureSensor extends SensorBase {
     @Override
     void updateFromJson(Date date, JSONObject json) {
 
-
         LOGGER.info("updateFromJson json=" + json.toString());
-
         try {
-            //Date date = Core.getDate();
             lastUpdate = date;
             onlinestatus = Status_Online;
-            if (json.has("temperature"))
-                setTemperature(json.getDouble("temperature"));
             if (json.has("avtemperature"))
                 setAvTemperature(json.getDouble("avtemperature"));
+            if (json.has("temperature"))
+                setTemperature(json.getDouble("temperature"));
+
             if (json.has("name"))
                 name = json.getString("name");
             //setData(shieldid, subaddress, name, date, temperature, avTemperature);
@@ -110,14 +110,8 @@ public class TemperatureSensor extends SensorBase {
             // Forse per la gestione dell'offline??
             super.setData(shieldid, subaddress, name, date);
 
-            /*if (oldAvTemperature != avTemperature) {
-                for (TemperatureSensorListener listener : listeners) {
-                    listener.changeAvTemperature(id,avTemperature);
-                }
-            }*/
-
-            TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
-            dl.writelog("updateFromJson",this);
+            //TemperatureSensorDataLog dl = new TemperatureSensorDataLog();
+            //dl.writelog("updateFromJson",this);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
