@@ -54,16 +54,22 @@ public class ShieldServlet extends HttpServlet {
 
             boolean res = false;
 
-            if (json.has("event") && json.getString("event").equals("register")) { // receive status update
+            if (json.has("event")) {
+                if (json.getString("event").equals("register")) { // receive status update
+                    if (json.has("shield")) {
+                        JSONObject jsonShield = json.getJSONObject("shield");
 
-                if (json.has("shield")) {
-                    JSONObject jsonShield = json.getJSONObject("shield");
-
-                    jsonResponse =handleRegisterEvent(jsonShield);
+                        jsonResponse = handleRegisterEvent(jsonShield);
+                        out.print(jsonResponse.toString());
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    }
+                    return;
+                } else if (json.getString("event").equals("restart")) { // receive status update
+                    jsonResponse = handleRestartEvent();
                     out.print(jsonResponse.toString());
                     response.setStatus(HttpServletResponse.SC_OK);
+                    return;
                 }
-                return;
             }
 
         } catch (JSONException e) {
@@ -73,17 +79,17 @@ public class ShieldServlet extends HttpServlet {
             return;
         }
 
-         out.print("");
+        out.print("");
     }
 
     private JSONObject handleErrorEvent(StringBuffer jb) {
-        String description = "Shield restart";
-        Core.sendPushNotification(SendPushMessages.notification_programchange, "Restart", description, "0",0);
+
         return null;
     }
 
-    private JSONObject handleRestartEvent(StringBuffer jb) {
-
+    private JSONObject handleRestartEvent() {
+        String description = "Shield restart";
+        Core.sendPushNotification(SendPushMessages.notification_restarted, "Restart", description, "0", 0);
         return null;
     }
 

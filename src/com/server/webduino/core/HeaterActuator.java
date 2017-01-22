@@ -216,44 +216,8 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
                 //writeDataLog("skip send command " + heaterActuatorCommand.command + "no changes" );
                 return false;
             }
-
-            /*if (duration == heaterActuatorCommand.duration &&
-                    targetTemperature == heaterActuatorCommand.targetTemperature &&
-                    localSensor == !heaterActuatorCommand.remoteSensor &&
-                    activeProgramID == heaterActuatorCommand.activeProgramID &&
-                    activeTimeRangeID == heaterActuatorCommand.activeTimeRangeID &&
-                    activeSensorID == heaterActuatorCommand.activeSensorID &&
-                    remoteTemperature == heaterActuatorCommand.activeSensorTemperature) {
-
-                // Se il rele è già nello stato ON non inviare il comando di rele_on
-                if (heaterActuatorCommand.command == HeaterActuatorCommand.Command_Program_ReleOn && releStatus == true && getStatus().equals(STATUS_PROGRAMACTIVE)) {
-
-                    LOGGER.info("skip send command rele on" + heaterActuatorCommand.command + "no change");
-                    writeDataLog("skip send command rele on" + heaterActuatorCommand.command);
-                    return false;
-                }
-
-                // Se il rele è già nello stato OFF non inviare il comando di rele_off
-                if (heaterActuatorCommand.command == HeaterActuatorCommand.Command_Program_ReleOff && releStatus == false && getStatus().equals(STATUS_PROGRAMACTIVE)) {
-                    LOGGER.info("skip send command rele off" + heaterActuatorCommand.command + "no change");
-                    writeDataLog("skip send command rele off" + heaterActuatorCommand.command);
-                    return false;
-                }
-
-            }*/
-
-            /*// se la temperatura non è cambiata
-            if (heaterActuatorCommand.command == HeaterActuatorCommand.Command_Send_Temperature
-                    && (getStatus().equals(STATUS_PROGRAMACTIVE) || getStatus().equals(STATUS_MANUAL))) {
-
-                if (heaterActuatorCommand.activeSensorTemperature == remoteTemperature) {
-                    writeDataLog("skip send command remoteTemperature =" + remoteTemperature);
-                    LOGGER.info("skip send command remoteTemperature =" + remoteTemperature);
-                    return false;
-                }
-            }*/
         }
-
+        setActiveSensorID(heaterActuatorCommand.activeSensorID);
         writeDataLog("Sending command" + heaterActuatorCommand.command);
 
         String postParam = "";
@@ -263,8 +227,9 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
         LOGGER.info("sendCommand command=" + heaterActuatorCommand.command + ",duration=" + heaterActuatorCommand.duration + ",targetTemperature=" + heaterActuatorCommand.targetTemperature + ",remoteSensor=" + heaterActuatorCommand.remoteSensor +
                 ",activeProgramID=" + heaterActuatorCommand.activeProgramID + ",activeTimeRangeID=" + heaterActuatorCommand.activeTimeRangeID + ",activeSensorID=" + heaterActuatorCommand.activeSensorID + "activeSensorTemperature=" + heaterActuatorCommand.activeSensorTemperature);
 
-        setActiveSensorID(heaterActuatorCommand.activeSensorID);
+        return heaterActuatorCommand.send(this);
 
+/*
         if (heaterActuatorCommand.command.equals(HeaterActuatorCommand.Command_Program_ReleOn)) {
             strEvent = "Command_Program_ReleOn";
             path = "/rele";
@@ -351,6 +316,7 @@ public class HeaterActuator extends Actuator /*implements TemperatureSensor.Temp
             LOGGER.info("Command=" + heaterActuatorCommand.command + " failed");
         }
         return res;
+        */
     }
 
     public boolean noProgramDataChanges(HeaterActuatorCommand heaterActuatorCommand) {

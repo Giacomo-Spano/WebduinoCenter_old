@@ -28,7 +28,7 @@ public class DataLogServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         String idParamValue = request.getParameter("id");
-        String activeParamValue = request.getParameter("active");
+        String typeParam = request.getParameter("type");
 
         String endDateStr = request.getParameter("enddate");
         String elapsedStr = request.getParameter("elapsed");
@@ -54,54 +54,23 @@ public class DataLogServlet extends HttpServlet {
             calendar.add(Calendar.MINUTE, -1  * elapsed);
             Date start = calendar.getTime();
 
-            ArrayList<PointDouble> serie = new ArrayList<PointDouble>();
-            HeaterDataLog dl = new HeaterDataLog();
+            DataLog dl;
+            if (typeParam != null && typeParam.equals("temperature")) {
+                dl = new TemperatureSensorDataLog();
+            } else {
+                dl = new HeaterDataLog();
+            }
             ArrayList<DataLog> list = dl.getDataLog(Integer.valueOf(idParamValue), start, end);
 
-            LinearInterpolator interpolator = new LinearInterpolator();
-            //ArrayList<DataLog> interpolateData = interpolator.getInterpolatedData(list, start, end, Duration.ofSeconds(60*600/elapsed));
-
-            JSONArray jsonarray = new JSONArray();
-            for (DataLog data : list/*interpolateData*/) {
+            if (list != null) {
+                JSONArray jsonarray = new JSONArray();
+                for (DataLog data : list) {
                     JSONObject json = ((HeaterDataLog) data).getJson();
                     jsonarray.put(json);
+                }
+                out.print(jsonarray.toString());
             }
-            out.print(jsonarray.toString());
         }
     }
 
-    /*private JSONObject getJsonFromSensorData(TemperatureSensorDataLog dataLog) throws JSONException {
-
-        JSONObject json = new JSONObject();
-        SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy ", Locale.ENGLISH);
-        String dateStr = df.format(dataLog.date);
-        SimpleDateFormat dt = new SimpleDateFormat("HH:mm:ss");
-        //dateStr += dt.format(dataLog.time);
-
-        json.put("date", dateStr);
-        json.put("temperature", dataLog.temperature);
-        json.put("avtemperature", dataLog.avTemperature);
-
-        return json;
-    }
-*/
-    /*private JSONObject getJsonFromHeaterData(HeaterDataLog dataLog) throws JSONException {
-
-        JSONObject json = new JSONObject();
-        SimpleDateFormat df = new SimpleDateFormat("MMMM dd, yyyy ", Locale.ENGLISH);
-        String dateStr = df.format(dataLog.date);
-        SimpleDateFormat dt = new SimpleDateFormat("HH:mm:ss");
-        dateStr += dt.format(dataLog.time);
-
-        json.put("date", dateStr);
-        json.put("local", dataLog.localTemperature);
-        json.put("remote", dataLog.remoteTemperature);
-        json.put("target", dataLog.targetTemperature);
-        json.put("relestatus", dataLog.releStatus);
-        json.put("status", dataLog.status);
-        json.put("program", dataLog.activeProgram);
-        json.put("timerange", dataLog.activeTimerange);
-
-        return json;
-    }*/
 }

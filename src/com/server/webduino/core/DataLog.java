@@ -12,26 +12,7 @@ import java.util.Date;
 
 public class DataLog {
     public Date date = new Date();
-    protected boolean releStatus;
-    protected double remoteTemperature;
-    protected double targetTemperature;
-    protected int activeProgram;
 
-    /*public Date getDatetime() {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        try {
-            SimpleDateFormat dfDate = new SimpleDateFormat("yyyyy-MM-dd");
-            SimpleDateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
-            String datestr = dfDate.format(this.date) + " " + dfTime.format(this.time);
-            date = format.parse(datestr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return date;
-    }*/
 
     protected String getStrDate() {
 

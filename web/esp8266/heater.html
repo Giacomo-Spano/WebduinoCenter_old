@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="ESP8266.css" rel="stylesheet"/>
+    <link href="switch.css" rel="stylesheet"/>
+
+    <script>
+
+        var whichPressed;
+
+        function myFunction() {
+
+
+
+            document.getElementById('heater').onsubmit = function (event) {
+                event.preventDefault();
+                alert("Submit prevented");
+                whichPressed.style.visibility = "hidden";
+                sendPost(this);
+            };
+            var form = document.getElementById('startManualForm');
+            form.onsubmit = function () {
+                event.preventDefault();
+                sendPost(this);
+            };
+
+            var form2 = document.getElementById('manualOffForm');
+            form2.onsubmit = function () {
+                event.preventDefault();
+                sendPost(this);
+            };
+
+            var form3 = document.getElementById('stopManualForm');
+            form3.onsubmit = function () {
+                event.preventDefault();
+                sendPost(this);
+            };
+
+            var request = new XMLHttpRequest();
+            request.open('GET', '/heaterstatus', true);
+            request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            request.onload = function () {
+                if (this.status >= 200 && this.status < 400) {
+                    var json = JSON.parse(this.response);
+                    if (json.enabled)
+                        document.getElementById('heaterEnabled').checked = true;
+                    else
+                        document.getElementById('heaterEnabled').checked = false;
+
+                    var mySelect = document.getElementById('pinSelect');
+                    for (var i, j = 0; i = mySelect.options[j]; j++) {
+                        if (i.value == json.pin) {
+                            mySelect.selectedIndex = j;
+                            break;
+                        }
+                    }
+                    if (json.status == 'manual' || json.status == 'manualoff') {
+                        form1.hidden = true;
+                        form2.hidden = true;
+                    } else {
+                        form3.hidden = true;
+                    }
+                }
+            };
+            request.send();
+        }
+
+        function sendPost(form) {
+            var data = {};
+            for (var i = 0, ii = form.length; i < ii; ++i) {
+                var input = form[i];
+                if (input.name) {
+                    data[input.name] = input.value;
+                }
+            }
+            alert('The form was submitted' + JSON.stringify(data));
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'command', true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+            xhr.onloadend = function () {
+                result = xhr.responseText;
+                whichPressed.style.visibility = "hidden";
+                alert('answer' + result);
+            };
+        }
+    </script>
+</head>
+
+<body onload='myFunction()'>
+
+<!--Header--->
+<h1 id="head">Webduino</h1>
+<ul id="navigation">
+    <li><a href="#" class="button hvr-underline-from-center">Home</a></li>
+    <li><a href="#" class="button hvr-underline-from-center">Impostazioni</a></li>
+    <li><a href="#" class="button hvr-underline-from-center">Rete</a></li>
+    <li><span class="active">Riscaldamento</span></li>
+</ul>
+<!--Content--->
+<div id="content" class="container_16 clearfix">
+    <div class="grid_5">
+        <div class="box">
+
+            <h2>Riscaldamento</h2>
+            <form action='/command' method='POST' id='heater'>
+                <p>
+                    <strong>Abilitato : </strong><label class="input-toggle"><input type="checkbox" id="heaterEnabled"
+                                                                                    name="enabled"><span></span></label><br>
+                    <strong>Pin rele : </strong><label id="pinSelectValue" hidden>audi</label>
+                    <select id="pinSelect" name="pin">
+                        <option value="D1">D1</option>
+                        <option value="D2">D2</option>
+                        <option value="D3">D3</option>
+                        <option value="D4">D4</option>
+                        <option value="D5">D5</option>
+                    </select>
+                    <br><br>
+                    <input type='submit' value="save" onclick='whichPressed=this'>
+                </p>
+            </form>
+        </div>
+
+        <div class="box">
+
+            <h2>Riscaldamento</h2>
+
+
+            <form action='/command' method='POST' id='startManualForm'>
+                <p>
+                    Minutes:<input type='num' name='duration' value='30' size='5' maxlength='5'><BR>
+                    <input type='hidden' name='status' value='5'>
+                    Target:<input type='number' name='target' value='22.0' step='0.10'><BR>
+                    Sensor:<input type='radio' name='sensor' value='0' checked>Local<input type='radio' name='sensor'
+                                                                                           value='1'>Remote<BR>
+                    <input type='submit' value='start manual' onclick='whichPressed=this'>
+                </p>
+            </form>
+
+            <form action='/command' method='POST' id='manualOffForm'>
+                <p>
+                    Minutes:<input type='num' name='duration' value='30' size='5' maxlength='5'><BR>
+                    <input type='hidden' name='status' value='4'>
+
+
+                    <input type='submit' value='start manual off' onclick='whichPressed=this'>
+                </p>
+            </form>
+
+
+            <div id='manual'>
+                <form action='/command' method='POST' id='stopManualForm'>
+                    <p>
+                        <input type='hidden' name='status' value='6'>
+                        <input type='submit' value='stop manual' onclick='whichPressed=this'>
+                    </p>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<!--Footer--->
+<div id="foot">
+    <div class="container_16 clearfix">
+        <div class="grid_16"><a href="#">Contact Me</a></div>
+    </div>
+</div>
+
+
+</body>
+
+</html>

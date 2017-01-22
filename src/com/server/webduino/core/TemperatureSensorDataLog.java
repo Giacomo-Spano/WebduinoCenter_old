@@ -22,40 +22,6 @@ public class TemperatureSensorDataLog extends DataLog {
         return sql;
     }
 
-    /*public void writelog(java.util.Date date, SensorBase sensor) {
-
-        try {
-
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String strDate = "NULL";
-            strDate = "'" + df.format(date) + "'";
-
-            // Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-            // Open a connection
-            Connection conn = DriverManager.getConnection(Core.getDbUrl(), Core.getUser(), Core.getPassword());
-            // Execute SQL query
-            Statement stmt = conn.createStatement();
-            String sql;
-            sql = "INSERT INTO sensordatalog (shieldid, subaddress, date, temperature, avtemperature) VALUES ("+ shieldid + ",'" + subaddress + "',"  + strDate + "," + temperature + "," + avTemperature + ");";
-            stmt.executeUpdate(sql);
-
-            // Extract data from result set
-            // Clean-up environment
-            //rs.close();
-            stmt.close();
-
-            conn.close();
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }
-    }*/
-
     @Override
     public ArrayList<DataLog> getDataLog(int id, Date startDate, Date endDate) {
 
@@ -72,21 +38,17 @@ public class TemperatureSensorDataLog extends DataLog {
             String start = dateFormat.format(startDate);
             String end = dateFormat.format(endDate);
 
-
             String sql;
-            //sql = "SELECT id, date, time, temperature, avtemperature FROM sensordatalog WHERE id = " + id +" AND date BETWEEN '2016-02-27 12:00:00' AND '2016-02-28 06:00:00'";
-            sql = "SELECT id, shieldid, date, time, temperature, avtemperature FROM sensordatalog WHERE id = " + id +" AND TIMESTAMP(date, time) BETWEEN '" + start + "' AND '" + end + "'";
+            sql = "SELECT * FROM temperaturedatalog WHERE id = " + id + " AND date BETWEEN '" + start + "' AND '" + end + "'" + "ORDER BY date ASC";
 
-            //YYYY-MM-DD HH:MI:SS
             ResultSet rs = stmt.executeQuery(sql);
-
 
             while (rs.next()) {
                 TemperatureSensorDataLog data = new TemperatureSensorDataLog();
-                data.date = rs.getDate("date");
-                //data.time = rs.getTime("time");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.");
+                data.date = df.parse(String.valueOf(rs.getTimestamp("date")));
                 data.temperature = rs.getDouble("temperature");
-                data.avTemperature = rs.getDouble("avtemperature");
+
                 list.add(data);
             }
             // Clean-up environment
@@ -104,5 +66,4 @@ public class TemperatureSensorDataLog extends DataLog {
         }
         return list;
     }
-
 }

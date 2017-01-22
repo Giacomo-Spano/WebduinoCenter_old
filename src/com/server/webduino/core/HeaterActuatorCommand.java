@@ -13,38 +13,14 @@ public class HeaterActuatorCommand extends ActuatorCommand {
 
     private static final Logger LOGGER = Logger.getLogger(HeaterActuatorCommand.class.getName());
 
-    public static final String Command_Program_ReleOff = "0"; // "programoff";
-    public static final String Command_Program_ReleOn = "1"; // "programon";
-    public static final String Command_Send_Disabled = "2"; // "sendtemperature";
-    public static final String Command_Send_Enabled = "3"; // "sendtemperature";
-    public static final String Command_Manual_Off = "4"; // "manualoff";
-    public static final String Command_Manual_Auto = "5"; // "manual";
-    public static final String Command_Manual_End = "6"; // "endmanual";
-    public static final String Command_Send_Temperature = "7"; // "sendtemperature";
-
-
-    public static String getCommandName(String n) {
-
-        switch (n) {
-            case Command_Program_ReleOff:
-                return "programoff";
-            case Command_Program_ReleOn:
-                return "programon";
-            case  Command_Send_Disabled:
-                return "sendtemperature";
-            case Command_Send_Enabled:
-                return "sendtemperature";
-            case Command_Manual_Off:
-                return "manualoff";
-            case Command_Manual_Auto:
-                return "manualauto";
-            case Command_Manual_End:
-                return"endmanual";
-            case Command_Send_Temperature:
-                return "sendtemperature";
-        }
-        return "";
-    }
+    public static final String Command_Program_ReleOff = "programoff"; // "programoff";
+    public static final String Command_Program_ReleOn = "programon"; // "programon";
+    public static final String Command_Send_Disabled = "disabled"; // "sendtemperature";
+    public static final String Command_Send_Enabled = "enabled"; // "sendtemperature";
+    public static final String Command_Manual_Off = "manualoff"; // "manualoff";
+    public static final String Command_Manual_Auto = "manual"; // "manual";
+    public static final String Command_Manual_End = "manualend"; // "endmanual";
+    public static final String Command_Send_Temperature = "sendtemperature"; // "sendtemperature";
 
     public long duration;
     public double targetTemperature;
@@ -53,6 +29,29 @@ public class HeaterActuatorCommand extends ActuatorCommand {
     public int activeTimeRangeID;
     public int activeSensorID;
     public double activeSensorTemperature;
+
+    public static String getCommandName(String n) {
+
+        switch (n) {
+            case Command_Program_ReleOff:
+                return "programoff";
+            case Command_Program_ReleOn:
+                return "programon";
+            case Command_Send_Disabled:
+                return "sendtemperature";
+            case Command_Send_Enabled:
+                return "sendtemperature";
+            case Command_Manual_Off:
+                return "manualoff";
+            case Command_Manual_Auto:
+                return "manualauto";
+            case Command_Manual_End:
+                return "endmanual";
+            case Command_Send_Temperature:
+                return "sendtemperature";
+        }
+        return "";
+    }
 
     @Override
     public boolean fromJson(JSONObject json) {
@@ -76,5 +75,86 @@ public class HeaterActuatorCommand extends ActuatorCommand {
             LOGGER.info("json error: " + e.toString());
             return false;
         }
+    }
+
+    @Override
+    public JSONObject getJSONCommand(int actuatorId) {
+
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("actuatorid", actuatorId);
+            if (command.equals(HeaterActuatorCommand.Command_Program_ReleOn)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Program_ReleOn);
+                json.put("duration", duration);
+                json.put("target", targetTemperature);
+                json.put("localsensor", !remoteSensor);
+                json.put("sensor", activeSensorID);
+                json.put("program", activeProgramID);
+                json.put("timerange", activeTimeRangeID);
+                json.put("temperature", activeSensorTemperature);
+
+            } else if (command.equals(HeaterActuatorCommand.Command_Program_ReleOff)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Program_ReleOff);
+                json.put("duration", duration);
+                json.put("target", targetTemperature);
+                json.put("localsensor", !remoteSensor);
+                json.put("sensor", activeSensorID);
+                json.put("program", activeProgramID);
+                json.put("timerange", activeTimeRangeID);
+                json.put("temperature", activeSensorTemperature);
+
+            } else if (command.equals(HeaterActuatorCommand.Command_Manual_Auto)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Manual_Auto);
+                json.put("duration", duration);
+                json.put("target", targetTemperature);
+                json.put("localsensor", !remoteSensor);
+                //json.put("sensor",activeSensorID);
+                //json.put("program",activeProgramID);
+                //json.put("timerange",activeTimeRangeID);
+                json.put("temperature", activeSensorTemperature);
+
+            } else if (command.equals(HeaterActuatorCommand.Command_Manual_Off)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Manual_Off);
+                json.put("duration", duration);
+            /*json.put("target",targetTemperature);
+            json.put("localsensor",!remoteSensor);
+            json.put("sensor",activeSensorID);
+            json.put("program",activeProgramID);
+            json.put("timerange",activeTimeRangeID);
+            json.put("temperature",activeSensorTemperature);*/
+
+            } else if (command.equals(HeaterActuatorCommand.Command_Manual_End)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Manual_End);
+                json.put("duration", duration);
+                //json.put("target",targetTemperature);
+                //json.put("localsensor",!remoteSensor);
+                //json.put("sensor",activeSensorID);
+                //json.put("program",activeProgramID);
+                //json.put("timerange",activeTimeRangeID);
+                json.put("temperature", activeSensorTemperature);
+
+            } else if (command.equals(HeaterActuatorCommand.Command_Send_Temperature)) {
+
+                json.put("command", HeaterActuatorCommand.Command_Send_Temperature);
+                json.put("duration", duration);
+                //json.put("target",targetTemperature);
+                json.put("localsensor", !remoteSensor);
+                json.put("sensor", activeSensorID);
+                //json.put("program",activeProgramID);
+                //json.put("timerange",activeTimeRangeID);
+                json.put("temperature", activeSensorTemperature);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }
