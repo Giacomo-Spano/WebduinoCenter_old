@@ -7,88 +7,137 @@
     <script>
 
         var whichPressed;
+        var startManualForm;
+        var manualOffForm;
+        var stopManualForm;
+        var counter = 0;
 
-        function myFunction() {
-
-
+        function load() {
 
             document.getElementById('heater').onsubmit = function (event) {
                 event.preventDefault();
-                alert("Submit prevented");
-                whichPressed.style.visibility = "hidden";
                 sendPost(this);
             };
-            var form = document.getElementById('startManualForm');
-            form.onsubmit = function () {
+            startManualForm = document.getElementById('startManualForm');
+            startManualForm.onsubmit = function () {
                 event.preventDefault();
                 sendPost(this);
             };
 
-            var form2 = document.getElementById('manualOffForm');
-            form2.onsubmit = function () {
+            manualOffForm = document.getElementById('manualOffForm');
+            manualOffForm.onsubmit = function () {
                 event.preventDefault();
                 sendPost(this);
             };
 
-            var form3 = document.getElementById('stopManualForm');
-            form3.onsubmit = function () {
+            stopManualForm = document.getElementById('stopManualForm');
+            stopManualForm.onsubmit = function () {
                 event.preventDefault();
                 sendPost(this);
             };
 
+            startManualForm.style.display = 'none';
+            manualOffForm.style.display = 'none';
+            stopManualForm.style.display = 'none';
+
+            getStatus();
+
+            setInterval(function() {
+                counter++;
+                document.getElementById('timer').innerHTML = counter;
+                if (counter % 20)
+                    getStatus();
+            }, 1000);
+        }
+        /*prova commento*/
+        function getStatus() {
             var request = new XMLHttpRequest();
             request.open('GET', '/heaterstatus', true);
             request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             request.onload = function () {
                 if (this.status >= 200 && this.status < 400) {
                     var json = JSON.parse(this.response);
+
+                    document.getElementById('summary').innerHTML = JSON.stringify(json);
+
                     if (json.enabled)
                         document.getElementById('heaterEnabled').checked = true;
                     else
                         document.getElementById('heaterEnabled').checked = false;
 
-                    var mySelect = document.getElementById('pinSelect');
-                    for (var i, j = 0; i = mySelect.options[j]; j++) {
+                    var pinSelectControl = document.getElementById('pinSelect');
+                    for (var i, j = 0; i = pinSelectControl.options[j]; j++) {
                         if (i.value == json.pin) {
-                            mySelect.selectedIndex = j;
+                            pinSelectControl.selectedIndex = j;
                             break;
                         }
                     }
                     if (json.status == 'manual' || json.status == 'manualoff') {
-                        form1.hidden = true;
-                        form2.hidden = true;
+                        /*startManualForm.style.visibility = 'hidden';
+                         manualOffForm.style.visibility = 'hidden';
+                         stopManualForm.style.visibility = 'visible';*/
+                        startManualForm.style.display = 'none';
+                        manualOffForm.style.display = 'none';
+                        stopManualForm.style.display = 'block';
+
                     } else {
-                        form3.hidden = true;
+                        /*startManualForm.style.visibility = 'visible';
+                         manualOffForm.style.visibility = 'visible';
+                         stopManualForm.style.visibility = 'hidden';*/
+                        startManualForm.style.display = 'block';
+                        manualOffForm.style.display = 'block';
+                        stopManualForm.style.display = 'none';
                     }
+                    whichPressed.style.visibility = "visible";
                 }
             };
             request.send();
         }
 
         function sendPost(form) {
+            whichPressed.style.visibility = "hidden";
             var data = {};
             for (var i = 0, ii = form.length; i < ii; ++i) {
                 var input = form[i];
                 if (input.name) {
-                    data[input.name] = input.value;
+
+                    if (input.type == 'number') {
+                        data[input.name] = Number(input.value);
+                    }
+                    else if (input.type == 'radio' && input.checked) {
+                        if (input.value == '0')
+                            data[input.name] = false;
+                        else
+                            data[input.name] = true;
+                    }
+                    else if (input.type == 'checkbox') {
+                        if (input.value == 'on')
+                            data[input.name] = true;
+                        else
+                            data[input.name] = false;
+                    }
+                    else {
+                        data[input.name] = input.value;
+                    }
                 }
             }
-            alert('The form was submitted' + JSON.stringify(data));
+
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'command', true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
             xhr.send(JSON.stringify(data));
+            document.getElementById('command').innerHTML = 'command sent' + JSON.stringify(data);
             xhr.onloadend = function () {
                 result = xhr.responseText;
-                whichPressed.style.visibility = "hidden";
-                alert('answer' + result);
+                /*whichPressed.style.visibility = "visible";*/
+                getStatus();
+                document.getElementById('command').innerHTML += 'command result' + result;
             };
         }
     </script>
 </head>
 
-<body onload='myFunction()'>
-
+<body onload='load()'>
 <!--Header--->
 <h1 id="head">Webduino</h1>
 <ul id="navigation">
@@ -116,6 +165,7 @@
                         <option value="D5">D5</option>
                     </select>
                     <br><br>
+                    <input type='hidden' name='command' value='heatersettings'>
                     <input type='submit' value="save" onclick='whichPressed=this'>
                 </p>
             </form>
@@ -125,24 +175,25 @@
 
             <h2>Riscaldamento</h2>
 
+            <label id="summary">summary</label><br>
+            <label id="command">command</label><br>
+            <label id="timer">timer</label>
 
             <form action='/command' method='POST' id='startManualForm'>
                 <p>
-                    Minutes:<input type='num' name='duration' value='30' size='5' maxlength='5'><BR>
-                    <input type='hidden' name='status' value='5'>
+                    Minutesy:<input type='number' name='duration' value='30' min="1" max="30"><BR>
                     Target:<input type='number' name='target' value='22.0' step='0.10'><BR>
                     Sensor:<input type='radio' name='sensor' value='0' checked>Local<input type='radio' name='sensor'
                                                                                            value='1'>Remote<BR>
+                    <input type='hidden' name='command' value='manual'>
                     <input type='submit' value='start manual' onclick='whichPressed=this'>
                 </p>
             </form>
 
             <form action='/command' method='POST' id='manualOffForm'>
                 <p>
-                    Minutes:<input type='num' name='duration' value='30' size='5' maxlength='5'><BR>
-                    <input type='hidden' name='status' value='4'>
-
-
+                    Minutesx:<input type='number' name='duration' value='30' min="1" max="30"><BR>
+                    <input type='hidden' name='command' value='manualoff'>
                     <input type='submit' value='start manual off' onclick='whichPressed=this'>
                 </p>
             </form>
@@ -151,7 +202,7 @@
             <div id='manual'>
                 <form action='/command' method='POST' id='stopManualForm'>
                     <p>
-                        <input type='hidden' name='status' value='6'>
+                        <input type='hidden' name='command' value='manualend'>
                         <input type='submit' value='stop manual' onclick='whichPressed=this'>
                     </p>
                 </form>
@@ -168,8 +219,5 @@
         <div class="grid_16"><a href="#">Contact Me</a></div>
     </div>
 </div>
-
-
 </body>
-
 </html>

@@ -45,6 +45,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebduinoServer.iml" afterPath="$PROJECT_DIR$/WebduinoServer.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/quartz/QuartzListener.java" afterPath="$PROJECT_DIR$/src/com/quartz/QuartzListener.java" />
@@ -67,19 +69,43 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/core/TimeRange.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/core/TimeRange.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/core/UpdateActuatorThread.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/core/UpdateActuatorThread.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/BaseServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/BaseServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/DataLogServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/DataLogServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/HomeServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/HomeServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/NotificationServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/NotificationServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/RegisterServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/SendAllMessagesServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/SendAllMessagesServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/SendPushMessages.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/SendPushMessages.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/server/webduino/servlet/SensorServlet.java" afterPath="$PROJECT_DIR$/src/com/server/webduino/servlet/SensorServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap-fileupload.min.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap-fileupload.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap-social.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap-social.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/font-awesome.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/font-awesome.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/prettyPhoto.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/prettyPhoto.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/jquery.steps.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/jquery.steps.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/normalize.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/normalize.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/wizardMain.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/css/wizard/wizardMain.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/web/advance-admin/assets/fonts/fontawesome-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/web/advance-admin/assets/fonts/glyphicons-halflings-regular.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/fonts/webduino-font-4.svg" afterPath="$PROJECT_DIR$/web/advance-admin/assets/fonts/webduino-font-4.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/bootstrap-fileupload.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/bootstrap-fileupload.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/bootstrap.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/bootstrap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/custom.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/custom.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/dashboard.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery-1.10.2.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery-1.10.2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.metisMenu.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.metisMenu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.mixitup.min.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.mixitup.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.prettyPhoto.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/jquery.prettyPhoto.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/program.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/program.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/jquery.cookie-1.3.1.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/jquery.cookie-1.3.1.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/jquery.steps.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/jquery.steps.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/modernizr-2.6.2.min.js" afterPath="$PROJECT_DIR$/web/advance-admin/assets/js/wizard/modernizr-2.6.2.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/assets/styles.css" afterPath="$PROJECT_DIR$/web/advance-admin/assets/styles.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html" afterPath="$PROJECT_DIR$/web/advance-admin/webduino_dashboard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/webduino_programs.html" afterPath="$PROJECT_DIR$/web/advance-admin/webduino_programs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/advance-admin/wizard.html" afterPath="$PROJECT_DIR$/web/advance-admin/wizard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/index.jsp" afterPath="$PROJECT_DIR$/web/index.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/prova.html" afterPath="$PROJECT_DIR$/web/prova.html" />
     </list>
@@ -115,83 +141,7 @@
     <favorites_list name="prova" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HeaterActuatorCommand.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuatorCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="60" column="38" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShieldServlet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="64" column="21" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/advance-admin/assets/styles.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="heater.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/esp8266/heater.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="button.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/esp8266/button.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="switch.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/esp8266/switch.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActuatorCommand.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/ActuatorCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="18" column="51" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="51" />
-              <folding>
-                <element signature="e#346#347#0" expanded="false" />
-                <element signature="e#374#375#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -290,10 +240,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1932" />
-    <option name="height" value="1056" />
+    <option name="x" value="-7" />
+    <option name="y" value="2" />
+    <option name="width" value="1292" />
+    <option name="height" value="733" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -320,6 +270,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Production">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -334,7 +300,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
+              <option name="myItemId" value="WebduinoCenter2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -344,7 +310,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
+              <option name="myItemId" value="WebduinoCenter2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prova" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebduinoCenter2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="esp8266" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prova" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebduinoCenter2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -358,7 +356,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
+              <option name="myItemId" value="WebduinoCenter2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -380,33 +378,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webduino" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="prova" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
+              <option name="myItemId" value="WebduinoCenter2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -422,42 +394,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="prova" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WebduinoCenter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scratches">
-        <subPane />
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Production">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../JavaProject" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
@@ -1283,20 +1225,20 @@
     <option name="myMappingRoots">
       <list>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter" />
-          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter" />
+          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2" />
+          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter\.idea" />
-          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter\.idea" />
+          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2\.idea" />
+          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2\.idea" />
         </SvnCopyRootSimple>
       </list>
     </option>
     <option name="myMoreRealMappingRoots">
       <list>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter" />
-          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\IntellijProject\WebduinoCenter" />
+          <option name="myVcsRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2" />
+          <option name="myCopyRoot" value="C:\Users\Giacomo Spanò\Documents\JavaProject\WebduinoCenter2" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -1539,6 +1481,8 @@
       <workItem from="1484558704311" duration="89142000" />
       <workItem from="1485073954642" duration="383000" />
       <workItem from="1485074357574" duration="824000" />
+      <workItem from="1485177671711" duration="209000" />
+      <workItem from="1485178191721" duration="138000" />
     </task>
     <task id="LOCAL-00001">
       <created>1447225038601</created>
@@ -1817,7 +1761,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1775931000" />
+    <option name="totallyTimeSpent" value="1776278000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1829,31 +1773,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
-    <editor active="true" />
+    <frame x="-7" y="2" width="1292" height="733" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.4978678" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3109426" sideWeight="0.43536323" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31" sideWeight="0.4237013" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3109426" sideWeight="0.56463677" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.365" sideWeight="0.49594155" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32394367" sideWeight="0.47008547" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32549942" sideWeight="0.5738758" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22210184" sideWeight="0.4818376" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32549942" sideWeight="0.5738758" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.33261105" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16025642" sideWeight="0.7672956" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4099026" sideWeight="0.73490816" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2217529" sideWeight="0.19702603" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2274648" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17071198" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="1512" y="95" width="344" height="673" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36511377" sideWeight="0.510661" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16025642" sideWeight="0.2327044" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.365" sideWeight="0.5040584" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4099026" sideWeight="0.26509187" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1969,17 +1913,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web/esp8266/heater.html</url>
-          <line>130</line>
+          <line>183</line>
           <option name="timeStamp" value="2929" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web/esp8266/heater.html</url>
-          <line>150</line>
+          <line>201</line>
           <option name="timeStamp" value="2930" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web/esp8266/heater.html</url>
-          <line>165</line>
+          <line>214</line>
           <option name="timeStamp" value="2934" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -2150,24 +2094,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/RegisterShieldThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Actuators.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="29" column="0" selection-start-line="25" selection-start-column="4" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <marker date="1484093357373" expanded="true" signature="1702:1725" ph="SELECT * FRO... actuators" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/TimeServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-209">
@@ -2220,14 +2146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -2239,16 +2157,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="488">
           <caret line="81" column="7" selection-start-line="81" selection-start-column="7" selection-end-line="81" selection-end-column="7" />
-          <folding>
-            <marker date="1484490736523" expanded="false" signature="551:560" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="55" column="67" selection-start-line="55" selection-start-column="67" selection-end-line="55" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2301,20 +2210,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shields.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Sensors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding>
-            <marker date="1484093357360" expanded="true" signature="2879:2900" ph="SELECT * FRO... sensors" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2351,13 +2251,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2435,17 +2328,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3077">
           <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
-          <folding>
-            <marker date="1484652357132" expanded="true" signature="2480:2666" ph="SELECT id, a... programs" />
-            <marker date="1484652357132" expanded="true" signature="4096:4189" ph="SELECT * FRO... timeranges" />
-            <marker date="1484652357132" expanded="true" signature="21665:22057" ph="INSERT INTO datalog... " />
-            <marker date="1484652357132" expanded="true" signature="22750:22780" ph="DELETE FROM " />
-            <marker date="1484652357132" expanded="true" signature="22944:22974" ph="DELETE FROM " />
-            <marker date="1484652357132" expanded="true" signature="23124:23163" ph="DELETE FROM " />
-            <marker date="1484652357132" expanded="true" signature="24817:26399" ph="INSERT INTO programs... " />
-            <marker date="1484652357132" expanded="true" signature="26798:26837" ph="DELETE FROM " />
-            <marker date="1484652357132" expanded="true" signature="27260:27516" ph="INSERT INTO timeranges... " />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2454,8 +2337,11 @@
         <state relative-caret-position="238">
           <caret line="18" column="51" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="51" />
           <folding>
+            <element signature="imports" expanded="false" />
             <element signature="e#346#347#0" expanded="false" />
             <element signature="e#374#375#0" expanded="false" />
+            <element signature="e#430#431#0" expanded="false" />
+            <element signature="e#457#458#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2464,7 +2350,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2501,7 +2386,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-          <folding />
+          <folding>
+            <marker date="1485119597731" expanded="true" signature="28:166" ph="..." />
+            <marker date="1485119597731" expanded="true" signature="137:166" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2528,13 +2416,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ActuatorServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="64" column="21" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
+        <state relative-caret-position="527">
+          <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/Servlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/Shields.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="42" column="62" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="62" />
+          <folding>
+            <marker date="1485177664994" expanded="true" signature="4526:5046" ph="INSERT INTO shields... " />
+            <marker date="1485177664994" expanded="true" signature="5545:6147" ph="INSERT INTO sensors... " />
+            <marker date="1485177664994" expanded="true" signature="6388:7004" ph="INSERT INTO actuators... " />
+            <marker date="1485177664994" expanded="true" signature="9075:9096" ph="SELECT * FRO... shields" />
+            <marker date="1485177664994" expanded="true" signature="9849:9917" ph="SELECT * FRO... sensors" />
+            <marker date="1485177664994" expanded="true" signature="11062:11132" ph="SELECT * FRO... actuators" />
+            <marker date="1485177664994" expanded="true" signature="15472:15493" ph="SELECT * FRO... shields" />
+            <marker date="1485177664994" expanded="true" signature="17082:17113" ph="SELECT * FRO... shields" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuatorCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="60" column="38" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ProgramServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="202" column="21" selection-start-line="202" selection-start-column="21" selection-end-line="202" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/TemperatureSensor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+          <folding>
+            <element signature="e#621#648#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/servlet/ShieldServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="64" column="21" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2542,14 +2499,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/server/webduino/core/HeaterActuatorCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="60" column="38" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
           <folding />
         </state>
       </provider>
